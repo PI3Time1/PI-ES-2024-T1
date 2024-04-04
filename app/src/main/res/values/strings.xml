@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">sentinellock</string>
+    <string name="emailLabel">E-mail</string>
+    <string name="passwordLabel">Senha</string>
+    <string name="signIn">Entrar</string>
+    <string name="welcomeMessage">Seja Bem-vindo!</string>
+    <string name="signOut">Sair</string>
+    <string name="contWithoutRegistr">Continuar sem cadastro</string>
+    <string name="recoveryPassword">Esqueci minha senha</string>
+    <string name="register">Cadastre-se</string>
+    <string name="titleRegister">Faça seu cadastro</string>
+    <string name="subtitleRegister">Insira seus dados abaixo</string>
+    <string name="registerAccount">Cadastrar</string>
+    <string name="nameLabelRegister">Digite seu nome completo</string>
+    <string name="emailLabelRegister">Digite seu e-mail</string>
+    <string name="passwordLabelRegister">Digite sua senha</string>
+    <string name="dateLabelRegister">Digite sua data de nascimento</string>
+    <string name="documentLabelRegister">Digite seu cpf</string>
+    <string name="phoneLabelRegister">Digite seu número de celular</string>
+    <string name="buttonLeftBackSignInDescription">Voltar para login</string>
+</resources>

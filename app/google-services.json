@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "373734369523",
+    "firebase_url": "https://pi3-es-2024-t1-e0d4d-default-rtdb.firebaseio.com",
+    "project_id": "pi3-es-2024-t1-e0d4d",
+    "storage_bucket": "pi3-es-2024-t1-e0d4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373734369523:android:7ab63cf33abbbef7256f86",
+        "android_client_info": {
+          "package_name": "br.com.sentinellock"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdWMaridcj_FRueBsqVzO-ox7WYD1kuOQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
