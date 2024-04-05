@@ -67,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-            Log.d(TAG, "Logado!!")
+            Log.d(TAG, "Logadoo!!")
         } else {
             Log.d(TAG, "Não logado!!")
         }
