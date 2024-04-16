@@ -18,4 +18,5 @@
     <string name="documentLabelRegister">Digite seu cpf</string>
     <string name="phoneLabelRegister">Digite seu número de celular</string>
     <string name="buttonLeftBackSignInDescription">Voltar para login</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
