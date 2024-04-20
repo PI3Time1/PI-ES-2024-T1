@@ -19,4 +19,6 @@
     <string name="phoneLabelRegister">Digite seu número de celular</string>
     <string name="buttonLeftBackSignInDescription">Voltar para login</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="rating">Avaliação:</string>
+    <string name="google_maps_key">AIzaSyCUAuNZp-aWNZ3jugBZFm3r98mkNtn5cz4</string>
 </resources>
