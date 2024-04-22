@@ -6,104 +6,130 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.auth
-import com.google.firebase.Firebase
 
 class LoginActivity : AppCompatActivity() {
-    // [START declare_auth]
     private lateinit var auth: FirebaseAuth
-    // [END declare_auth]
 
-    private lateinit var editTextEmail: TextInputLayout
-    private lateinit var editTextPassword: TextInputLayout
+    private lateinit var eTextEmail: TextInputEditText
+    private lateinit var eTextPassword: TextInputEditText
     private lateinit var buttonLogin: Button
     private lateinit var buttonContWithoutRegistr: Button
     private lateinit var buttonRegister: Button
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    // Método executado ao criar a atividade
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        editTextEmail = findViewById(R.id.editTextEmail)
-        editTextPassword = findViewById(R.id.editTextPassword)
+        // Inicialização dos componentes de interface do usuário e autenticação Firebase
+        initializeViews()
+        auth = FirebaseAuth.getInstance()
+
+        // Configuração dos listeners de clique dos botões
+        setupClickListeners()
+    }
+
+    // Método executado quando a atividade fica visível ao usuário
+    override fun onStart() {
+        super.onStart()
+        // Verificar se o usuário já está logado
+        checkCurrentUser()
+    }
+
+    // Inicializa os componentes de interface do usuário
+    private fun initializeViews() {
+        eTextEmail = findViewById(R.id.eTextEmail)
+        eTextPassword = findViewById(R.id.eTextPassword)
         buttonLogin = findViewById(R.id.buttonLogin)
         buttonContWithoutRegistr = findViewById(R.id.buttonContWithoutRegistr)
         buttonRegister = findViewById(R.id.buttonRegister)
+    }
 
-        auth = Firebase.auth
-
+    // Configura os listeners de clique dos botões
+    private fun setupClickListeners() {
         buttonLogin.setOnClickListener {
-            val email = editTextEmail.editText?.text.toString()
-            val password = editTextPassword.editText?.text.toString()
+            val email = eTextEmail.text.toString()
+            val password = eTextPassword.text.toString()
 
-            Log.d(TAG, "Email: $email")
-            Log.d(TAG, "Password: $password")
-
-            signIn(email, password)
+            if (isValidInputs()) {
+                signIn(email, password)
+            } else {
+                showToast("Preencha todos os campos!")
+            }
         }
 
         buttonContWithoutRegistr.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            navigateToMainActivity()
         }
 
         buttonRegister.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
+            navigateToRegisterActivity()
         }
     }
 
-
-    // [START on_start_check_user]
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
+    // Verifica se o usuário já está logado
+    private fun checkCurrentUser() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            // Se o usuário estiver logado, redirecione-o para a nova tela
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            navigateToMainActivity()
             finish()
-            Log.d(TAG, "Logadoo!!")
-        } else {
-            Log.d(TAG, "Não logado!!")
         }
     }
-    // [END on_start_check_user]
 
+    // Realiza o login com e-mail e senha
     private fun signIn(email: String, password: String) {
-        // [START sign_in_with_email]
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
-                    updateUI(user)
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
+                    if (user != null && !user.isEmailVerified) {
+                        showToast("Por favor, verifique seu e-mail antes de fazer login.")
+                        auth.signOut()
+                    } else {
+                        showToast("Login bem-sucedido!")
+                        navigateToMainActivity()
+                        finish()
+                    }
                 } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    updateUI(null)
+                    showLoginError()
                 }
             }
-        // [END sign_in_with_email]
     }
 
-    private fun updateUI(user: FirebaseUser?) {
+    // Verifica se os campos de entrada são válidos
+    private fun isValidInputs(): Boolean {
+        val email = eTextEmail.text.toString()
+        val password = eTextPassword.text.toString()
+        return email.isNotEmpty() && password.isNotEmpty()
+    }
+
+    // Exibe um Toast com a mensagem fornecida
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    // Exibe uma mensagem de erro de login
+    private fun showLoginError() {
+        showToast("Autenticação falhou. Tente novamente!")
+    }
+
+    // Navega para a MainActivity
+    private fun navigateToMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    // Navega para a RegisterActivity
+    private fun navigateToRegisterActivity() {
+        val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {
-        private const val TAG = "Login"
+        private const val TAG = "LoginActivity"
     }
 }

@@ -32,8 +32,7 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editTextEmail"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:id="@+id/etEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/emailLabel"
@@ -43,18 +42,24 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
         app:startIconDrawable="@drawable/ic_email"
-        app:boxStrokeColor="@color/green_900"
-        android:textColorHint="@color/gray_200">
+        app:boxStrokeColor="@color/green_500"
+        app:boxStrokeErrorColor="@color/danger"
+        app:cursorErrorColor="@color/danger"
+        android:textColorHint="@color/white"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        >
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:textColor="@color/green_700" />
+            android:textColor="@color/white"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editTextPassword"
+        android:id="@+id/etPassword"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,14 +70,19 @@
         app:boxCornerRadiusTopStart="8dp"
         app:startIconDrawable="@drawable/ic_lockpassword"
         app:passwordToggleEnabled="true"
-        app:boxStrokeColor="@color/green_900"
-        android:textColorHint="@color/gray_200">
+        app:passwordToggleTint="@color/white"
+        app:boxStrokeColor="@color/green_500"
+        app:boxStrokeErrorColor="@color/danger"
+        app:cursorErrorColor="@color/danger"
+        android:textColorHint="@color/white">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="@color/green_700" />
+            android:textColor="@color/white"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -110,7 +120,7 @@
         android:layout_marginBottom="4dp"
         android:text="@string/contWithoutRegistr"
         android:textAllCaps="false"
-        android:textColor="@color/green_500"
+        android:textColor="@color/white"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />
@@ -124,7 +134,7 @@
         android:textAllCaps="false"
         android:padding="0dp"
         android:layout_marginBottom="20dp"
-        android:textColor="@color/green_500"
+        android:textColor="@color/white"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />

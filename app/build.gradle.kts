@@ -66,9 +66,11 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-functions-ktx")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
     implementation ("com.google.maps:google-maps-services:0.17.0")
+    implementation ("com.google.code.gson:gson")
 
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
