@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#2F2F2F</color>
+    <color name="background">#414141</color>
+    <color name="danger">#FF0000</color>
     <color name="gray_200">#b5b8b2</color>
     <color name="gray_700">#899794</color>
     <color name="green_100">#64ae86</color>
-    <color name="green_500">#3c815f</color>
+    <color name="green_500">#008A46</color>
     <color name="green_700">#476b5c</color>
     <color name="green_900">#165e3d</color>
     <color name="black">#1a2b22</color>
