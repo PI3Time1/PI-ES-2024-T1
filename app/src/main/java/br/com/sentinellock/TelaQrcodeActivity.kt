@@ -1,20 +1,26 @@
 package br.com.sentinellock
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class TelaQrcodeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_tela_qrcode2)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        // Recebendo informações de preço e tempo da tela anterior
+        val preco = intent.getIntExtra("preco", 0)
+        val tempo = intent.getIntExtra("tempo", 0)
+
+        // Atualizando o texto do TextView com as informações recebidas
+        if(tempo > 4){
+            val textView: TextView = findViewById(R.id.textView)
+            textView.text = "Preço: R$$preco, Tempo: $tempo Minutos"
+        }else{
+            val textView: TextView = findViewById(R.id.textView)
+            textView.text = "Preço: R$$preco, Tempo: $tempo Horas"
         }
+
     }
 }
