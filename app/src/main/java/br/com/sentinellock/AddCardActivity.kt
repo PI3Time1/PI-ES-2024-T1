@@ -225,9 +225,9 @@ class AddCardActivity : AppCompatActivity() {
         finish()
     }
 
-    // Constante para TAG de registro
+    // Constante para TAG de adicao de cartao
     companion object {
-        private const val TAG = "RegisterActivity"
+        private const val TAG = "AddCardActivity"
     }
 
 

@@ -64,9 +64,18 @@ class CardsActivity : AppCompatActivity() {
 
     }
 
+    // PRINCIPAL -- file activity_gerenciar_cartoes.xml
+    // cada card android:id="@+id/cardCardView"
+
+    // fazer aparecer ultimos 4 digitos do cartao depois de um asterisco
+    // no local android:id="@+id/tvFinalCartao"
+
+    // nome do titular em android:id="@+id/tvNomeTitular"
+
+
     // Voltar para perfil --> ProfileActivity ainda não está aqui
     private fun backToProfile() {
-        val intent = Intent(this, ProfileActivity::class.java)
+        val intent = Intent(this, MapsActivity2::class.java)
         startActivity(intent)
         finish()
     }
