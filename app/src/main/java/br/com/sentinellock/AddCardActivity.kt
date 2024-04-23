@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.android.gms.tasks.Task
+import com.google.firebase.functions.FirebaseFunctions
 
 // FUNCTIONS
 import com.google.firebase.functions.ktx.functions
@@ -51,7 +52,7 @@ class AddCardActivity : AppCompatActivity() {
 
         // Verifica se usuario esta autenticado
         auth = com.google.firebase.Firebase.auth
-        val uid = auth
+        val uid = auth.currentUser?.uid
     }
 
     // InitializeViews
@@ -91,7 +92,7 @@ class AddCardActivity : AppCompatActivity() {
                         nomeTitular = editTextNomeCartao.editText.toString(),
                         dataExpiracao = editTextDataValidade.editText.toString(),
                         cvv = editTextCVV.editText.toString(),
-                        uid = auth.toString()
+                        uid = uid
                     )
 
                     // Adiciona o cartao com as informacoes obtidas acima
@@ -139,7 +140,7 @@ class AddCardActivity : AppCompatActivity() {
             }
         }
 
-        // TIRAR DATA -- DIA-MES-ANO ---> MES-ANO
+        // TIRAR DATA -- DIA-MES-ANO ---> MES-ANO - codigo pronto mas nao upado
         cardDate.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 val date = cardDate.editText.toString()
@@ -187,10 +188,10 @@ class AddCardActivity : AppCompatActivity() {
         )
 
         return functions
-            .getHttpsCallable("funcAdicionarCartao")
+            .getHttpsCallable("funcCadastrarCartao")
             .call(data)
-            .continueWith<Task<String>> { task ->
-                val result = task.result?.data as String
+            .continueWith { task ->
+                val result: String = task.result?.data as String
                 Log.d(TAG, result)
                 result
             }

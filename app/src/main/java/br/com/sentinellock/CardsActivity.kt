@@ -17,34 +17,66 @@ class CardsActivity : AppCompatActivity() {
     // Variaveis dos botoes voltar e adicionar novo cartao
     private lateinit var buttonBack: Button
     private lateinit var buttonWantAddCard: Button
+
     // Variaveis de adicao de cartao
     private lateinit var nomeTitular: TextInputLayout
     private lateinit var finalCartao: TextInputLayout
+
+    // Variavel de autenticacao
+    private lateinit var auth: FirebaseAuth
+    private lateinit var uid: String
 
     // Inicio
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerenciar_cartoes)
 
-        // Botoes voltar e adicionar novo cartao
+        // Inicialização das visualizacoes
+        initializeViews()
+
+        // Ouvintes de clique
+        setupClickListeners()
+
+        // Verifica se usuario esta autenticado
+        auth = com.google.firebase.Firebase.auth
+        val uid = auth.currentUser?.uid
+    }
+
+    private fun initializeViews() {
+
+        // Botao voltar
         buttonBack = findViewById(R.id.buttonBack)
+        // Botao adicionar novo cartao
         buttonWantAddCard = findViewById(R.id.buttonWantAddCard)
 
-        // Botao Voltar
+    }
+
+    private fun setupClickListeners() {
+        // Ouvinte para voltar para meu perfil
         buttonBack.setOnClickListener {
-            val intent = Intent(this, MapsActivity2::class.java)
-            // Volta para a tela do mapa (MapsActivity2)
-            startActivity(intent)
-            finish()
+            backToProfile()
         }
 
-        // Botao Adicionar
+        // Ouvinte para ir pra tela de adicionar novo cartao
         buttonWantAddCard.setOnClickListener {
-            val intent = Intent(this, AddCardActivity::class.java)
-            // Abre a tela de adicionar novo cartao
-            startActivity(intent)
-            finish()
+            goToAddCard()
         }
 
     }
+
+    // Voltar para perfil --> ProfileActivity ainda não está aqui
+    private fun backToProfile() {
+        val intent = Intent(this, ProfileActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
+    // Ir pra adicionar novo cartao
+    private fun goToAddCard() {
+        val intent = Intent(this, AddCardActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
+
 }
+

@@ -32,4 +32,6 @@
     <string name="cardDate">Data de validade (MM/AA)</string>
     <string name="cardCVV">CVV</string>
     <string name="cardName">Nome no cartão</string>
+    <string name="titular">Titular</string>
+    <string name="numCartao">N* cartão</string>
 </resources>

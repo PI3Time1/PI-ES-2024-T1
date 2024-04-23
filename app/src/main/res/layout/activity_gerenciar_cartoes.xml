@@ -113,7 +113,7 @@
                         android:layout_marginBottom="1dp"
                         android:layout_marginStart="10dp"
                         android:gravity="left"
-                        android:text="Titular"
+                        android:text="@string/titular"
                         android:textColor="@color/green_3aa"
                         android:textSize="10sp"
                         android:textStyle="bold" />
@@ -124,7 +124,7 @@
                         android:layout_marginBottom="1dp"
                         android:layout_marginStart="240dp"
                         android:gravity="left"
-                        android:text="N* cartão"
+                        android:text="@string/numCartao"
                         android:textColor="@color/green_3aa"
                         android:textSize="10sp"
                         android:textStyle="bold" />
