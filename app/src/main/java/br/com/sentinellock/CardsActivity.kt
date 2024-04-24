@@ -5,15 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import com.google.android.material.textfield.TextInputLayout
-// Imports ainda nao utilizados
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.Firebase
 
+
 class CardsActivity : AppCompatActivity() {
     // Activity Cadastrar Novo Cartao para usuario atual
+
     // Variaveis dos botoes voltar e adicionar novo cartao
     private lateinit var buttonBack: Button
     private lateinit var buttonWantAddCard: Button
@@ -25,6 +27,11 @@ class CardsActivity : AppCompatActivity() {
     // Variavel de autenticacao
     private lateinit var auth: FirebaseAuth
     private lateinit var uid: String
+
+    // Variaveis de dados
+    private lateinit var tvNomeTitular: TextView
+
+
 
     // Inicio
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +47,19 @@ class CardsActivity : AppCompatActivity() {
         // Verifica se usuario esta autenticado
         auth = com.google.firebase.Firebase.auth
         val uid = auth.currentUser?.uid
+
+        // Cartao do usuario aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        val userCard = Card(
+            "1234567812345678", // Número do cartão
+            "Fulano da Silva",  // Nome do titular
+            "12/25",            // Data de expiração
+            "123",              // CVV
+            auth.currentUser?.uid ?: ""
+        )
+
+        // aaaaaaaaaaa
+        tvNomeTitular.text = userCard.nomeTitular
+
     }
 
     private fun initializeViews() {
@@ -49,6 +69,8 @@ class CardsActivity : AppCompatActivity() {
         // Botao adicionar novo cartao
         buttonWantAddCard = findViewById(R.id.buttonWantAddCard)
 
+        // TextView do nome do titular
+        tvNomeTitular = findViewById(R.id.tvNomeTitular)
     }
 
     private fun setupClickListeners() {
