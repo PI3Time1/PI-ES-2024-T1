@@ -1,11 +1,16 @@
 package br.com.sentinellock
 
-
 import android.Manifest
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -66,7 +71,10 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
     private val places = arrayListOf(
         Places("PUC", LatLng(-22.834445, -47.1881626), "PUC CAMPIANS CAMPUS 1", 4.8f, R.drawable.puc_image,30,50, 100, 150, 300),
-        Places("JARDIM", LatLng(-22.830332, -47.068686), "JARDIM", 4.9f, R.drawable.jardim_image,50,70, 120, 170, 320)
+        Places("JARDIM", LatLng(-22.830332, -47.068686), "JARDIM", 4.9f, R.drawable.jardim_image,50,70, 120, 170, 320),
+        Places("JARDIM", LatLng(-22.7912019,-47.1859056), "JARDIM", 4.9f, R.drawable.jardim_image,50,70, 120, 170, 320)
+
+
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,6 +118,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         super.onSaveInstanceState(outState)
         outState.putInt("selectedItemId", selectedItemId) // Salvar o ID do item selecionado
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         enableMyLocation()
@@ -182,8 +191,6 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-
-
     private fun showBottomDialog(place: Places) {
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(R.layout.bottom_sheet_dialog)
@@ -192,6 +199,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         val placeAddressTextView = dialog.findViewById<TextView>(R.id.placeAddressTextView)
         val placeImageView = dialog.findViewById<ImageView>(R.id.placeImageView)
         val routeButton = dialog.findViewById<Button>(R.id.routeButton)
+        val alugaButton = dialog.findViewById<Button>(R.id.alugaButton)
 
         placeNameTextView?.text = place.name
         placeAddressTextView?.text = place.address
@@ -215,26 +223,28 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
             dialog.dismiss()
         }
 
-        dialog.show()
-
-        val alugaButton = dialog.findViewById<Button>(R.id.alugaButton)
         alugaButton?.setOnClickListener {
             val originLatLng = currentLocationMarker?.position
             val destinationLatLng = place.latLng
 
             if (originLatLng != null) {
                 try {
-                    // Criar uma Intent para iniciar a próxima Activity
-                    val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
-                    // Adicionar os valores do marcador como extras
-                    intent.putExtra("nome", place.name)
-                    intent.putExtra("precoMeiaHora", place.prcMeiaHora)
-                    intent.putExtra("precoUmaHora", place.prcUmaHora)
-                    intent.putExtra("precoDuasHoras", place.prcUmaHora)
-                    intent.putExtra("precoQuatroHoras", place.prcQuatroHora)
-                    intent.putExtra("promocao", place.promocao)
-                    // Iniciar a próxima Activity
-                    startActivity(intent)
+                    val distance = calculateDistance(originLatLng, destinationLatLng)
+                    if (distance <= 1000) { // 1000 meters = 1 km
+                        // Criar uma Intent para iniciar a próxima Activity
+                        val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
+                        // Adicionar os valores do marcador como extras
+                        intent.putExtra("nome", place.name)
+                        intent.putExtra("precoMeiaHora", place.prcMeiaHora)
+                        intent.putExtra("precoUmaHora", place.prcUmaHora)
+                        intent.putExtra("precoDuasHoras", place.prcUmaHora)
+                        intent.putExtra("precoQuatroHoras", place.prcQuatroHora)
+                        intent.putExtra("promocao", place.promocao)
+                        // Iniciar a próxima Activity
+                        startActivity(intent)
+                    } else {
+                        showDialogTooFar()
+                    }
                 } catch (e: Exception) {
                     Log.e("MapsActivity2", "Error getting directions: ${e.message}")
                     showErrorToast("Erro ao traçar rota: ${e.message}")
@@ -245,6 +255,35 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
             dialog.dismiss()
         }
+
+        dialog.show()
+    }
+
+    private fun showDialogTooFar() {
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_out_of_range)
+
+        val window = dialog.window
+
+
+        window?.setGravity(Gravity.CENTER)
+
+        val closeButton = dialog.findViewById<Button>(R.id.closeButton)
+        closeButton?.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun calculateDistance(origin: LatLng, destination: LatLng): Float {
+        val results = FloatArray(1)
+        Location.distanceBetween(
+            origin.latitude, origin.longitude,
+            destination.latitude, destination.longitude,
+            results
+        )
+        return results[0]
     }
 
     private fun createGeoContext(): GeoApiContext {
@@ -311,5 +350,4 @@ data class Places(
     val prcuasHora: Int,
     val prcQuatroHora: Int,
     val promocao: Int
-
 )

@@ -7,7 +7,6 @@
     android:background="@color/background">
 
 
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
@@ -18,8 +17,6 @@
             android:background="@color/gray_900"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             tools:ignore="MissingConstraints" />
-
-
 
     <TextView
         android:id="@+id/textView"
@@ -45,6 +42,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <SurfaceView
+        android:id="@+id/qrCodeScannerView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="146dp"
+        android:src="@drawable/qrcode"
+        app:layout_constraintTop_toBottomOf="@id/topAppBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"  />
+
     <Button
         android:id="@+id/buttonSearch"
         android:layout_width="wrap_content"
@@ -53,6 +60,7 @@
         android:text="Procurar mais armários"
         app:layout_constraintTop_toBottomOf="@id/imageView"
         app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
