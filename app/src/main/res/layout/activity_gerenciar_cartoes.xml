@@ -10,6 +10,18 @@
     android:background="@color/background2"
     >
 
+    <!-- Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        app:title="@string/manageCards"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_menu"
+        app:navigationOnClickListener="@{view -> onNavigationIconClick()}"
+        />
+      -->
 
     <LinearLayout
         android:layout_width="match_parent"

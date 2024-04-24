@@ -29,10 +29,10 @@ class CardsActivity : AppCompatActivity() {
 
     // Variaveis de dados
     private lateinit var tvNomeTitular: TextView
+    private lateinit var tvFinalCartao: TextView
 
 
-
-    // Inicio
+    // Inicio onCreate
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerenciar_cartoes)
@@ -59,10 +59,11 @@ class CardsActivity : AppCompatActivity() {
                             // Extrair dados do documento
                             val nomeDoTitular = document.getString("nomeTitular")
                             val numeroDoCartao = document.getString("numeroCartao")
-
+                            val ultimosDigitos = getUltimosDigitos(numeroDoCartao.toString())
+                            tvFinalCartao.text = ultimosDigitos
                             // Exibir os dados nos TextViews
                             nomeTitularView.editText?.setText(nomeDoTitular)
-                            finalCartaoView.editText?.setText(numeroDoCartao)
+                            finalCartaoView.editText?.setText(ultimosDigitos)
                         } else {
                             // O documento não existe
                             showToast("Nenhum cartão encontrado.")
@@ -82,8 +83,9 @@ class CardsActivity : AppCompatActivity() {
         // Botao adicionar novo cartao
         buttonWantAddCard = findViewById(R.id.buttonWantAddCard)
 
-        // TextView do nome do titular
+        // TextView do nome do titular e final do cartao
         tvNomeTitular = findViewById(R.id.tvNomeTitular)
+        tvFinalCartao = findViewById(R.id.tvFinalCartao)
     }
 
     private fun setupClickListeners() {
@@ -116,6 +118,16 @@ class CardsActivity : AppCompatActivity() {
     // Mensagem toast
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    // Funcao para obter apenas os ultimos 4 digitos do cartao para exibicao
+    fun getUltimosDigitos(numeroCartao: String): String {
+        return if (numeroCartao.length >= 4) {
+            numeroCartao.substring(numeroCartao.length - 4)
+        } else {
+            ""
+            // Retornar string vazia se for menos que 4 caracteres
+        }
     }
 }
 

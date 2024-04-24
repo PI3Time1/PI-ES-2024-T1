@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.android.gms.tasks.Task
+import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.functions.FirebaseFunctions
 
 // FUNCTIONS
@@ -24,14 +25,12 @@ class AddCardActivity : AppCompatActivity() {
     private lateinit var buttonBack: Button
     private lateinit var buttonAddCard: Button
     // Variaveis de adicao de cartao
-    private lateinit var editTextNumeroCartao: TextInputLayout
-    private lateinit var editTextDataValidade: TextInputLayout
-    private lateinit var editTextCVV: TextInputLayout
-    private lateinit var editTextNomeCartao: TextInputLayout
+    private lateinit var editTextNumeroCartao: TextInputEditText
+    private lateinit var editTextDataValidade: TextInputEditText
+    private lateinit var editTextCVV: TextInputEditText
+    private lateinit var editTextNomeCartao: TextInputEditText
     // Variavel de usuario
     private lateinit var auth: FirebaseAuth
-    // Uid
-    private lateinit var uid: String
 
     // Inicio
     public override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,9 +51,6 @@ class AddCardActivity : AppCompatActivity() {
 
         // Verifica se usuario esta autenticado
         auth = com.google.firebase.Firebase.auth
-       // val uid = auth.currentUser?.uid
-
-        val currentUser = auth.currentUser
 
     }
 
@@ -91,14 +87,14 @@ class AddCardActivity : AppCompatActivity() {
                 if (isInfoValid()) {
                     // Objeto card
                     val card = Card(
-                        numeroCartao = editTextNumeroCartao.editText.toString(),
-                        nomeTitular = editTextNomeCartao.editText.toString(),
-                        dataExpiracao = editTextDataValidade.editText.toString(),
-                        cvv = editTextCVV.editText.toString(),
+                        numeroCartao = editTextNumeroCartao.text.toString(),
+                        nomeTitular = editTextNomeCartao.text.toString(),
+                        dataExpiracao = editTextDataValidade.text.toString(),
+                        cvv = editTextCVV.text.toString(),
                     )
 
                     // Adiciona o cartao com as informacoes obtidas acima
-                    addCard(card)
+                    registerCard(card, currentUser.uid)
                         .addOnCompleteListener { task ->
                             val e = task.exception
                             if (e != null) {
@@ -180,7 +176,7 @@ class AddCardActivity : AppCompatActivity() {
     }
 
     // Adiciona o cartao no Firebase
-    private fun addCard(card: Card): Task<String> {
+    private fun registerCard(card: Card, uid: String): Task<String> {
         val data = hashMapOf(
             "cardnumber" to card.numeroCartao,
             "cardname" to card.nomeTitular,
@@ -189,6 +185,7 @@ class AddCardActivity : AppCompatActivity() {
             "uid" to uid
         )
 
+        // Envia como data para a funcao para cadastrar o cartao
         return functions
             .getHttpsCallable("funcCadastrarCartao")
             .call(data)
@@ -206,12 +203,12 @@ class AddCardActivity : AppCompatActivity() {
 
     // Valida se todos os campos estao validos
     private fun isInfoValid(): Boolean {
-        val cardnumber = editTextNumeroCartao.editText.toString()
-        val carddate = editTextDataValidade.editText.toString()
-        val cardcvv = editTextCVV.editText.toString()
-        val cardname = editTextNomeCartao.editText.toString()
+        val cardnumber = editTextNumeroCartao.text.toString()
+        val carddate = editTextDataValidade.text.toString()
+        val cardcvv = editTextCVV.text.toString()
+        val cardname = editTextNomeCartao.text.toString()
 
-        // Verifica se algum campo está vazio
+        // Verifica se algum campo esta vazio
         if (cardnumber.isEmpty() || carddate.isEmpty() || cardcvv.isEmpty() || cardname.isEmpty())
         {
             return false
@@ -231,7 +228,6 @@ class AddCardActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "AddCardActivity"
     }
-
 
 }
 
