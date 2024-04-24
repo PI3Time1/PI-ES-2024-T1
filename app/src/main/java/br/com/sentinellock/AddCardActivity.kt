@@ -52,7 +52,10 @@ class AddCardActivity : AppCompatActivity() {
 
         // Verifica se usuario esta autenticado
         auth = com.google.firebase.Firebase.auth
-        val uid = auth.currentUser?.uid
+       // val uid = auth.currentUser?.uid
+
+        val currentUser = auth.currentUser
+
     }
 
     // InitializeViews
@@ -92,7 +95,6 @@ class AddCardActivity : AppCompatActivity() {
                         nomeTitular = editTextNomeCartao.editText.toString(),
                         dataExpiracao = editTextDataValidade.editText.toString(),
                         cvv = editTextCVV.editText.toString(),
-                        uid = uid
                     )
 
                     // Adiciona o cartao com as informacoes obtidas acima
@@ -184,7 +186,7 @@ class AddCardActivity : AppCompatActivity() {
             "cardname" to card.nomeTitular,
             "carddate" to card.dataExpiracao,
             "cardcvv" to card.cvv,
-            "uid" to card.uid
+            "uid" to uid
         )
 
         return functions
@@ -238,6 +240,5 @@ data class Card(
     val numeroCartao: String,
     val nomeTitular: String,
     val dataExpiracao: String,
-    val cvv: String,
-    val uid: String
+    val cvv: String
 )
