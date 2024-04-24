@@ -71,6 +71,8 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
     implementation ("com.google.maps:google-maps-services:0.17.0")
     implementation ("com.google.code.gson:gson")
+    implementation ("com.google.zxing:core:3.4.1")
+    implementation ("com.journeyapps:zxing-android-embedded:4.2.0")
 
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
