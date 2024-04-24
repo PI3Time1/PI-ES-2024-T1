@@ -48,6 +48,9 @@
         <activity
             android:name=".AddCardActivity"
             android:exported="false" />
+        <activity
+            android:name=".CardsActivity"
+            android:exported="false" />
 
 
     </application>
