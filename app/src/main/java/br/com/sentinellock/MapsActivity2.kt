@@ -4,21 +4,16 @@ import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
-import android.view.WindowManager
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import br.com.sentinellock.R.string.google_maps_key
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -30,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.DirectionsApi
 import com.google.maps.GeoApiContext
 import com.google.maps.PendingResult
@@ -38,6 +34,7 @@ import com.google.maps.model.TravelMode
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.GeoPoint
 
 class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
@@ -68,14 +65,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
             false
         }
 
-
-    private val places = arrayListOf(
-        Places("PUC", LatLng(-22.834445, -47.1881626), "PUC CAMPIANS CAMPUS 1", 4.8f, R.drawable.puc_image,30,50, 100, 150, 300),
-        Places("JARDIM", LatLng(-22.830332, -47.068686), "JARDIM", 4.9f, R.drawable.jardim_image,50,70, 120, 170, 320),
-        Places("JARDIM", LatLng(-22.7912019,-47.1859056), "JARDIM", 4.9f, R.drawable.jardim_image,50,70, 120, 170, 320)
-
-
-    )
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,6 +102,8 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        db = FirebaseFirestore.getInstance()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -179,16 +171,24 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun addMarkers() {
-        places.forEach { place ->
-            val marker = mMap?.addMarker(
-                MarkerOptions()
-                    .title(place.name)
-                    .snippet(place.address)
-                    .position(place.latLng)
-                    .icon(BitmapHelper.vectorToBitmap(this, R.drawable.maps_logo_vetor, ContextCompat.getColor(this, R.color.background)))
-            )
-            marker?.tag = place
-        }
+        db.collection("unidade_de_locacao")
+            .get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val place = document.toObject(Places::class.java)
+                    val marker = mMap?.addMarker(
+                        MarkerOptions()
+                            .title(place.name)
+                            .snippet(place.address)
+                            .position(place.latLng.toLatLng()) // Convert GeoPoint to LatLng
+                            .icon(BitmapHelper.vectorToBitmap(this, R.drawable.maps_logo_vetor, ContextCompat.getColor(this, R.color.background)))
+                    )
+                    marker?.tag = place
+                }
+            }
+            .addOnFailureListener { exception ->
+                Log.d(TAG, "Error getting documents: ", exception)
+            }
     }
 
     private fun showBottomDialog(place: Places) {
@@ -197,17 +197,15 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
         val placeNameTextView = dialog.findViewById<TextView>(R.id.placeNameTextView)
         val placeAddressTextView = dialog.findViewById<TextView>(R.id.placeAddressTextView)
-        val placeImageView = dialog.findViewById<ImageView>(R.id.placeImageView)
         val routeButton = dialog.findViewById<Button>(R.id.routeButton)
         val alugaButton = dialog.findViewById<Button>(R.id.alugaButton)
 
         placeNameTextView?.text = place.name
         placeAddressTextView?.text = place.address
-        placeImageView?.setImageResource(place.imageResId)
 
         routeButton?.setOnClickListener {
             val originLatLng = currentLocationMarker?.position
-            val destinationLatLng = place.latLng
+            val destinationLatLng = place.latLng.toLatLng()
 
             if (originLatLng != null) {
                 try {
@@ -225,7 +223,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
         alugaButton?.setOnClickListener {
             val originLatLng = currentLocationMarker?.position
-            val destinationLatLng = place.latLng
+            val destinationLatLng = place.latLng.toLatLng()
 
             if (originLatLng != null) {
                 try {
@@ -265,7 +263,6 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
         val window = dialog.window
 
-
         window?.setGravity(Gravity.CENTER)
 
         val closeButton = dialog.findViewById<Button>(R.id.closeButton)
@@ -288,7 +285,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
     private fun createGeoContext(): GeoApiContext {
         return GeoApiContext.Builder()
-            .apiKey(getString(google_maps_key))
+            .apiKey(getString(R.string.google_maps_key))
             .build()
     }
 
@@ -337,17 +334,24 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
             Toast.makeText(this@MapsActivity2, message, Toast.LENGTH_SHORT).show()
         }
     }
+
+    companion object {
+        private const val TAG = "MapsActivity2"
+    }
 }
 
 data class Places(
-    val name: String,
-    val latLng: LatLng,
-    val address: String,
-    val rating: Float,
-    val imageResId: Int,
-    val prcMeiaHora: Int,
-    val prcUmaHora :Int,
-    val prcuasHora: Int,
-    val prcQuatroHora: Int,
-    val promocao: Int
+    val name: String = "",
+    val latLng: GeoPoint = GeoPoint(0.0, 0.0), // Keep the type as GeoPoint
+    val address: String = "",
+    val rating: Float = 0.0f,
+    val prcMeiaHora: Int = 0,
+    val prcUmaHora: Int = 0,
+    val prcuasHora: Int = 0,
+    val prcQuatroHora: Int = 0,
+    val promocao: Int = 0
 )
+
+fun GeoPoint.toLatLng(): LatLng {
+    return LatLng(this.latitude, this.longitude)
+}
