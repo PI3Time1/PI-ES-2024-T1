@@ -25,7 +25,23 @@
             android:contentDescription="@string/buttonLeftBackSignInDescription"
             />
 
-        <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:paddingBottom="16dp"
+        app:startIconDrawable="@drawable/ic_person_outlined"
+        app:startIconTint="@color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        android:hint="@string/nameLabelRegister"
+        app:boxStrokeColor="@color/green_500"
+        android:textColorHint="@color/white"
+        android:layout_gravity="center">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="28sp"
@@ -36,7 +52,27 @@
             android:textColor="@color/buttom_green"
             />
 
-        <TextView
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:startIconDrawable="@drawable/ic_email_outlined"
+        app:startIconTint="@color/white"
+        android:paddingBottom="16dp"
+        android:layout_margin="4dp"
+        android:hint="@string/emailLabelRegister"
+        app:boxStrokeColor="@color/green_500"
+        android:textColorHint="@color/white"
+        android:layout_gravity="center">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp"
@@ -47,9 +83,32 @@
             android:textColor="@color/buttom_green"
             />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etName"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:startIconDrawable="@drawable/ic_password_outlined"
+        app:startIconTint="@color/white"
+        app:counterMaxLength="25"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        android:layout_margin="4dp"
+        app:counterEnabled="true"
+        app:passwordToggleEnabled="true"
+        android:hint="@string/passwordLabelRegister"
+        app:boxStrokeColor="@color/green_500"
+        android:textColorHint="@color/white"
+        app:counterTextColor="@color/green_500"
+        app:boxStrokeErrorColor="@color/danger"
+        app:cursorErrorColor="@color/danger"
+        android:layout_gravity="center">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -70,9 +129,27 @@
                 android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etEmail"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etAge"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:startIconDrawable="@drawable/ic_date_outlined"
+        app:startIconTint="@color/white"
+        android:layout_margin="4dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        android:paddingBottom="16dp"
+        android:hint="@string/dateLabelRegister"
+        app:boxStrokeColor="@color/green_500"
+        android:textColorHint="@color/white"
+        android:layout_gravity="center">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
@@ -96,9 +173,29 @@
                 android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etPassword"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etCPF"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:startIconDrawable="@drawable/ic_document_outlined"
+        app:startIconTint="@color/white"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:counterMaxLength="11"
+        android:layout_margin="4dp"
+        app:counterEnabled="true"
+        android:hint="@string/documentLabelRegister"
+        app:boxStrokeColor="@color/green_500"
+        android:textColorHint="@color/white"
+        app:counterTextColor="@color/green_500"
+        android:layout_gravity="center">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextCPF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
@@ -128,9 +225,29 @@
                 android:textColor="@color/white"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/etAge"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/etPhone"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white"
+        app:startIconDrawable="@drawable/ic_phone_outlined"
+        app:startIconTint="@color/white"
+        android:layout_margin="4dp"
+        app:boxCornerRadiusBottomEnd="8dp"
+        app:boxCornerRadiusBottomStart="8dp"
+        app:boxCornerRadiusTopEnd="8dp"
+        app:boxCornerRadiusTopStart="8dp"
+        app:counterMaxLength="11"
+        android:layout_gravity="center"
+        app:counterEnabled="true"
+        android:hint="@string/phoneLabelRegister"
+        app:boxStrokeColor="@color/green_500"
+        android:textColorHint="@color/white"
+        app:counterTextColor="@color/green_500">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/eTextPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
