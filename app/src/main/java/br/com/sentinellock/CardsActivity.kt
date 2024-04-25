@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CardsActivity : AppCompatActivity() {
-
+    private lateinit var buttonBack : Button
     private lateinit var nomeTitularView: TextView
     private lateinit var finalCartaoView: TextView
     private lateinit var buttonWantAddCard: Button
@@ -25,10 +25,16 @@ class CardsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerenciar_cartoes)
 
+        buttonBack = findViewById(R.id.buttonBack)
         nomeTitularView = findViewById(R.id.nomeTitularView)
         finalCartaoView = findViewById(R.id.finalCartaoView)
         buttonWantAddCard = findViewById(R.id.buttonWantAddCard)
         cardCardView = findViewById(R.id.cardCardView)
+
+        buttonBack.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+            finish()
+        }
 
         // Verifica se há cartões cadastrados no Firestore
         verificarCartoes()
