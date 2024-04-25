@@ -8,12 +8,35 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class ProfileActivity : AppCompatActivity() {
+
+    private var selectedItemId: Int = R.id.action_profile
+
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_map -> {
+                    // Handle map action
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.action_look -> {
+                    // Handle search action
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.action_profile -> {
+                    // Handle profile action
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
+
     // Declaração de variáveis
     private lateinit var buttonManageCard: Button
     private lateinit var buttonLogout2: Button
@@ -26,6 +49,42 @@ class ProfileActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+
+        // Verifica se o usuário está logado
+        auth = FirebaseAuth.getInstance()
+        if (auth.currentUser == null) {
+            // Se o usuário não estiver logado, abre a NoLoginProfileActivity e fecha esta
+            startActivity(Intent(this, NoLoginProfile::class.java))
+            finish()
+            return
+        }
+
+        savedInstanceState?.getInt("selectedItemId")?.let {
+            selectedItemId = it
+        }
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        bottomNavigationView.selectedItemId = selectedItemId
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_look -> {
+                    startActivity(Intent(this, TelaArmarioActivity::class.java))
+                    true
+                }
+                R.id.action_map -> {
+                    startActivity(Intent(this, MapsActivity2::class.java))
+                    true
+                }
+                R.id.action_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
         // Inicialização das variáveis de interface e Firebase
         buttonManageCard = findViewById(R.id.buttonManageCard)
@@ -75,11 +134,11 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        // Configuração do botão para gerenciar cartões (comentado)
-        // buttonManageCard.setOnClickListener{
-        //     val intent = Intent(this,CardsActivity::class.java)
-        //     startActivity(intent)
-        //     finish()
-        // }
+//         Configuração do botão para gerenciar cartões (comentado)
+        buttonManageCard.setOnClickListener{
+            val intent = Intent(this,CardsActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }

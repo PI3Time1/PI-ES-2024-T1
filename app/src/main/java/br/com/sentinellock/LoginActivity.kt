@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         buttonContWithoutRegistr.setOnClickListener {
-            navigateToMainActivity()
+            navigateToTelaArmarioActivity()
         }
 
         buttonRegister.setOnClickListener {
@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
     private fun checkCurrentUser() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            navigateToMainActivity()
+            navigateToTelaArmarioActivity()
             finish()
         }
     }
@@ -91,7 +91,7 @@ class LoginActivity : AppCompatActivity() {
                         auth.signOut()
                     } else {
                         showToast("Login bem-sucedido!")
-                        navigateToMainActivity()
+                        navigateToTelaArmarioActivity()
                         finish()
                     }
                 } else {
@@ -118,8 +118,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Navega para a MainActivity
-    private fun navigateToMainActivity() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun navigateToTelaArmarioActivity() {
+        val intent = Intent(this, TelaArmarioActivity::class.java)
         startActivity(intent)
     }
 

@@ -149,7 +149,7 @@
                     android:gravity="center_vertical">
 
                     <TextView
-                        android:id="@+id/tvNomeTitular"
+                        android:id="@+id/nomeTitularView"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="1dp"
@@ -160,7 +160,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <TextView
-                        android:id="@+id/tvFinalCartao"
+                        android:id="@+id/finalCartaoView"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="1dp"

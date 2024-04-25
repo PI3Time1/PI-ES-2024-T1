@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:backgroundTint="@color/buttom_green"
         android:textColor="@color/white"
         android:text="Fechar" />
 

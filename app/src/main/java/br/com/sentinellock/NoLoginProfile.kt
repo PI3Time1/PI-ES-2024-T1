@@ -23,7 +23,7 @@ class NoLoginProfile : AppCompatActivity() {
                     // Lidar com a ação de mapa
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.action_search -> {
+                R.id.action_look -> {
                     // Lidar com a ação de busca
                     return@OnNavigationItemSelectedListener true
                 }

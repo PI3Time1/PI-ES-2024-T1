@@ -53,7 +53,7 @@
             android:textSize="18dp"
             android:padding="5dp"
             android:textColor="@color/white"
-            android:background="@color/buttom_green"
+            android:backgroundTintMode="@color/buttom_green"
             android:text="Iniciar rota" />
 
         <Button
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textColor="@color/white"
-            android:background="@color/buttom_green"
+            android:backgroundTint="@color/buttom_green"
             android:padding="5dp"
             android:text="Alugar" />
     </LinearLayout>

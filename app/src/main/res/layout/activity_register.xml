@@ -28,7 +28,7 @@
         android:layout_marginTop="16dp"
         android:textStyle="bold"
         android:text="@string/titleRegister"
-        android:textColor="@color/green_500"
+        android:textColor="@color/buttom_green"
         />
 
     <TextView
@@ -39,7 +39,7 @@
         android:layout_marginBottom="16dp"
         android:textStyle="normal"
         android:text="@string/subtitleRegister"
-        android:textColor="@color/green_500"
+        android:textColor="@color/buttom_green"
         />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -216,7 +216,7 @@
         android:textColorHint="@color/white"
         android:textStyle="bold"
         android:text="@string/registerAccount"
-        android:backgroundTint="@color/green_500"
+        android:backgroundTint="@color/buttom_green"
         />
 
     <TextView

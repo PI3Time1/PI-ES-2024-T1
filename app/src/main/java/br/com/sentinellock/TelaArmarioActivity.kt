@@ -80,6 +80,15 @@ class TelaArmarioActivity : AppCompatActivity() {
                     }
                     true
                 }
+                R.id.action_profile -> {
+                    // Não faz nada se a opção "Armário" já estiver selecionada
+                    if (menuItem.itemId == bottomNavigationView.selectedItemId) {
+                        return@setOnNavigationItemSelectedListener true
+                    }
+                    // Inicia a TelaArmarioActivity
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }
