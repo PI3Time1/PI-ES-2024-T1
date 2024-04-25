@@ -6,7 +6,9 @@
     <color name="gray_700">#899794</color>
     <color name="gray_900">#2F2F2F</color>
     <color name="green_100">#64ae86</color>
-    <color name="green_500">#008A46</color>
+    <color name="green_600">#008A46</color>
+    <color name="green_138">#008A46</color>
+    <color name="green_500">#3c815f</color>
     <color name="green_700">#476b5c</color>
     <color name="green_900">#165e3d</color>
     <color name="black">#1a2b22</color>
@@ -14,4 +16,5 @@
     <color name="buttom_green">#008A46</color>
     <color name="blue">#3C5BFF</color>
     <color name="cinza_janela">#5A5A5A</color>
+    <color name="red">#BB3333</color>
 </resources>

@@ -20,6 +20,15 @@
     <string name="buttonLeftBackSignInDescription">Voltar para login</string>
     <string name="AlreadyHaveALogin">Já possuí cadastro?</string>
     <string name="SignIn">faça login</string>
+    <string name="ManageCard">Gerenciar Cartões</string>
+    <string name="CPF">CPF</string>
+    <string name="Name">Nome</string>
+    <string name="MYProfile">MEU PERFIL</string>
+    <string name="Back">VOLTAR</string>
+    <string name="LoginToAcessAccount">Faça Login para acessar sua conta</string>
+    <string name="IfAccountLogin">Se já possui uma conta clique em Entrar</string>
+    <string name="Or">ou</string>
+
     <string name="title_activity_maps">MapsActivity</string>
     <string name="rating">Avaliação:</string>
     <string name="google_maps_key">AIzaSyCUAuNZp-aWNZ3jugBZFm3r98mkNtn5cz4</string>

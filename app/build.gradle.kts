@@ -1,3 +1,5 @@
+import android.databinding.tool.writer.ViewBinding
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -43,6 +45,8 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
+
 
     }
     composeOptions {
