@@ -32,4 +32,17 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="rating">Avaliação:</string>
     <string name="google_maps_key">AIzaSyCUAuNZp-aWNZ3jugBZFm3r98mkNtn5cz4</string>
+    <string name="myCards">Meus Cartões</string>
+    <string name="manageCards">Gerenciar Cartões</string>
+    <string name="addCard">Adicionar novo cartão</string>
+    <string name="back">Voltar</string>
+    <string name="newCard">Novo cartão</string>
+    <string name="infoSafe">Suas informações estão protegidas</string>
+    <string name="cardInfo">Dados do cartão</string>
+    <string name="cardNumber">Número do cartão</string>
+    <string name="cardDate">Data de validade (MM/AA)</string>
+    <string name="cardCVV">CVV</string>
+    <string name="cardName">Nome no cartão</string>
+    <string name="titular">Titular</string>
+    <string name="numCartao">N* cartão</string>
 </resources>

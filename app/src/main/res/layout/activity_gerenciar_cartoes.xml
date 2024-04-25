@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CardsActivity"
+    android:orientation="vertical"
+    android:background="@color/background2"
+    >
+
+    <!-- Toolbar
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/background"
+        app:title="@string/manageCards"
+        app:titleTextColor="@color/white"
+        app:navigationIcon="@drawable/ic_menu"
+        app:navigationOnClickListener="@{view -> onNavigationIconClick()}"
+        />
+      -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/background">
+
+        <Button
+            android:id="@+id/buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/green_018"
+            android:text="@string/back"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/manageCards"
+            android:textStyle="bold"
+            android:gravity="left"
+            android:textSize="30sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="25dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/myCards"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@drawable/ic_wallet"
+            android:drawableTint="@color/white"
+            android:drawablePadding="10dp"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCardView"
+            android:layout_width="360dp"
+            android:layout_height="110dp"
+
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/gray_white">
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.google.android.material.card.MaterialCardView
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:cardBackgroundColor="@color/green_3aa"
+                    app:cardCornerRadius="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="BANCO DO BRASIL"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:drawableLeft="@drawable/ic_creditcard"
+                        android:drawableTint="@color/white"
+                        android:drawablePadding="10dp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginStart="10dp"
+                        android:gravity="left"
+                        android:text="@string/titular"
+                        android:textColor="@color/green_3aa"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginStart="240dp"
+                        android:gravity="left"
+                        android:text="@string/numCartao"
+                        android:textColor="@color/green_3aa"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvNomeTitular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginStart="10dp"
+                        android:gravity="left"
+                        android:text="Fulano da Silva"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvFinalCartao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginStart="180dp"
+                        android:gravity="right"
+                        android:text="*9999"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+        <Button
+            android:id="@+id/buttonWantAddCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="@string/addCard"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="350dp"
+            android:backgroundTint="@color/green_008" />
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
