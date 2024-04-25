@@ -11,6 +11,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NoLoginProfile : AppCompatActivity() {
 
+    private var selectedItemId: Int = R.id.action_profile
+
     // Declaração de variáveis
     private lateinit var buttonLogin : Button
     private lateinit var buttonCadastrar2 : Button
@@ -43,9 +45,33 @@ class NoLoginProfile : AppCompatActivity() {
         buttonLogin = findViewById(R.id.buttonLogin)
         buttonCadastrar2 = findViewById(R.id.buttonCadastrar2)
 
+        savedInstanceState?.getInt("selectedItemId")?.let {
+            selectedItemId = it
+        }
+
         // Configuração do menu de navegação inferior
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+
+        bottomNavigationView.selectedItemId = selectedItemId
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_look -> {
+                    startActivity(Intent(this, TelaArmarioActivity::class.java))
+                    true
+                }
+                R.id.action_map -> {
+                    startActivity(Intent(this, MapsActivity2::class.java))
+                    true
+                }
+                R.id.action_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
         // Configuração dos botões de login e cadastro
         buttonLogin.setOnClickListener {
