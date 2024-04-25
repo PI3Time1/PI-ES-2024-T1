@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
 
         buttonContWithoutRegistr.setOnClickListener {
             // Navega para a MapsActivity
-            navigateToMapsActivity()
+            navigateToAlugarArmarioActivity()
         }
 
         buttonRegister.setOnClickListener {
@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             // Se o usuário já estiver logado, navega diretamente para a MapsActivity
-            navigateToMapsActivity()
+            navigateToAlugarArmarioActivity()
             finish()
         }
     }
@@ -105,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
                         auth.signOut()
                     } else {
                         // Se o login for bem-sucedido, navega para a MapsActivity
-                        navigateToMapsActivity()
+                        navigateToAlugarArmarioActivity()
                         finish()
                     }
                 } else {
@@ -146,8 +146,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // Navega para a MapsActivity
-    private fun navigateToMapsActivity() {
-        val intent = Intent(this, MapsActivity2::class.java)
+    private fun navigateToAlugarArmarioActivity() {
+        val intent = Intent(this, TelaArmarioActivity::class.java)
         startActivity(intent)
     }
 
