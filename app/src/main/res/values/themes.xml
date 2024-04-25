@@ -14,4 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:headerDividersEnabled">false</item>
     </style>
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/background</item>
+    </style>
 </resources>
