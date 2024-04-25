@@ -41,7 +41,8 @@ class CardsActivity : AppCompatActivity() {
 
         // Configuração do botão para redirecionar para a AddCardActivity
         buttonWantAddCard.setOnClickListener {
-            startActivity(Intent(this, AddCardActivity::class.java))
+            val intent = Intent(this, AddCardActivity::class.java)
+            startActivity(intent)
         }
     }
 

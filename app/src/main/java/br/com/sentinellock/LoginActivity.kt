@@ -68,7 +68,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         buttonContWithoutRegistr.setOnClickListener {
-            navigateToTelaArmarioActivity()
+            // Navega para a MapsActivity
+            navigateToMapsActivity()
         }
 
         buttonRegister.setOnClickListener {
@@ -86,7 +87,8 @@ class LoginActivity : AppCompatActivity() {
     private fun checkCurrentUser() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            navigateToTelaArmarioActivity()
+            // Se o usuário já estiver logado, navega diretamente para a MapsActivity
+            navigateToMapsActivity()
             finish()
         }
     }
@@ -102,8 +104,8 @@ class LoginActivity : AppCompatActivity() {
                         showAlert("Por favor, verifique seu e-mail antes de fazer login.")
                         auth.signOut()
                     } else {
-                        showToast("Login bem-sucedido!")
-                        navigateToTelaArmarioActivity()
+                        // Se o login for bem-sucedido, navega para a MapsActivity
+                        navigateToMapsActivity()
                         finish()
                     }
                 } else {
@@ -143,9 +145,15 @@ class LoginActivity : AppCompatActivity() {
         showAlert("Autenticação falhou. Tente novamente!")
     }
 
-    // Navega para a MainActivity
-    private fun navigateToTelaArmarioActivity() {
-        val intent = Intent(this, TelaArmarioActivity::class.java)
+    // Navega para a MapsActivity
+    private fun navigateToMapsActivity() {
+        val intent = Intent(this, MapsActivity2::class.java)
+        startActivity(intent)
+    }
+
+    // Navega para a RecoveryPasswordActivity
+    private fun navigateToRecoveryPasswordActivity() {
+        val intent = Intent(this, RecoveryPasswordActivity::class.java)
         startActivity(intent)
     }
 
