@@ -23,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var buttonContWithoutRegistr: Button
     private lateinit var buttonRegister: Button
 
+
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -46,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         buttonContWithoutRegistr.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
 
@@ -64,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             // Se o usuário estiver logado, redirecione-o para a nova tela
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
             finish()
             Log.d(TAG, "Logadoo!!")
@@ -84,6 +85,7 @@ class LoginActivity : AppCompatActivity() {
                     val user = auth.currentUser
                     updateUI(user)
                     val intent = Intent(this, MainActivity::class.java)
+                    // voltar o profile activity pra main activity
                     startActivity(intent)
                     finish()
                 } else {
