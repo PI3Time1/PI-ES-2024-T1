@@ -132,7 +132,7 @@
                         app:boxStrokeColor="@color/black">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id=""
+                            android:id="@+id/editTextNumeroCartao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
@@ -164,6 +164,7 @@
                         android:textColorHint="@color/green_008"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextDataValidade"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="date"/>
@@ -186,6 +187,7 @@
                         android:textColorHint="@color/green_008"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextCVV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"/>
@@ -212,7 +214,7 @@
                         android:textColorHint="@color/green_008"
                         android:layout_gravity="center">
                         <com.google.android.material.textfield.TextInputEditText
-
+                            android:id="@+id/editTextNomeCartao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:boxStrokeColor="@color/black"

@@ -67,10 +67,10 @@ class AddCardActivity : AppCompatActivity() {
         buttonAddCard = findViewById(R.id.buttonAddCard)
 
         // Obtem as informacoes digitadas pelo usuario
-//        editTextNumeroCartao = findViewById(R.id.editTextNumeroCartao)
-//        editTextDataValidade = findViewById(R.id.editTextDataValidade)
-//        editTextCVV = findViewById(R.id.editTextCVV)
-//        editTextNomeCartao = findViewById(R.id.editTextNomeCartao)
+        editTextNumeroCartao = findViewById(R.id.editTextNumeroCartao)
+        editTextDataValidade = findViewById(R.id.editTextDataValidade)
+        editTextCVV = findViewById(R.id.editTextCVV)
+        editTextNomeCartao = findViewById(R.id.editTextNomeCartao)
     }
 
     // OUVINTES
