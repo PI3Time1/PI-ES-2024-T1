@@ -53,7 +53,7 @@
             android:textSize="18dp"
             android:padding="5dp"
             android:textColor="@color/white"
-            android:backgroundTintMode="@color/buttom_green"
+            android:backgroundTint="@color/buttom_green"
             android:text="Iniciar rota" />
 
         <Button
