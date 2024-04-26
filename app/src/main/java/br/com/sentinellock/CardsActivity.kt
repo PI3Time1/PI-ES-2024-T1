@@ -1,5 +1,6 @@
 package br.com.sentinellock
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -46,7 +47,7 @@ class CardsActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-
+    @SuppressLint("SuspiciousIndentation")
     private fun verificarCartaoCredito() {
         userId?.let { userId ->
             val docRef = db.collection("pessoas").document(userId)

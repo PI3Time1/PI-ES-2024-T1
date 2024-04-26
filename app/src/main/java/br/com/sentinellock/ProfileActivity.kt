@@ -1,5 +1,7 @@
+// Pacote onde a classe ProfileActivity está localizada
 package br.com.sentinellock
 
+// Importações necessárias para funcionalidades do Android e Firebase
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -14,30 +16,33 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
 
+// Declaração da classe ProfileActivity, que é uma atividade para exibir o perfil do usuário
 class ProfileActivity : AppCompatActivity() {
 
+    // ID do item selecionado na BottomNavigationView
     private var selectedItemId: Int = R.id.action_profile
 
+    // Listener para os itens da BottomNavigationView
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_map -> {
-                    // Handle map action
+                    // Lidar com ação do mapa
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.action_look -> {
-                    // Handle search action
+                    // Lidar com ação de busca
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.action_profile -> {
-                    // Handle profile action
+                    // Lidar com ação do perfil
                     return@OnNavigationItemSelectedListener true
                 }
             }
             false
         }
 
-    // Declaração de variáveis
+    // Declaração de variáveis de interface e Firebase
     private lateinit var buttonManageCard: Button
     private lateinit var buttonLogout2: Button
     private lateinit var textViewNome: TextView
@@ -46,6 +51,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
 
+    // Método chamado quando a atividade é criada
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -59,10 +65,12 @@ class ProfileActivity : AppCompatActivity() {
             return
         }
 
+        // Restaura o ID do item selecionado, se existir
         savedInstanceState?.getInt("selectedItemId")?.let {
             selectedItemId = it
         }
 
+        // Configura a BottomNavigationView
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
@@ -86,7 +94,7 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        // Inicialização das variáveis de interface e Firebase
+        // Inicializa as variáveis de interface e Firebase
         buttonManageCard = findViewById(R.id.buttonManageCard)
         buttonLogout2 = findViewById(R.id.buttonLogout2)
         textViewNome = findViewById(R.id.TextViewNome)

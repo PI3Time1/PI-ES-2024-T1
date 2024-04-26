@@ -1,5 +1,7 @@
+// Pacote onde a classe TelaArmarioActivity está localizada
 package br.com.sentinellock
 
+// Importações necessárias para funcionalidades do Android
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -14,36 +16,46 @@ import androidx.core.content.ContextCompat
 import br.com.sentinellock.R
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+// Classe TelaArmarioActivity, que representa a tela de armários
 class TelaArmarioActivity : AppCompatActivity() {
 
+    // Código de solicitação de permissão de localização
     private val LOCATION_PERMISSION_REQUEST_CODE = 1001
+
+    // ID do item selecionado na BottomNavigationView
     private var selectedItemId: Int = R.id.action_look
 
+    // Listener para os itens da BottomNavigationView
     private val onNavigationItemSelectedListener =
         BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_map -> {
-                    // Handle map action
+                    // Lidar com ação do mapa
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.action_look -> {
-                    // Handle search action
+                    // Lidar com ação de busca
                     return@OnNavigationItemSelectedListener true
                 }
                 R.id.action_profile -> {
-                    // Handle profile action
+                    // Lidar com ação do perfil
                     return@OnNavigationItemSelectedListener true
                 }
             }
             false
         }
 
+    // Método chamado quando a atividade é criada
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Log para indicar o início do método onCreate
         Log.d("TelaArmarioActivity", "onCreate() iniciado")
+        // Habilita a visualização de bordas nas laterais
         enableEdgeToEdge()
+        // Define o layout da atividade
         setContentView(R.layout.activity_tela_armario2)
 
+        // Obtém uma referência para o botão "Alugar armário" no layout
         val buttonAlugarArmario: Button = findViewById(R.id.button4)
 
         // Adicionando um OnClickListener ao botão "Alugar armário"
@@ -56,10 +68,14 @@ class TelaArmarioActivity : AppCompatActivity() {
             }
         }
 
+        // Obtém uma referência para a BottomNavigationView no layout
         val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
+        // Define o listener para os itens da BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        // Define o item selecionado na BottomNavigationView
         bottomNavigationView.selectedItemId = selectedItemId
 
+        // Configuração do listener para os itens da BottomNavigationView
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.action_look -> {
@@ -85,7 +101,7 @@ class TelaArmarioActivity : AppCompatActivity() {
                     if (menuItem.itemId == bottomNavigationView.selectedItemId) {
                         return@setOnNavigationItemSelectedListener true
                     }
-                    // Inicia a TelaArmarioActivity
+                    // Inicia a ProfileActivity
                     startActivity(Intent(this, ProfileActivity::class.java))
                     true
                 }
@@ -93,7 +109,6 @@ class TelaArmarioActivity : AppCompatActivity() {
             }
         }
 
-        // Verifica se há uma compra pendente ao reabrir o aplicativo
         // Verifica se há uma compra pendente ao reabrir o aplicativo
         if (savedInstanceState == null) {
             val sharedPreferences = getSharedPreferences("Compra", MODE_PRIVATE)
@@ -108,6 +123,7 @@ class TelaArmarioActivity : AppCompatActivity() {
 
     }
 
+    // Método para verificar se a permissão de localização foi concedida
     private fun checkLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             this,
@@ -115,6 +131,7 @@ class TelaArmarioActivity : AppCompatActivity() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    // Método para solicitar permissão de localização
     private fun requestLocationPermission() {
         ActivityCompat.requestPermissions(
             this,
@@ -123,20 +140,24 @@ class TelaArmarioActivity : AppCompatActivity() {
         )
     }
 
+    // Método para iniciar a atividade de mapa
     private fun startMapsActivity() {
         val intent = Intent(this, MapsActivity2::class.java)
         startActivity(intent)
     }
 
+    // Método chamado quando a atividade é pausada
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        // Salva o ID do item selecionado na BottomNavigationView
         outState.putInt("selectedItemId", selectedItemId)
     }
 
+    // Método chamado quando a permissão é solicitada pelo usuário e uma resposta é recebida
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+        permissions: Array <out String>,
+    grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
@@ -150,3 +171,4 @@ class TelaArmarioActivity : AppCompatActivity() {
         }
     }
 }
+
