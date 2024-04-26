@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zxing.BarcodeFormat
@@ -20,6 +21,7 @@ import java.util.Locale
 class TelaQrcodeActivity : AppCompatActivity() {
 
     // Variáveis de estado e controle
+    private lateinit var buttonSearch : Button
     private var preco: Int = 0
     private var tempo: Int = 0
     private var qrCodeData: String = ""
@@ -38,7 +40,14 @@ class TelaQrcodeActivity : AppCompatActivity() {
 
         // Obtém uma referência para o TextView no layout
         val textView: TextView = findViewById(R.id.textView)
+        buttonSearch = findViewById(R.id.buttonSearch)
 
+        buttonSearch.setOnClickListener {
+            // Crie uma Intent para iniciar a TelaArmarioActivity
+            val intent = Intent(this, TelaArmarioActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         // Formata o texto com base nos valores de preço e tempo
         val tempoText = if (tempo > 16) {
             String.format(Locale.getDefault(), "%d Minutos", tempo)
