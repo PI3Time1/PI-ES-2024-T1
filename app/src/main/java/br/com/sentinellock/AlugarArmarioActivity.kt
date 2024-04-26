@@ -72,6 +72,10 @@ class AlugarArmarioActivity : AppCompatActivity() {
                     startActivity(Intent(this, MapsActivity2::class.java))
                     true
                 }
+                R.id.action_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }

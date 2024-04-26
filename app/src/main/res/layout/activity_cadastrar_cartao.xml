@@ -7,48 +7,73 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background2"
+    android:gravity="center"
     tools:context=".AddCardActivity">
 
-    <!-- GERENCIAR CARTÕES -->
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/background">
+        android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/buttonBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@color/green_018"
-            android:text="@string/back"
-            android:textColor="@color/white"
-            android:textSize="11sp"
-            android:textStyle="bold" />
 
-        <TextView
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/manageCards"
-            android:textStyle="bold"
-            android:gravity="left"
-            android:textSize="30sp"
-            android:textColor="@color/white"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:layout_marginStart="25dp" />
-    </LinearLayout>
+            android:layout_height="?attr/actionBarSize"
+            app:buttonGravity="center_vertical"
+            app:titleCentered="true"
+            app:title="MEU PERFIL"
+            app:titleTextColor="@color/white"
+            android:background="@color/gray_900"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:gravity="center_vertical">
+
+
+
+
+
+
+            <Button
+                android:id="@+id/buttonBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/green_018"
+                android:text="@string/back"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/manageCards"
+                android:textAlignment="center"
+
+                android:textSize="30sp"
+                android:textColor="@color/white"
+
+
+
+                />
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- GERENCIAR CARTÕES -->
+
 
     <!-- NOVO CARTÃO -->
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="14dp">
+
+       >
 
         <TextView
             android:layout_width="wrap_content"
@@ -236,7 +261,7 @@
             android:text="@string/addCard"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="70dp"
             android:backgroundTint="@color/green_008" />
 
     </LinearLayout>
