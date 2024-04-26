@@ -160,6 +160,7 @@
                             android:id="@+id/editTextNumeroCartao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:maxLength="16"
                             android:inputType="number"
                             app:boxStrokeColor="@color/green_008" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -191,7 +192,7 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextDataValidade"
                             android:layout_width="match_parent"
-                            android:maxLength="4"
+                            android:maxLength="5"
                             android:layout_height="wrap_content"
                             android:inputType="date"
 
@@ -220,6 +221,7 @@
                             android:id="@+id/editTextCVV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:maxLength="3"
                             android:inputType="number"/>
                     </com.google.android.material.textfield.TextInputLayout>
                     <!-- FECHA DATA DE VALIDADE E CVV -->

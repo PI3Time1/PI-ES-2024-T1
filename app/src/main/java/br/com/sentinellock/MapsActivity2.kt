@@ -34,6 +34,7 @@ import com.google.maps.model.DirectionsResult
 import com.google.maps.model.TravelMode
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.GeoPoint
 
 // Atividade principal para mostrar um mapa com funcionalidades relacionadas ao local
@@ -249,35 +250,41 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
             dialog.dismiss() // Fecha o dialog
         }
 
+
         // Configura o botão para alugar um armário no local
         alugaButton?.setOnClickListener {
-            val originLatLng = currentLocationMarker?.position
-            val destinationLatLng = place.latLng.toLatLng()
+            if (isUserLoggedIn()) {
+                val originLatLng = currentLocationMarker?.position
+                val destinationLatLng = place.latLng.toLatLng()
 
-            if (originLatLng != null) {
-                try {
-                    val distance = calculateDistance(originLatLng, destinationLatLng)
-                    if (distance <= 1000) { // Verifica se o local está a menos de 1 km de distância
-                        // Cria uma Intent para iniciar a atividade de aluguel de armário
-                        val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
-                        // Adiciona os detalhes do local como extras na Intent
-                        intent.putExtra("nome", place.name)
-                        intent.putExtra("precoMeiaHora", place.prcMeiaHora)
-                        intent.putExtra("precoUmaHora", place.prcUmaHora)
-                        intent.putExtra("precoDuasHoras", place.prcUmaHora)
-                        intent.putExtra("precoQuatroHoras", place.prcQuatroHora)
-                        intent.putExtra("promocao", place.promocao)
-                        // Inicia a atividade de aluguel de armário
-                        startActivity(intent)
-                    } else {
-                        showDialogTooFar() // Mostra um dialog informando que o local está muito longe
+                if (originLatLng != null) {
+                    try {
+                        val distance = calculateDistance(originLatLng, destinationLatLng)
+                        if (distance <= 1000) { // Verifica se o local está a menos de 1 km de distância
+                            // Cria uma Intent para iniciar a atividade de aluguel de armário
+                            val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
+                            // Adiciona os detalhes do local como extras na Intent
+                            intent.putExtra("nome", place.name)
+                            intent.putExtra("precoMeiaHora", place.prcMeiaHora)
+                            intent.putExtra("precoUmaHora", place.prcUmaHora)
+                            intent.putExtra("precoDuasHoras", place.prcUmaHora)
+                            intent.putExtra("precoQuatroHoras", place.prcQuatroHora)
+                            intent.putExtra("promocao", place.promocao)
+                            // Inicia a atividade de aluguel de armário
+                            startActivity(intent)
+                        } else {
+                            showDialogTooFar() // Mostra um dialog informando que o local está muito longe
+                        }
+                    } catch (e: Exception) {
+                        Log.e("MapsActivity2", "Error getting directions: ${e.message}")
+                        showErrorToast("Erro ao traçar rota: ${e.message}")
                     }
-                } catch (e: Exception) {
-                    Log.e("MapsActivity2", "Error getting directions: ${e.message}")
-                    showErrorToast("Erro ao traçar rota: ${e.message}")
+                } else {
+                    showErrorToast("Localização atual não disponível")
                 }
             } else {
-                showErrorToast("Localização atual não disponível")
+                // Usuário não está logado, redireciona para LoginActivity
+                startActivity(Intent(this@MapsActivity2, LoginActivity::class.java))
             }
 
             dialog.dismiss() // Fecha o dialog
@@ -286,6 +293,12 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         dialog.show() // Mostra o dialog na tela
     }
 
+    private fun isUserLoggedIn(): Boolean {
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val currentUser = firebaseAuth.currentUser
+
+        return currentUser != null // Retorna true se o usuário estiver logado
+    }
     // Mostra um dialog informando que o local está muito longe
     private fun showDialogTooFar() {
         val dialog = Dialog(this)
