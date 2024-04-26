@@ -143,7 +143,7 @@ class AddCardActivity : AppCompatActivity() {
         cardDate.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 val date = cardDate.editText.toString()
-                if (date.isNotEmpty() && !isValidMonthYear(date)) {
+                if (date.isNotEmpty()) {
                     cardDate.error = "Inválido"
                 } else {
                     cardDate.error = null
@@ -236,12 +236,6 @@ class AddCardActivity : AppCompatActivity() {
         }
 
         return true
-    }
-
-    // Função para verificar se a data está no formato MM/AAAA
-    private fun isValidMonthYear(dateString: String): Boolean {
-        val regex = Regex("""^\d{2}/\d{4}$""")
-        return regex.matches(dateString)
     }
 
     // Voltar para gerenciar cartoes

@@ -47,7 +47,7 @@ class CardsActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    @SuppressLint("SuspiciousIndentation")
+
     private fun verificarCartaoCredito() {
         userId?.let { userId ->
             val docRef = db.collection("pessoas").document(userId)
