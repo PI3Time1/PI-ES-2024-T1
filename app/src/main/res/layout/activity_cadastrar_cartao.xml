@@ -28,11 +28,6 @@
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:gravity="center_vertical">
 
-
-
-
-
-
             <Button
                 android:id="@+id/buttonBack"
                 android:layout_width="wrap_content"
@@ -161,7 +156,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            app:boxStrokeColor="@color/green_008" />
+                            app:boxStrokeColor="@color/green_008"
+                            android:maxLength="16"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -186,12 +182,14 @@
                         app:boxCornerRadiusTopStart="8dp"
                         android:hint="@string/cardDate"
                         app:boxStrokeColor="@color/black"
+                        app:boxStrokeErrorColor="@color/danger"
+                        app:cursorErrorColor="@color/danger"
                         android:textColorHint="@color/green_008"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextDataValidade"
                             android:layout_width="match_parent"
-                            android:maxLength="4"
+                            android:maxLength="5"
                             android:layout_height="wrap_content"
                             android:inputType="date"
 
@@ -220,7 +218,8 @@
                             android:id="@+id/editTextCVV"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="number"/>
+                            android:inputType="number"
+                            android:maxLength="3"/>
                     </com.google.android.material.textfield.TextInputLayout>
                     <!-- FECHA DATA DE VALIDADE E CVV -->
                 </LinearLayout>

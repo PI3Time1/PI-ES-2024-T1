@@ -118,6 +118,7 @@ class RegisterActivity : AppCompatActivity() {
         val passwordLayout: TextInputLayout = findViewById(R.id.etPassword)
         val CPFLayout: TextInputLayout = findViewById(R.id.etCPF)
         val phoneLayout: TextInputLayout = findViewById(R.id.etPhone)
+        val dateLayout: TextInputLayout = findViewById(R.id.etAge)
 
         eTextEmail.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -159,6 +160,17 @@ class RegisterActivity : AppCompatActivity() {
                     phoneLayout.error = "O telefone deve ter 11 caracteres"
                 } else {
                     phoneLayout.error = null
+                }
+            }
+        }
+
+        eTextAge.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                val date = eTextAge.text.toString()
+                if (date.isNotEmpty() && !isValidDate(date)) {
+                    dateLayout.error = "Formato de data inválido. Use DD/MM/AAAA"
+                } else {
+                    dateLayout.error = null
                 }
             }
         }
@@ -241,6 +253,12 @@ class RegisterActivity : AppCompatActivity() {
         // Verifica se o formato do e-mail é válido usando uma expressão regular
         val emailRegex = Regex("^\\S+@\\S+\\.\\S+\$")
         return emailRegex.matches(email)
+    }
+
+    // Função para verificar se a data está no formato DD/MM/AAAA
+    private fun isValidDate(dateString: String): Boolean {
+        val regex = Regex("""^\d{2}/\d{2}/\d{4}$""")
+        return regex.matches(dateString)
     }
 
     // Constante para TAG de registro
