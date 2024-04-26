@@ -191,8 +191,13 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextDataValidade"
                             android:layout_width="match_parent"
+                            android:maxLength="4"
                             android:layout_height="wrap_content"
-                            android:inputType="date"/>
+                            android:inputType="date"
+
+                            />
+
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!-- CVV -->
