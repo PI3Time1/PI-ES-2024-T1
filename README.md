@@ -1,7 +1,5 @@
 # Projeto Integrador 3 - Locação de Armários
 
-DOWNLOAD APP - 
-
 
 Este projeto é parte do componente curricular de Projeto Integrador 3 e tem como objetivo unir os conhecimentos adquiridos nos demais componentes curriculares do semestre, que abordam programação para dispositivos móveis, UI/UX e processos de Engenharia.
 
