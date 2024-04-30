@@ -19,6 +19,9 @@
         android:theme="@style/Theme.Sentinellock"
         tools:targetApi="31">
         <activity
+            android:name=".QuantasPessoasActivity2"
+            android:exported="false" />
+        <activity
             android:name=".ScanQRCODEActivity2"
             android:exported="false" />
         <activity
