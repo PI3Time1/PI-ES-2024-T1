@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         buttonContWithoutRegistr.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, TelaArmarioActivity::class.java)
             startActivity(intent)
         }
 
@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             // Se o usuário estiver logado, redirecione-o para a nova tela
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, TelaArmarioActivity::class.java)
             startActivity(intent)
             finish()
             Log.d(TAG, "Logadoo!!")
@@ -83,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
                     updateUI(user)
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, TelaArmarioActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
