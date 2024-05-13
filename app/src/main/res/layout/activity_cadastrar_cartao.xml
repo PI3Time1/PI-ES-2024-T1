@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background2"
+    android:gravity="center"
+    tools:context=".AddCardActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:buttonGravity="center_vertical"
+            app:titleCentered="true"
+            app:title="MEU PERFIL"
+            app:titleTextColor="@color/white"
+            android:background="@color/gray_900"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"
+            android:gravity="center_vertical">
+
+
+
+
+
+
+            <Button
+                android:id="@+id/buttonBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/green_018"
+                android:text="@string/back"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/manageCards"
+                android:textAlignment="center"
+
+                android:textSize="30sp"
+                android:textColor="@color/white"
+
+
+
+                />
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- GERENCIAR CARTÕES -->
+
+
+    <!-- NOVO CARTÃO -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+
+       >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/newCard"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@drawable/ic_newcard"
+            android:drawableTint="@color/white"
+            android:drawablePadding="10dp" />
+
+        <!-- BOX INTEIRA -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="360dp"
+            android:layout_height="330dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/gray_white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- BOX VERDE -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    app:cardBackgroundColor="@color/green_3aa"
+                    app:cardCornerRadius="8dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/infoSafe"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="10dp"
+                        android:drawableLeft="@drawable/ic_shieldlock"
+                        android:drawableTint="@color/white"
+                        android:drawablePadding="10dp" />
+                </com.google.android.material.card.MaterialCardView>
+                <!-- centralizar: coloca width match parent e gravity center -->
+                <!-- DADOS DO CARTÃO -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:text="@string/cardInfo"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <!-- continuar aqui -->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etNumeroCartao"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"
+                        android:hint="@string/cardNumber"
+                        android:textColorHint="@color/green_008"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        app:boxStrokeColor="@color/black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextNumeroCartao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="16"
+                            android:inputType="number"
+                            app:boxStrokeColor="@color/green_008" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <!-- DATA DE VALIDADE E CVV -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <!-- DATA DE VALIDADE -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etDataValidade"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="230dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+                        android:hint="@string/cardDate"
+                        app:boxStrokeColor="@color/black"
+                        android:textColorHint="@color/green_008"
+                        android:layout_gravity="left">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextDataValidade"
+                            android:layout_width="match_parent"
+                            android:maxLength="5"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+
+                            />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- CVV -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etCVV"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="110dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:boxCornerRadiusBottomEnd="8dp"
+                        app:boxCornerRadiusBottomStart="8dp"
+                        app:boxCornerRadiusTopEnd="8dp"
+                        app:boxCornerRadiusTopStart="8dp"
+
+                        android:hint="@string/cardCVV"
+                        app:boxStrokeColor="@color/black"
+                        android:textColorHint="@color/green_008"
+                        android:layout_gravity="left">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextCVV"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLength="3"
+                            android:inputType="number"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <!-- FECHA DATA DE VALIDADE E CVV -->
+                </LinearLayout>
+
+                <!-- ABRE NOME DO TITULAR -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/etNomeCartao"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+
+                        app:endIconMode="clear_text"
+                        android:hint="@string/cardName"
+                        app:boxStrokeColor="@color/black"
+                        android:textColorHint="@color/green_008"
+                        android:layout_gravity="center">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextNomeCartao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:boxStrokeColor="@color/black"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- FECHA NOME DO TITULAR -->
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- BOTÃO ADICIONAR CARTÃO -->
+        <Button
+            android:id="@+id/buttonAddCard"
+            android:layout_width="wrap_content"
+            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:text="@string/addCard"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="70dp"
+            android:backgroundTint="@color/green_008" />
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
