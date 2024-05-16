@@ -47,6 +47,9 @@ class AlugarArmarioActivity : AppCompatActivity() {
     // ID do item selecionado no Navigation Bottom
     private var selectedItemId: Int = R.id.action_look
 
+    // Variável para armazenar o ID recebido da tela anterior
+    private var placeId: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alugar_armario2)
@@ -91,6 +94,9 @@ class AlugarArmarioActivity : AppCompatActivity() {
         // Exibir o nome do armário na TextView
         val textView: TextView = findViewById(R.id.textView)
         textView.text = nome
+
+        // Obter o ID do lugar passado da tela anterior
+        placeId = intent.getStringExtra("id") ?: ""
 
         // Configurar os botões de seleção de tempo
         val button1: Button = findViewById(R.id.button1)
@@ -154,10 +160,14 @@ class AlugarArmarioActivity : AppCompatActivity() {
         // Configurar o botão para confirmar a locação
         val button5: Button = findViewById(R.id.button5)
         button5.setOnClickListener {
-            // Verificar se o usuário possui cartões cadastrados
-            val userId = firebaseAuth.currentUser?.uid
-            userId?.let { uid ->
-                firestore.collection("pessoas").document(uid).get()
+            // Verificar se o usuário está autenticado
+            val user = firebaseAuth.currentUser
+            if (user != null) {
+                // Obter o ID do usuário logado
+                val userId = user.uid
+
+                // Verificar se o usuário possui cartões cadastrados
+                firestore.collection("pessoas").document(userId).get()
                     .addOnSuccessListener { document ->
                         val cartoes = document?.get("cartaoCredito") as? Map<*, *>
                         if (cartoes.isNullOrEmpty()) {
@@ -166,19 +176,31 @@ class AlugarArmarioActivity : AppCompatActivity() {
                         } else {
                             // Se houver cartões, prosseguir para a próxima tela
                             val intent = Intent(this, TelaQrcodeActivity::class.java)
+                            intent.putExtra(
+                                "id",
+                                placeId
+                            ) // Passa o ID do lugar para a próxima tela
+                            intent.putExtra(
+                                "userId",
+                                userId
+                            ) // Passa o ID do usuário para a próxima tela
                             intent.putExtra("preco", selectedPrice)
                             intent.putExtra("tempo", selectedTime)
                             startActivity(intent)
                         }
                     }
                     .addOnFailureListener { e ->
-                        showMessage("Você precisa cadastrar um cartão para continuar.")
+                        showMessage("Erro ao verificar cartão. Tente novamente mais tarde.")
                     }
+            } else {
+                // Se o usuário não estiver autenticado, solicitar login ou registro
+                showMessage("Você precisa estar logado para continuar.")
             }
         }
     }
 
-    // Método para exibir uma mensagem na tela
+
+        // Método para exibir uma mensagem na tela
     private fun showMessage(message: String) {
         // Criar um AlertDialog
         val alertDialogBuilder = AlertDialog.Builder(this)

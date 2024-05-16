@@ -201,13 +201,16 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
+                    val id = document.id // Obtém o id do documento
                     val place = document.toObject(Places::class.java)
+                    // Define o id do lugar
+                    place.id = id
                     // Adiciona um marcador no mapa com os detalhes do local
                     val marker = mMap?.addMarker(
                         MarkerOptions()
                             .title(place.name)
                             .snippet(place.address)
-                            .position(place.latLng.toLatLng()) // Converte GeoPoint para LatLng
+                            .position(place.latLng.toLatLng())
                             .icon(BitmapHelper.vectorToBitmap(this, R.drawable.maps_logo_vetor, ContextCompat.getColor(this, R.color.background)))
                     )
                     marker?.tag = place // Associa o objeto Places ao marcador
@@ -250,7 +253,6 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
             dialog.dismiss() // Fecha o dialog
         }
 
-
         // Configura o botão para alugar um armário no local
         alugaButton?.setOnClickListener {
             if (isUserLoggedIn()) {
@@ -264,6 +266,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
                             // Cria uma Intent para iniciar a atividade de aluguel de armário
                             val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
                             // Adiciona os detalhes do local como extras na Intent
+                            intent.putExtra("id", place.id) // Passa o ID para a próxima tela
                             intent.putExtra("nome", place.name)
                             intent.putExtra("precoMeiaHora", place.prcMeiaHora)
                             intent.putExtra("precoUmaHora", place.prcUmaHora)
@@ -388,8 +391,9 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 }
 
 data class Places(
+    var id: String = "", // Adiciona o campo id
     val name: String = "",
-    val latLng: GeoPoint = GeoPoint(0.0, 0.0), // Keep the type as GeoPoint
+    val latLng: GeoPoint = GeoPoint(0.0, 0.0),
     val address: String = "",
     val rating: Float = 0.0f,
     val prcMeiaHora: Int = 0,
