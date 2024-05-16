@@ -2,7 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="LoginActivity">
+      <entry key="AlugarArmarioActivity">
+        <State />
+      </entry>
+      <entry key="LerQrcodeActivity">
+        <State />
+      </entry>
+      <entry key="RegisterNFCActivity">
         <State />
       </entry>
       <entry key="app">
