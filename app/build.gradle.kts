@@ -1,3 +1,5 @@
+import android.databinding.tool.writer.ViewBinding
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -14,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "br.com.sentinellock"
-        minSdk = 34
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,6 +45,8 @@ android {
     }
     buildFeatures {
         compose = true
+        viewBinding = true
+
 
     }
     composeOptions {
@@ -71,6 +75,8 @@ dependencies {
     implementation ("androidx.fragment:fragment-ktx:1.6.2")
     implementation ("com.google.maps:google-maps-services:0.17.0")
     implementation ("com.google.code.gson:gson")
+    implementation ("com.google.zxing:core:3.4.1")
+    implementation ("com.journeyapps:zxing-android-embedded:4.2.0")
 
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
@@ -92,6 +98,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
     implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("com.google.android.gms:play-services-places:17.0.0")
     testImplementation("junit:junit:4.13.2")

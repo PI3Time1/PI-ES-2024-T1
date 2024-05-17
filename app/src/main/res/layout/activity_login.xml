@@ -27,7 +27,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textSize="28sp"
-        android:textColor="@color/green_500"
+        android:textColor="@color/buttom_green"
         android:layout_marginBottom="10dp"
         />
 
@@ -43,7 +43,7 @@
         app:boxCornerRadiusTopStart="8dp"
         app:startIconDrawable="@drawable/ic_email_outlined"
         app:startIconTint="@color/white"
-        app:boxStrokeColor="@color/green_500"
+        app:boxStrokeColor="@color/buttom_green"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
         android:textColorHint="@color/white"
@@ -73,7 +73,7 @@
         app:startIconTint="@color/white"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/white"
-        app:boxStrokeColor="@color/green_500"
+        app:boxStrokeColor="@color/buttom_green"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
         android:textColorHint="@color/white">
@@ -98,7 +98,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/recoveryPassword"
         android:textAllCaps="false"
-        android:textColor="@color/green_500"
+        android:textColor="@color/buttom_green"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />
@@ -110,7 +110,7 @@
         android:text="@string/signIn"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:backgroundTint="@color/green_500" />
+        android:backgroundTint="@color/buttom_green" />
 
     <Button
         android:id="@+id/buttonContWithoutRegistr"

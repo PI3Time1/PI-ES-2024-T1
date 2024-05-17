@@ -20,10 +20,32 @@
     <string name="buttonLeftBackSignInDescription">Voltar para login</string>
     <string name="AlreadyHaveALogin">Já possuí cadastro?</string>
     <string name="SignIn">faça login</string>
+    <string name="ManageCard">Gerenciar Cartões</string>
+    <string name="CPF">CPF</string>
+    <string name="Name">Nome</string>
+    <string name="MYProfile">MEU PERFIL</string>
+    <string name="Back">VOLTAR</string>
+    <string name="LoginToAcessAccount">Faça Login para acessar sua conta</string>
+    <string name="IfAccountLogin">Se já possui uma conta clique em Entrar</string>
+    <string name="Or">ou</string>
+
     <string name="sendRecoveryPassword">Enviar</string>
     <string name="titleRecoveryPassword">Recuperar senha</string>
     <string name="subtitleRecoveryPassword">Insira seu e-mail abaixo</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="rating">Avaliação:</string>
     <string name="google_maps_key">AIzaSyCUAuNZp-aWNZ3jugBZFm3r98mkNtn5cz4</string>
+    <string name="myCards">Meus Cartões</string>
+    <string name="manageCards">Gerenciar Cartões</string>
+    <string name="addCard">Adicionar novo cartão</string>
+    <string name="back">Voltar</string>
+    <string name="newCard">Novo cartão</string>
+    <string name="infoSafe">Suas informações estão protegidas</string>
+    <string name="cardInfo">Dados do cartão</string>
+    <string name="cardNumber">Número do cartão</string>
+    <string name="cardDate">Data de validade (MM/AA)</string>
+    <string name="cardCVV">CVV</string>
+    <string name="cardName">Nome no cartão</string>
+    <string name="titular">Titular</string>
+    <string name="numCartao">N* cartão</string>
 </resources>
