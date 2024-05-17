@@ -97,7 +97,7 @@ class RegisterActivity : AppCompatActivity() {
                     try {
                         val result = registerClient(client)
                         // Exibe uma mensagem de sucesso após o registro
-                        showAlert("Registro bem-sucedido: $result")
+                        showAlert("Registro bem-sucedido: $result Verifique seu email!")
                     } catch (e: Exception) {
                         // Trata qualquer exceção ocorrida durante o registro
                         Log.e(TAG, "Erro durante o registro: ${e.message}")
@@ -214,7 +214,7 @@ class RegisterActivity : AppCompatActivity() {
         builder.setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
                 // Se o registro for bem-sucedido, navega de volta para a atividade de login
-                if(message == "Registro bem-sucedido: Cadastro realizado com sucesso!"){
+                if(message == "Registro bem-sucedido:Verifique seu Email"){
                     navigateToLoginActivity()
                 }
                 dialog.dismiss()
