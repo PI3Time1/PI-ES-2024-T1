@@ -8,6 +8,7 @@ import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -222,6 +223,8 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
     }
 
     // Mostra um dialog com detalhes do local ao clicar no marcador
+    // Mostra um dialog com detalhes do local ao clicar no marcador
+// Mostra um dialog com detalhes do local ao clicar no marcador
     private fun showBottomDialog(place: Places) {
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(R.layout.bottom_sheet_dialog)
@@ -234,50 +237,15 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         placeNameTextView?.text = place.name
         placeAddressTextView?.text = place.address
 
-        // Configura o botão para traçar rota até o local
-        routeButton?.setOnClickListener {
-            val originLatLng = currentLocationMarker?.position
-            val destinationLatLng = place.latLng.toLatLng()
 
-            if (originLatLng != null) {
-                try {
-                    getDirections(originLatLng, destinationLatLng) // Obtém e exibe as direções para o local
-                } catch (e: Exception) {
-                    Log.e("MapsActivity2", "Error getting directions: ${e.message}")
-                    showErrorToast("Erro ao traçar rota: ${e.message}")
-                }
-            } else {
-                showErrorToast("Localização atual não disponível")
-            }
-
-            dialog.dismiss() // Fecha o dialog
-        }
-
-        // Configura o botão para alugar um armário no local
-        alugaButton?.setOnClickListener {
-            if (isUserLoggedIn()) {
+            // Configura o botão para traçar rota até o local
+            routeButton?.setOnClickListener {
                 val originLatLng = currentLocationMarker?.position
                 val destinationLatLng = place.latLng.toLatLng()
 
                 if (originLatLng != null) {
                     try {
-                        val distance = calculateDistance(originLatLng, destinationLatLng)
-                        if (distance <= 1000) { // Verifica se o local está a menos de 1 km de distância
-                            // Cria uma Intent para iniciar a atividade de aluguel de armário
-                            val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
-                            // Adiciona os detalhes do local como extras na Intent
-                            intent.putExtra("id", place.id) // Passa o ID para a próxima tela
-                            intent.putExtra("nome", place.name)
-                            intent.putExtra("precoMeiaHora", place.prcMeiaHora)
-                            intent.putExtra("precoUmaHora", place.prcUmaHora)
-                            intent.putExtra("precoDuasHoras", place.prcUmaHora)
-                            intent.putExtra("precoQuatroHoras", place.prcQuatroHora)
-                            intent.putExtra("promocao", place.promocao)
-                            // Inicia a atividade de aluguel de armário
-                            startActivity(intent)
-                        } else {
-                            showDialogTooFar() // Mostra um dialog informando que o local está muito longe
-                        }
+                        getDirections(originLatLng, destinationLatLng) // Obtém e exibe as direções para o local
                     } catch (e: Exception) {
                         Log.e("MapsActivity2", "Error getting directions: ${e.message}")
                         showErrorToast("Erro ao traçar rota: ${e.message}")
@@ -285,13 +253,50 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
                 } else {
                     showErrorToast("Localização atual não disponível")
                 }
-            } else {
-                // Usuário não está logado, redireciona para LoginActivity
-                startActivity(Intent(this@MapsActivity2, LoginActivity::class.java))
+
+                dialog.dismiss() // Fecha o dialog
             }
 
-            dialog.dismiss() // Fecha o dialog
-        }
+            // Configura o botão para alugar um armário no local
+            alugaButton?.setOnClickListener {
+                if (isUserLoggedIn()) {
+                    val originLatLng = currentLocationMarker?.position
+                    val destinationLatLng = place.latLng.toLatLng()
+
+                    if (originLatLng != null) {
+                        try {
+                            val distance = calculateDistance(originLatLng, destinationLatLng)
+                            if (distance <= 1000) { // Verifica se o local está a menos de 1 km de distância
+                                // Cria uma Intent para iniciar a atividade de aluguel de armário
+                                val intent = Intent(this@MapsActivity2, AlugarArmarioActivity::class.java)
+                                // Adiciona os detalhes do local como extras na Intent
+                                intent.putExtra("id", place.id) // Passa o ID para a próxima tela
+                                intent.putExtra("nome", place.name)
+                                intent.putExtra("precoMeiaHora", place.prcMeiaHora)
+                                intent.putExtra("precoUmaHora", place.prcUmaHora)
+                                intent.putExtra("precoDuasHoras", place.prcuasHora)
+                                intent.putExtra("precoQuatroHoras", place.prcQuatroHora)
+                                intent.putExtra("promocao", place.promocao)
+                                // Inicia a atividade de aluguel de armário
+                                startActivity(intent)
+                            } else {
+                                showDialogTooFar() // Mostra um dialog informando que o local está muito longe
+                            }
+                        } catch (e: Exception) {
+                            Log.e("MapsActivity2", "Error getting directions: ${e.message}")
+                            showErrorToast("Erro ao traçar rota: ${e.message}")
+                        }
+                    } else {
+                        showErrorToast("Localização atual não disponível")
+                    }
+                } else {
+                    // Usuário não está logado, redireciona para LoginActivity
+                    startActivity(Intent(this@MapsActivity2, LoginActivity::class.java))
+                }
+
+                dialog.dismiss() // Fecha o dialog
+            }
+
 
         dialog.show() // Mostra o dialog na tela
     }
@@ -400,7 +405,8 @@ data class Places(
     val prcUmaHora: Int = 0,
     val prcuasHora: Int = 0,
     val prcQuatroHora: Int = 0,
-    val promocao: Int = 0
+    val promocao: Int = 0,
+    val status: Boolean = false // Adicionado o campo status
 )
 
 fun GeoPoint.toLatLng(): LatLng {
