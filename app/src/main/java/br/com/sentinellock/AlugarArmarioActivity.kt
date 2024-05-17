@@ -72,6 +72,10 @@ class AlugarArmarioActivity : AppCompatActivity() {
                     startActivity(Intent(this, MapsActivity2::class.java))
                     true
                 }
+                R.id.action_profile -> {
+                    startActivity(Intent(this, ProfileActivity::class.java))
+                    true
+                }
                 else -> false
             }
         }
@@ -155,7 +159,7 @@ class AlugarArmarioActivity : AppCompatActivity() {
             userId?.let { uid ->
                 firestore.collection("pessoas").document(uid).get()
                     .addOnSuccessListener { document ->
-                        val cartoes = document?.get("cartoes") as? Map<*, *>
+                        val cartoes = document?.get("cartaoCredito") as? Map<*, *>
                         if (cartoes.isNullOrEmpty()) {
                             // Se não houver cartões, exibir mensagem
                             showMessage("Você precisa cadastrar um cartão para continuar.")
