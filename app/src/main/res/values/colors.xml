@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background">#2F2F2F</color>
+    <color name="background">#414141</color>
+    <color name="danger">#FF0000</color>
     <color name="gray_200">#b5b8b2</color>
     <color name="gray_700">#899794</color>
+    <color name="gray_900">#2F2F2F</color>
     <color name="green_100">#64ae86</color>
+    <color name="green_600">#008A46</color>
+    <color name="green_138">#008A46</color>
     <color name="green_500">#3c815f</color>
     <color name="green_700">#476b5c</color>
     <color name="green_900">#165e3d</color>
     <color name="black">#1a2b22</color>
     <color name="white">#FFFFFFFF</color>
     <color name="buttom_green">#008A46</color>
+    <color name="blue">#3C5BFF</color>
+    <color name="cinza_janela">#5A5A5A</color>
+    <color name="red">#BB3333</color>
     <color name="background2">#414141</color>
     <color name="gray_white">#5A5A5A</color>
     <color name="green_3aa">#3AA74B</color>

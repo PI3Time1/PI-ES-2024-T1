@@ -1,133 +1,89 @@
 package br.com.sentinellock
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import com.google.android.material.textfield.TextInputLayout
+import androidx.appcompat.app.AppCompatActivity
+import br.com.sentinellock.RegisterActivity.Companion.TAG
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-
 class CardsActivity : AppCompatActivity() {
-    // Activity Cadastrar Novo Cartao para usuario atual
-
-    // Variaveis dos botoes voltar e adicionar novo cartao
     private lateinit var buttonBack: Button
+    private lateinit var nomeTitularView: TextView
+    private lateinit var finalCartaoView: TextView
     private lateinit var buttonWantAddCard: Button
+    private lateinit var cardCardView: MaterialCardView
 
-    // Variaveis de adicao de cartao
-    private lateinit var nomeTitularView: TextInputLayout
-    private lateinit var finalCartaoView: TextInputLayout
+    private val db = FirebaseFirestore.getInstance()
+    private val userId = FirebaseAuth.getInstance().currentUser?.uid
 
-    // Variavel de autenticacao
-    private lateinit var auth: FirebaseAuth
-    private lateinit var firestore: FirebaseFirestore
-
-    // Variaveis de dados
-    private lateinit var tvNomeTitular: TextView
-    private lateinit var tvFinalCartao: TextView
-
-
-    // Inicio onCreate
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gerenciar_cartoes)
 
-        // Inicialização das visualizacoes
-        initializeViews()
+        buttonBack = findViewById(R.id.buttonBack)
+        nomeTitularView = findViewById(R.id.nomeTitularView)
+        finalCartaoView = findViewById(R.id.finalCartaoView)
+        buttonWantAddCard = findViewById(R.id.buttonWantAddCard)
+        cardCardView = findViewById(R.id.cardCardView)
 
-        // Ouvintes de clique
-        setupClickListeners()
+        buttonBack.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+            finish()
+        }
 
-        // Verifica se usuario esta autenticado
-        auth = FirebaseAuth.getInstance()
-        firestore = FirebaseFirestore.getInstance()
+        // Verifica se há cartão de crédito cadastrado para o usuário atual
+        verificarCartaoCredito()
 
-        val currentUser = auth.currentUser
-        currentUser?.let { user ->
-            val userId = user.uid
+        // Configuração do botão para redirecionar para a AddCardActivity
+        buttonWantAddCard.setOnClickListener {
+            val intent = Intent(this, AddCardActivity::class.java)
+            startActivity(intent)
+        }
+    }
 
-            // Acessar o documento do usuário no Firestore ---- puxa direto de pessoas
-                firestore.collection("pessoas").document(userId)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document != null) {
-                            // Extrair dados do documento
-                            val nomeDoTitular = document.getString("nomeTitular")
-                            val numeroDoCartao = document.getString("numeroCartao")
-                            val ultimosDigitos = getUltimosDigitos(numeroDoCartao.toString())
-                            tvFinalCartao.text = ultimosDigitos
-                            // Exibir os dados nos TextViews
-                            nomeTitularView.editText?.setText(nomeDoTitular)
-                            finalCartaoView.editText?.setText(ultimosDigitos)
+    private fun verificarCartaoCredito() {
+        userId?.let { userId ->
+            val docRef = db.collection("pessoas").document(userId)
+            docRef.get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        val cartaoCredito = document.get("cartaoCredito") as? Map<*, *>
+                            if (cartaoCredito != null) {
+                                // Se o campo cartaoCredito for um mapa, tente extrair os dados
+                                val nomeTitular = cartaoCredito["nomeTitular"] as? String ?: ""
+                                val numeroCartao = cartaoCredito["numeroCartao"] as? String ?: ""
+
+                                // Mostrando apenas os últimos 4 dígitos do número do cartão
+                                val finalCartao = numeroCartao.takeLast(4)
+
+                                // Atualizando as views com as informações do cartão
+                                nomeTitularView.text = nomeTitular
+                                finalCartaoView.text = "*$finalCartao"
+
+                                // Mostra o cardCardView se houver um cartão de crédito cadastrado
+                                cardCardView.visibility = View.VISIBLE
+                            } else {
+                                // Se cartaoCredito não for um mapa válido, oculta o cardCardView
+                                cardCardView.visibility = View.GONE
+                            }
                         } else {
-                            // O documento não existe
-                            showToast("Nenhum cartão encontrado.")
+                            // Se o documento "pessoas" não existir para o usuário atual, oculta o cardCardView
+                            cardCardView.visibility = View.GONE
                         }
                     }
-                    .addOnFailureListener { exception ->
-                        showToast("Erro ao buscar cartões.")
-                    }
-            }
-
-    }
-
-    private fun initializeViews() {
-
-        // Botao voltar
-        buttonBack = findViewById(R.id.buttonBack)
-        // Botao adicionar novo cartao
-        buttonWantAddCard = findViewById(R.id.buttonWantAddCard)
-
-        // TextView do nome do titular e final do cartao
-        tvNomeTitular = findViewById(R.id.tvNomeTitular)
-        tvFinalCartao = findViewById(R.id.tvFinalCartao)
-    }
-
-    private fun setupClickListeners() {
-        // Ouvinte para voltar para meu perfil
-        buttonBack.setOnClickListener {
-            backToProfile()
+                        .addOnFailureListener { exception ->
+                            // Log de erro ao acessar o Firestore
+                            Log.e(TAG, "Erro ao acessar Firestore: ", exception)
+                            // Oculta o cardCardView em caso de falha
+                            cardCardView.visibility = View.GONE
+                        }
+                }
         }
-
-        // Ouvinte para ir pra tela de adicionar novo cartao
-        buttonWantAddCard.setOnClickListener {
-            goToAddCard()
-        }
-
-    }
-
-    // Voltar para perfil --> Substituir MapsActivity2 por ProfileActivity!
-    private fun backToProfile() {
-        val intent = Intent(this, MapsActivity2::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    // Ir pra adicionar novo cartao
-    private fun goToAddCard() {
-        val intent = Intent(this, AddCardActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
-    // Mensagem toast
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
-
-    // Funcao para obter apenas os ultimos 4 digitos do cartao para exibicao
-    fun getUltimosDigitos(numeroCartao: String): String {
-        return if (numeroCartao.length >= 4) {
-            numeroCartao.substring(numeroCartao.length - 4)
-        } else {
-            ""
-            // Retornar string vazia se for menos que 4 caracteres
-        }
-    }
 }
-

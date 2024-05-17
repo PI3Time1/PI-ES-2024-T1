@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import com.google.android.material.textfield.TextInputLayout
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
-import com.google.android.gms.tasks.Task
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.functions.FirebaseFunctions
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 // FUNCTIONS
 import com.google.firebase.functions.ktx.functions
@@ -63,10 +67,10 @@ class AddCardActivity : AppCompatActivity() {
         buttonAddCard = findViewById(R.id.buttonAddCard)
 
         // Obtem as informacoes digitadas pelo usuario
-        editTextNumeroCartao = findViewById(R.id.etNumeroCartao)
-        editTextDataValidade = findViewById(R.id.etDataValidade)
-        editTextCVV = findViewById(R.id.etCVV)
-        editTextNomeCartao = findViewById(R.id.etNomeCartao)
+        editTextNumeroCartao = findViewById(R.id.editTextNumeroCartao)
+        editTextDataValidade = findViewById(R.id.editTextDataValidade)
+        editTextCVV = findViewById(R.id.editTextCVV)
+        editTextNomeCartao = findViewById(R.id.editTextNomeCartao)
     }
 
     // OUVINTES
@@ -93,27 +97,25 @@ class AddCardActivity : AppCompatActivity() {
                         cvv = editTextCVV.text.toString(),
                     )
 
-                    // Adiciona o cartao com as informacoes obtidas acima
-                    registerCard(card, currentUser.uid)
-                        .addOnCompleteListener { task ->
-                            val e = task.exception
-                            if (e != null) {
-                                if (e.message == "UNKNOWN") {
-                                    // Exibe mensagem de sucesso
-                                    showToast("Cartão adicionado")
-                                } else {
-                                    // Exibe mensagem de erro
-                                    showToast("Erro ao adicionar cartão.")
-                                }
-                            }
+                    // Chama a função de registro em uma coroutine
+                    CoroutineScope(Dispatchers.Main).launch {
+                        try {
+                            val result = registerCard(card, currentUser.uid)
+                            // Exibe uma mensagem de sucesso após o registro
+                            showAlert(result)
+                        } catch (e: Exception) {
+                            // Trata qualquer exceção ocorrida durante o registro
+                            Log.e(TAG, "Erro durante o registro: ${e.message}")
+                            showAlert("${e.message}")
                         }
+                    }
                 } else {
                     // Mensagem de campos nao preenchidos
-                    showToast("Preencha todos os campos! Todos os campos são obrigatórios.")
+                    showAlert("Preencha todos os campos! Todos os campos são obrigatórios.")
                 }
             } else {
                 // Usuario nao esta autenticado!!
-                showToast("Usuário não autenticado! Por favor, faça login.")
+                showAlert("Usuário não autenticado! Por favor, faça login.")
             }
         }
     }
@@ -138,7 +140,6 @@ class AddCardActivity : AppCompatActivity() {
             }
         }
 
-        // TIRAR DATA -- DIA-MES-ANO ---> MES-ANO - codigo pronto mas nao upado
         cardDate.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 val date = cardDate.editText.toString()
@@ -175,30 +176,50 @@ class AddCardActivity : AppCompatActivity() {
         }
     }
 
-    // Adiciona o cartao no Firebase
-    private fun registerCard(card: Card, uid: String): Task<String> {
+    // Registra cartão no Firebase
+    private suspend fun registerCard(card: Card, uid: String): String {
+        // Monta os dados do cartão para enviar para a função no Firebase
         val data = hashMapOf(
-            "cardnumber" to card.numeroCartao,
-            "cardname" to card.nomeTitular,
-            "carddate" to card.dataExpiracao,
-            "cardcvv" to card.cvv,
+            "numeroCartao" to card.numeroCartao,
+            "nomeTitular" to card.nomeTitular,
+            "dataExpiracao" to card.dataExpiracao,
+            "cvv" to card.cvv,
             "uid" to uid
         )
 
-        // Envia como data para a funcao para cadastrar o cartao
-        return functions
+        // Chama a função de registro no Firebase Functions e aguarda a resposta
+        val result = functions
             .getHttpsCallable("funcCadastrarCartao")
             .call(data)
-            .continueWith { task ->
-                val result: String = task.result?.data as String
-                Log.d(TAG, result)
-                result
-            }
+            .await()
+
+        // Obtém os dados da resposta
+        val responseData = result.data
+
+        return if (responseData is String) {
+            // Retorna a resposta se for uma string
+            responseData
+        } else {
+            // Log de erro se a resposta não for uma string
+            Log.e(TAG, "Resposta inesperada do backend: $responseData")
+            "Erro ao processar resposta do servidor"
+        }
     }
 
-    // Mensagem toast
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    // Método para exibir o AlertDialog
+    private fun showAlert(message: String) {
+        // Cria um AlertDialog com a mensagem fornecida
+        val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
+        builder.setMessage(message)
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+        val alertDialog = builder.create()
+        alertDialog.show()
+
+        // Personaliza a cor do botão positivo
+        val positiveButton = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+        positiveButton.setTextColor(ContextCompat.getColor(this, R.color.green_500))
     }
 
     // Valida se todos os campos estao validos
