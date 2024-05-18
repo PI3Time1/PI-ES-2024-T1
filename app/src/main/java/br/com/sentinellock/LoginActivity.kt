@@ -3,15 +3,18 @@ package br.com.sentinellock
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
     // Declaração das variáveis necessárias
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     private lateinit var buttonLogin: Button
     private lateinit var buttonContWithoutRegistr: Button
@@ -29,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         // Inicialização dos componentes de interface do usuário e autenticação Firebase
         initializeViews()
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance() // Inicialização do Firestore
 
         // Configuração dos listeners de clique dos botões
         setupClickListeners()
@@ -87,9 +91,35 @@ class LoginActivity : AppCompatActivity() {
     private fun checkCurrentUser() {
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            // Se o usuário já estiver logado, navega diretamente para a MapsActivity
-            navigateToAlugarArmarioActivity()
-            finish()
+            currentUser.let { user ->
+                val userId = user.uid
+
+                // Acessa o documento do usuário no Firestore
+                firestore.collection("pessoas").document(userId)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document.exists()) {
+                            // Extrai dados do documento
+                            val isAdm = document.getBoolean("isAdm") ?: false
+                            if (isAdm) {
+                                // O usuário é administrador
+                                Log.d("checkCurrentUser", "Usuário é administrador.")
+//                                navigateToRegisterActivity()
+//                                finish()
+                            } else {
+                                // O usuário não é administrador
+                                Log.d("checkCurrentUser", "Usuário não é administrador.")
+                                navigateToAlugarArmarioActivity()
+                                finish()
+                            }
+                        } else {
+                            // O documento não existe
+                            showAlert("Usuário não encontrado.")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                    }
+            }
         }
     }
 
@@ -99,18 +129,44 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    if (user != null && !user.isEmailVerified) {
-                        // Se o e-mail não estiver verificado, exibe uma mensagem
-                        showAlert("Por favor, verifique seu e-mail antes de fazer login.")
-                        auth.signOut()
-                    } else {
-                        // Se o login for bem-sucedido, navega para a MapsActivity
-                        navigateToAlugarArmarioActivity()
-                        finish()
+                    if (user != null) {
+                        // Acessa o documento do usuário no Firestore para verificar se é administrador
+                        val userId = user.uid
+                        firestore.collection("pessoas").document(userId)
+                            .get()
+                            .addOnSuccessListener { document ->
+                                if (document.exists()) {
+                                    val isAdm = document.getBoolean("isAdm") ?: false
+                                    if (isAdm) {
+                                        // Se o login for bem-sucedido, e for um administrador então navega para a tela do gerente
+                                        Log.d(TAG, "Usuário é administrador.")
+                                        navigateToRegisterActivity()
+                                        finish()
+                                    } else {
+                                        // Se o usuário não for administrador, verifica se o e-mail está verificado
+                                        if (user.isEmailVerified) {
+                                            // Se o e-mail estiver verificado, navega para a AlugarArmarioActivity
+                                            navigateToAlugarArmarioActivity()
+                                            finish()
+                                        } else {
+                                            // Se o e-mail não estiver verificado, exibe uma mensagem
+                                            showAlert("Por favor, verifique seu e-mail antes de fazer login.")
+                                            auth.signOut()
+                                        }
+                                    }
+                                } else {
+                                    // Documento não encontrado
+                                    showAlert("Documento do usuário não encontrado.")
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                // Lida com falhas ao acessar o Firestore
+                                showAlert("Erro ao acessar o Firestore: ${exception.message}")
+                            }
                     }
                 } else {
                     // Se o login falhar, exibe uma mensagem de erro
-                    showLoginError()
+                    showAlert("Erro ao fazer login: ${task.exception?.message}")
                 }
             }
     }
