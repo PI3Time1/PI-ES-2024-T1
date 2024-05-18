@@ -212,6 +212,9 @@ class AddCardActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
         builder.setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
+                if(message.contains("Cartão de crédito cadastrado com sucesso")){
+                    backToManageCards()
+                }
                 dialog.dismiss()
             }
         val alertDialog = builder.create()

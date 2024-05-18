@@ -89,15 +89,15 @@ class RegisterActivity : AppCompatActivity() {
                     senha = eTextPassword.text.toString(),
                     cpf = eTextCPF.text.toString(),
                     telefone = eTextPhone.text.toString(),
-                    dataNascimento = eTextAge.text.toString()
+                    dataNascimento = eTextAge.text.toString(),
                 )
 
                 // Chama a função de registro em uma coroutine
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        val result = registerClient(client)
+                        val result: String = registerClient(client)
                         // Exibe uma mensagem de sucesso após o registro
-                        showAlert("Registro bem-sucedido: $result Verifique seu email!")
+                        showAlert(result)
                     } catch (e: Exception) {
                         // Trata qualquer exceção ocorrida durante o registro
                         Log.e(TAG, "Erro durante o registro: ${e.message}")
@@ -214,7 +214,7 @@ class RegisterActivity : AppCompatActivity() {
         builder.setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
                 // Se o registro for bem-sucedido, navega de volta para a atividade de login
-                if(message == "Registro bem-sucedido:Verifique seu Email"){
+                if(message.contains("Cadastro realizado com sucesso! Verifique seu email")){
                     navigateToLoginActivity()
                 }
                 dialog.dismiss()
@@ -274,5 +274,5 @@ data class Client(
     val senha: String,
     val cpf: String,
     val telefone: String,
-    val dataNascimento: String
+    val dataNascimento: String,
 )
