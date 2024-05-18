@@ -71,26 +71,38 @@ class RegisterActivity : AppCompatActivity() {
         // Adiciona TextWatcher para inserir as barras automaticamente no campo de data nascimento
         eTextAge.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
-            private val old = ""
+            private var oldText = ""
 
             override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                oldText = charSequence.toString()
             }
 
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(editable: Editable?) {
                 if (isUpdating) {
                     return
                 }
 
-                val length = editable?.length ?: 0
+                val newText = editable.toString()
+                val length = newText.length
 
-                if (length == 2 || length == 5) {
-                    isUpdating = true
-                    editable?.append("/")
-                    isUpdating = false
+                isUpdating = true
+
+                // Detects if the user is deleting
+                if (oldText.length > newText.length) {
+                    // When deleting, just remove the slashes if they exist
+                    if (newText.endsWith("/") || newText.endsWith("//")) {
+                        editable?.delete(length - 1, length)
+                    }
+                } else {
+                    // When adding, insert slashes at the correct positions
+                    if (length == 2 || length == 5) {
+                        editable?.append("/")
+                    }
                 }
+
+                isUpdating = false
             }
         })
     }

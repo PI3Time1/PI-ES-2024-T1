@@ -59,14 +59,14 @@
         app:endIconMode="clear_text"
         app:endIconTint="@color/white"
         android:hint="@string/nameLabelRegister"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/white"
         android:layout_gravity="center">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:boxStrokeColor="@color/green_900"
+            app:boxStrokeColor="@color/tapBar"
             android:inputType="text"
             android:textColor="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -87,7 +87,7 @@
         android:paddingBottom="16dp"
         android:layout_margin="4dp"
         android:hint="@string/emailLabelRegister"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/white"
         android:layout_gravity="center">
         <com.google.android.material.textfield.TextInputEditText
@@ -147,7 +147,7 @@
         app:boxCornerRadiusTopStart="8dp"
         android:paddingBottom="16dp"
         android:hint="@string/dateLabelRegister"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/white"
         android:layout_gravity="center">
         <com.google.android.material.textfield.TextInputEditText
@@ -155,6 +155,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
+            android:maxLength="10"
             android:textColor="@color/white"/>
     </com.google.android.material.textfield.TextInputLayout>
 

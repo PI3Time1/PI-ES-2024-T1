@@ -43,7 +43,7 @@
         app:boxCornerRadiusTopStart="8dp"
         app:startIconDrawable="@drawable/ic_email_outlined"
         app:startIconTint="@color/white"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
         android:textColorHint="@color/white"
@@ -73,7 +73,7 @@
         app:startIconTint="@color/white"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/white"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
         android:textColorHint="@color/white">

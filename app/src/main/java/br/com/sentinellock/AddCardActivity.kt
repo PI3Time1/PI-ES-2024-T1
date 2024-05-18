@@ -77,8 +77,11 @@ class AddCardActivity : AppCompatActivity() {
         // Adiciona TextWatcher para inserir a barra automaticamente na data de validade
         editTextDataValidade.addTextChangedListener(object : TextWatcher {
             private var isUpdating = false
+            private var oldText = ""
 
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                oldText = charSequence.toString()
+            }
 
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
 
@@ -87,13 +90,25 @@ class AddCardActivity : AppCompatActivity() {
                     return
                 }
 
-                val length = editable?.length ?: 0
+                val newText = editable.toString()
+                val length = newText.length
 
-                if (length == 2) {
-                    isUpdating = true
-                    editable?.append("/")
-                    isUpdating = false
+                isUpdating = true
+
+                // Detects if the user is deleting
+                if (oldText.length > newText.length) {
+                    // When deleting, just remove the slash if it exists
+                    if (newText.endsWith("/")) {
+                        editable?.delete(length - 1, length)
+                    }
+                } else {
+                    // When adding, insert a slash at the correct position
+                    if (length == 2 && !newText.contains("/")) {
+                        editable?.append("/")
+                    }
                 }
+
+                isUpdating = false
             }
         })
     }
