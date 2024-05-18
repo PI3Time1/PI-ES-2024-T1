@@ -2,69 +2,81 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp">
+    android:padding="20dp"
+    android:background="@color/background"
+    android:gravity="center_horizontal">
 
-    <ImageView
-        android:id="@+id/placeImageView"
-        android:layout_width="135dp"
-        android:layout_height="135dp"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:id="@+id/placeNameTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/placeImageView"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_toStartOf="@id/alugaButton"
-        android:layout_toEndOf="@id/placeImageView"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/placeAddressTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_below="@id/placeNameTextView"
-        android:layout_toEndOf="@id/placeImageView"
-        android:layout_toStartOf="@id/alugaButton"/>
-
+    <!-- Contêiner para a imagem e os TextViews -->
     <LinearLayout
-        android:layout_width="404dp"
-        android:layout_height="47dp"
-        android:layout_below="@id/placeAddressTextView"
-        android:layout_alignStart="@id/placeAddressTextView"
-        android:layout_alignEnd="@id/placeAddressTextView"
-        android:layout_marginStart="-70dp"
-        android:layout_marginTop="121dp"
-        android:layout_marginEnd="1dp"
-        android:orientation="horizontal">
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingVertical="15dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_background">
 
-        <Button
-            android:id="@+id/routeButton"
+        <ImageView
+            android:id="@+id/imagem"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/logo_sentinel_lock" /> <!-- Substitua com o recurso de imagem desejado -->
+
+        <TextView
+            android:id="@+id/placeNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="18dp"
-            android:textSize="18dp"
-            android:padding="5dp"
+            android:textSize="25sp"
             android:textColor="@color/white"
-            android:backgroundTint="@color/buttom_green"
-            android:text="Iniciar rota" />
+            android:textStyle="bold"
+            android:text="Nome do Local" /> <!-- Texto de exemplo, ajuste conforme necessário -->
 
-        <Button
-            android:id="@+id/alugaButton"
+        <TextView
+            android:id="@+id/placeAddressTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18dp"
             android:textColor="@color/white"
-            android:backgroundTint="@color/buttom_green"
-            android:padding="5dp"
-            android:text="Alugar" />
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Endereço do Local" /> <!-- Texto de exemplo, ajuste conforme necessário -->
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/container"
+        android:paddingVertical="6dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"> <!-- Certifica que o LinearLayout também esteja centralizado -->
+
+            <Button
+                android:id="@+id/routeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:textSize="13dp"
+                android:paddingHorizontal="40dp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/buttom_green"
+                android:text="Iniciar rota" />
+
+            <Button
+                android:id="@+id/alugaButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:paddingHorizontal="60dp"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/buttom_green"
+                android:text="Alugar" />
+        </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
