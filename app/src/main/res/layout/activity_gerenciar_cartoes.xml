@@ -60,17 +60,17 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
         android:paddingVertical="40dp">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:drawableLeft="@drawable/ic_wallet"
-            android:drawablePadding="10dp"
-            android:drawableTint="@color/white"
+            android:layout_marginBottom="15dp"
+            android:layout_marginHorizontal="50dp"
             android:gravity="center"
+            android:drawableLeft="@drawable/ic_wallet"
+            android:drawableTint="@color/white"
+            android:textAlignment="center"
             android:text="@string/myCards"
             android:textColor="@color/white"
             android:textSize="25sp" />
@@ -78,22 +78,25 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardCardView"
             android:layout_width="360dp"
-            android:layout_height="110dp"
-
-
-            app:cardCornerRadius="16dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="50dp"
+            android:paddingBottom="60dp"
+            app:cardCornerRadius="5dp"
             app:cardBackgroundColor="@color/gray_white">
 
             <LinearLayout
                 android:layout_width="360dp"
+                android:paddingTop="10dp"
+                android:paddingHorizontal="10dp"
+                android:paddingBottom="16dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="50dp"
                     app:cardBackgroundColor="@color/green_3aa"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="2dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -112,69 +115,86 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:layout_marginTop="6dp"
+                    android:paddingHorizontal="10dp"
+                    android:gravity="center">
 
-                    <TextView
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginStart="25dp"
-                        android:gravity="left"
-                        android:text="@string/titular"
-                        android:textColor="@color/green_3aa"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="14dp"
-                        android:layout_marginStart="200dp"
-                        android:layout_marginTop="5dp"
-                        android:gravity="left"
-                        android:text="@string/numCartao"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="25dp"
+                        android:text="Titular:"
                         android:textColor="@color/green_3aa"
-                        android:textSize="13sp"
-                        android:textStyle="bold" />
+                        android:textSize="13dp"
+                        android:layout_weight="1"
+                        android:gravity="start" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="1dp"
+                        android:text="N°Cartão:"
+                        android:textColor="@color/green_3aa"
+                        android:textSize="13dp"
+                        android:layout_weight="1"
+                        android:gravity="end" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    >
+                    android:paddingHorizontal="10dp"
+                    android:gravity="center">
 
                     <TextView
                         android:id="@+id/nomeTitularView"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="1dp"
-                        android:layout_marginStart="25dp"
-                        android:gravity="left"
+                        android:layout_marginEnd="25dp"
                         android:text="Fulano da Silva"
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:gravity="start" />
+
                     <TextView
                         android:id="@+id/finalCartaoView"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:layout_marginTop="1dp"
-                        android:layout_marginStart="132dp"
-                        android:gravity="right"
                         android:text="*9999"
-
                         android:textColor="@color/white"
                         android:textSize="16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:gravity="end" />
+
+
+
                 </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/green_3aa"
+                    android:layout_marginBottom="10dp"/>
+
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <Button
             android:id="@+id/buttonWantAddCard"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
             android:layout_height="wrap_content"
             android:padding="15dp"
             android:text="@string/addCard"
