@@ -1,6 +1,8 @@
 package br.com.sentinellock
 
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -71,6 +73,29 @@ class AddCardActivity : AppCompatActivity() {
         editTextDataValidade = findViewById(R.id.editTextDataValidade)
         editTextCVV = findViewById(R.id.editTextCVV)
         editTextNomeCartao = findViewById(R.id.editTextNomeCartao)
+
+        // Adiciona TextWatcher para inserir a barra automaticamente na data de validade
+        editTextDataValidade.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(editable: Editable?) {
+                if (isUpdating) {
+                    return
+                }
+
+                val length = editable?.length ?: 0
+
+                if (length == 2) {
+                    isUpdating = true
+                    editable?.append("/")
+                    isUpdating = false
+                }
+            }
+        })
     }
 
     // OUVINTES

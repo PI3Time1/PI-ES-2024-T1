@@ -33,7 +33,7 @@
         android:layout_marginTop="16dp"
         android:textStyle="bold"
         android:text="@string/titleRegister"
-        android:textColor="@color/buttom_green"
+        android:textColor="@color/tapBar"
         />
 
     <TextView
@@ -44,7 +44,7 @@
         android:layout_marginBottom="16dp"
         android:textStyle="normal"
         android:text="@string/subtitleRegister"
-        android:textColor="@color/buttom_green"
+        android:textColor="@color/tapBar"
         />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -116,9 +116,9 @@
         app:counterEnabled="true"
         app:passwordToggleEnabled="true"
         android:hint="@string/passwordLabelRegister"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/white"
-        app:counterTextColor="@color/buttom_green"
+        app:counterTextColor="@color/tapBar"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
         android:layout_gravity="center">
@@ -175,9 +175,9 @@
         android:layout_margin="4dp"
         app:counterEnabled="true"
         android:hint="@string/documentLabelRegister"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/white"
-        app:counterTextColor="@color/buttom_green"
+        app:counterTextColor="@color/tapBar"
         android:layout_gravity="center">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eTextCPF"
@@ -206,9 +206,9 @@
         android:layout_gravity="center"
         app:counterEnabled="true"
         android:hint="@string/phoneLabelRegister"
-        app:boxStrokeColor="@color/buttom_green"
+        app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/white"
-        app:counterTextColor="@color/buttom_green">
+        app:counterTextColor="@color/tapBar">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eTextPhone"
             android:layout_width="match_parent"
@@ -227,7 +227,7 @@
         android:textColorHint="@color/white"
         android:textStyle="bold"
         android:text="@string/registerAccount"
-        android:backgroundTint="@color/buttom_green"
+        android:backgroundTint="@color/tapBar"
         />
 
     <TextView

@@ -27,7 +27,7 @@
         android:textStyle="bold"
         android:gravity="center"
         android:textSize="28sp"
-        android:textColor="@color/buttom_green"
+        android:textColor="@color/tapBar"
         android:layout_marginBottom="10dp"
         />
 
@@ -98,7 +98,7 @@
         android:layout_marginBottom="8dp"
         android:text="@string/recoveryPassword"
         android:textAllCaps="false"
-        android:textColor="@color/buttom_green"
+        android:textColor="@color/tapBar"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />
@@ -110,7 +110,7 @@
         android:text="@string/signIn"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:backgroundTint="@color/buttom_green" />
+        android:backgroundTint="@color/tapBar" />
 
     <Button
         android:id="@+id/buttonContWithoutRegistr"

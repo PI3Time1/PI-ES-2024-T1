@@ -15,7 +15,6 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
 
-
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
@@ -27,11 +26,6 @@
             android:background="@color/gray_900"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:gravity="center_vertical">
-
-
-
-
-
 
             <Button
                 android:id="@+id/buttonBack"
@@ -52,19 +46,13 @@
 
                 android:textSize="30sp"
                 android:textColor="@color/white"
-
-
-
                 />
 
-
         </com.google.android.material.appbar.MaterialToolbar>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- GERENCIAR CARTÕES -->
-
 
     <!-- NOVO CARTÃO -->
     <LinearLayout

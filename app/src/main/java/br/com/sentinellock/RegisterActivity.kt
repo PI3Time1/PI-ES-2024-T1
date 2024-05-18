@@ -1,6 +1,8 @@
 package br.com.sentinellock
 
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -65,6 +67,32 @@ class RegisterActivity : AppCompatActivity() {
         eTextAge = findViewById(R.id.eTextAge)
         eTextCPF = findViewById(R.id.eTextCPF)
         eTextPhone = findViewById(R.id.eTextPhone)
+
+        // Adiciona TextWatcher para inserir as barras automaticamente no campo de data nascimento
+        eTextAge.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+            private val old = ""
+
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(editable: Editable?) {
+                if (isUpdating) {
+                    return
+                }
+
+                val length = editable?.length ?: 0
+
+                if (length == 2 || length == 5) {
+                    isUpdating = true
+                    editable?.append("/")
+                    isUpdating = false
+                }
+            }
+        })
     }
 
     // Configura os ouvintes de clique
