@@ -118,7 +118,7 @@
         android:layout_marginTop="30dp"
         android:text="Confirmar Locação"
         android:textColor="@color/white"
-        android:backgroundTint="@color/buttom_green"
+        android:backgroundTint="@color/green_500"
         app:layout_constraintTop_toBottomOf="@id/buttonPromocao"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

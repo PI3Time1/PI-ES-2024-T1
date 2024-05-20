@@ -95,7 +95,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/green_3aa"
+                    app:cardBackgroundColor="@color/green_500"
                     app:cardCornerRadius="2dp">
 
                     <TextView
@@ -201,7 +201,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginTop="80dp"
-            android:backgroundTint="@color/green_008" />
+            android:backgroundTint="@color/green_500" />
 
     </LinearLayout>
 
