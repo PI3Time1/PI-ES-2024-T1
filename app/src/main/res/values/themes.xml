@@ -17,4 +17,8 @@
     <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@color/background</item>
     </style>
+    <style name="Theme.Sentinellock.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/black</item>
+
+    </style>
 </resources>
