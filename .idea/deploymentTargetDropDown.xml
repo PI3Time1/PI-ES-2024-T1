@@ -9,6 +9,10 @@
         <State />
       </entry>
       <entry key="RegisterNFCActivity">
+      <entry key="CameraActivity">
+        <State />
+      </entry>
+      <entry key="QuantidadePessoas">
         <State />
       </entry>
       <entry key="app">
