@@ -7,11 +7,23 @@
     android:layout_height="match_parent"
     tools:context=".Camera">
 
+    <!-- Barra cinza -->
+    <View
+        android:id="@+id/greyBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/gray_200"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Preview da câmera -->
     <androidx.camera.view.PreviewView
         android:id="@+id/Camera"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/greyBar" />
 
+    <!-- Botão de tirar foto -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/botaoTirarFoto"
         android:layout_width="wrap_content"
@@ -21,7 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:backgroundTint="@color/green_138"
-        />
+        android:backgroundTint="@color/green_138" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
