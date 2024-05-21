@@ -1,5 +1,6 @@
 package br.com.sentinellock
 
+import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -7,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import br.com.sentinellock.databinding.ActivityQuantidadePessoasBinding
 import com.google.android.material.snackbar.Snackbar
 
-
 class QuantidadePessoas : AppCompatActivity() {
 
     private lateinit var binding: ActivityQuantidadePessoasBinding
+    private var quantidadePessoas = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,13 +20,13 @@ class QuantidadePessoas : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.botaoUmaPessoa.setOnClickListener{
-           cameraProviderResult.launch(android.Manifest.permission.CAMERA)
-
+            quantidadePessoas = 1
+            cameraProviderResult.launch(Manifest.permission.CAMERA)
         }
 
         binding.botaoDuasPessoas.setOnClickListener{
-            cameraProviderResult.launch(android.Manifest.permission.CAMERA)
-
+            quantidadePessoas = 2
+            cameraProviderResult.launch(Manifest.permission.CAMERA)
         }
 
 //        binding.buttonBack.setOnClickListener {
@@ -44,8 +45,9 @@ class QuantidadePessoas : AppCompatActivity() {
         }
 
     private fun abrirTelaCAMERA(){
-        val intentCameraPreview = Intent(this, Camera::class.java)
+        val intentCameraPreview = Intent(this, Camera::class.java).apply {
+            putExtra("QUANTIDADE_PESSOAS", quantidadePessoas)
+        }
         startActivity(intentCameraPreview)
     }
 }
-
