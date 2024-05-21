@@ -70,7 +70,7 @@ class Camera : AppCompatActivity() {
     private fun tirarfoto(){
         imageCapture?.let {
 
-            val fileName = "FOTO_JPEG_${System.currentTimeMillis()}"
+            val fileName = "FOTO_JPEG_${System.currentTimeMillis()}.jpeg"
             val file = File(externalMediaDirs[0], fileName)
 
             val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
