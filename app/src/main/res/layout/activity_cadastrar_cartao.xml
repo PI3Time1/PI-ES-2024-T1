@@ -203,7 +203,7 @@
 
                         android:hint="@string/cardCVV"
                         app:boxStrokeColor="@color/black"
-                        android:textColorHint="@color/green_008"
+                        android:textColorHint="@color/white"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextCVV"
