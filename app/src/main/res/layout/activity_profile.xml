@@ -30,7 +30,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/background"
+        android:background="@color/gray_200"
         android:paddingHorizontal="44dp"
         tools:context=".ProfileActivity"
         android:layout_gravity="center_vertical">

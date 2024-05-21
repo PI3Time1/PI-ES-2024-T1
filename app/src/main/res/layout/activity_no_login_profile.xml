@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/background"
+        android:background="@color/gray_200"
         android:paddingHorizontal="24dp"
         android:paddingVertical="14dp"
         tools:context=".ProfileActivity"
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:text="@string/IfAccountLogin"
             android:textSize="25sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/green_500"
             android:layout_marginTop="-10dp" />
 
         <!-- Botão de login -->
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="@string/Or"
             android:textSize="25sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/green_500"
             android:layout_marginTop="-20dp" />
 
         <!-- Botão de cadastro -->

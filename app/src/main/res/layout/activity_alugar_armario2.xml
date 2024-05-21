@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@color/gray_200"
     tools:context=".RegisterActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -68,8 +68,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="30 min                   R$30,00"
-            android:textColor="#000000"
-            android:backgroundTint="#FFFFFF"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green_500"
             android:textSize="18dp" />
 
         <Button
@@ -77,8 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="1 hora                   R$50,00"
-            android:textColor="#000000"
-            android:backgroundTint="#FFFFFF"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green_500"
             android:textSize="18dp"  />
 
         <Button
@@ -86,8 +86,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="2 horas               R$100,00"
-            android:textColor="#000000"
-            android:backgroundTint="#FFFFFF"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green_500"
             android:textSize="18dp"  />
 
         <Button
@@ -95,8 +95,8 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="4 horas               R$150,00"
-            android:textColor="#000000"
-            android:backgroundTint="#FFFFFF"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/green_500"
             android:textSize="18dp"  />
     </LinearLayout>
 
