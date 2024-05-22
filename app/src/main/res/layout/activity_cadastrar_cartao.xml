@@ -170,7 +170,7 @@
                         android:layout_margin="4dp"
                         app:cardCornerRadius="5dp"
                         android:hint="@string/cardDate"
-                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeColor="@color/white"
                         android:textColorHint="@color/white"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
@@ -189,13 +189,13 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/etCVV"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="110dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
                         app:cardCornerRadius="5dp"
 
                         android:hint="@string/cardCVV"
-                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeColor="@color/white"
                         android:textColorHint="@color/white"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
@@ -223,7 +223,7 @@
 
                         app:endIconMode="clear_text"
                         android:hint="@string/cardName"
-                        app:boxStrokeColor="@color/black"
+                        app:boxStrokeColor="@color/white"
                         android:textColorHint="@color/white"
                         android:layout_gravity="center">
                         <com.google.android.material.textfield.TextInputEditText

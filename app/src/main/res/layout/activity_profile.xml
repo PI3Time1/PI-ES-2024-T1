@@ -61,13 +61,13 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
             android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
 
             />
         <TextView
@@ -121,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
             />
         <TextView
             android:layout_width="match_parent"
