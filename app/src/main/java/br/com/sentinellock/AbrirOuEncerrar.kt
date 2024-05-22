@@ -24,7 +24,7 @@ class AbrirOuEncerrar : AppCompatActivity() {
         setContentView(R.layout.activity_abrir_ou_encerrar)
 
         buttonBack.setOnClickListener {
-            val intent = Intent(this,//TelaGerente::class.java)
+            val intent = Intent(this,ReadNFCActivity::class.java)
             startActivity(intent)
             finish()
         }
