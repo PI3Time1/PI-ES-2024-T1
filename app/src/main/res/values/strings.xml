@@ -48,4 +48,5 @@
     <string name="cardName">Nome no cartão</string>
     <string name="titular">Titular</string>
     <string name="numCartao">N* cartão</string>
+    <string name="messageSecureCard">Garantimos que os dados do seu cartão de crédito serão utilizados exclusivamente para agilizar suas compras no nosso aplicativo, proporcionando uma experiência mais rápida e segura.</string>
 </resources>
