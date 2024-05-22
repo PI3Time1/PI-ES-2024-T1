@@ -30,7 +30,13 @@
         android:theme="@style/Theme.Sentinellock"
         tools:targetApi="31">
         <activity
-            android:name=".MainAdminActivity"
+            android:name=".locacao_encerrada"
+            android:exported="false" />
+        <activity
+            android:name=".MenuGerente"
+            android:exported="false" />
+        <activity
+            android:name=".AbrirOuEncerrar"
             android:exported="false" />
         <activity
             android:name=".LerQrcodeActivity"
@@ -114,7 +120,7 @@
             android:exported="false" />
         <activity
             android:name=".AbrirOuEncerrar"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
