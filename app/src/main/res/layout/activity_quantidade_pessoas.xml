@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/gray_100"
     tools:context=".QuantidadePessoas">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -24,7 +24,7 @@
             android:id="@+id/buttonBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/green_018"
+            android:backgroundTint="@color/green_500"
             android:text="@string/back"
             android:textColor="@color/white"
             android:textSize="11sp"
@@ -38,7 +38,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:text="Quantas pessoas utilizarão o armário?"
-        android:textColor="@color/white"
+        android:textColor="@color/green_500"
         android:textSize="20sp"
         android:textStyle="bold"/>
 
