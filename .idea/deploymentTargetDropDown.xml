@@ -2,19 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AlugarArmarioActivity">
-        <State />
-      </entry>
-      <entry key="LerQrcodeActivity">
-        <State />
-      </entry>
-      <entry key="RegisterNFCActivity">
-      <entry key="CameraActivity">
-        <State />
-      </entry>
-      <entry key="QuantidadePessoas">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>

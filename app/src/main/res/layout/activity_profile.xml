@@ -18,7 +18,7 @@
             app:titleCentered="true"
             app:title="MEU PERFIL"
             app:titleTextColor="@color/white"
-            android:background="@color/gray_900"
+            android:background="@color/green_500"
             style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -30,7 +30,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/gray_200"
+        android:background="@color/gray_100"
         android:paddingHorizontal="44dp"
         tools:context=".ProfileActivity"
         android:layout_gravity="center_vertical">
@@ -68,7 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:textColor="@color/white"
-            android:background="@drawable/border_green_138"
+            android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
 
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:textColor="@color/white"
-            android:background="@drawable/border_green_138"
+            android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
         <TextView
@@ -127,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:textColor="@color/white"
-            android:background="@drawable/border_green_138"
+            android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
         <Button
