@@ -13,4 +13,14 @@
         android:textSize="24sp"
         android:layout_centerInParent="true"
         android:textAlignment="center"/>
+
+    <ImageView
+        android:id="@+id/img_tag_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_tag_content"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" /> <!-- hidden initially -->
+
 </RelativeLayout>

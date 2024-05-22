@@ -1,5 +1,6 @@
 package br.com.sentinellock
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -30,6 +31,7 @@ class Camera : AppCompatActivity() {
     private lateinit var imgCaptureExecutor: ExecutorService
     private var quantidadePessoas = 0
     private var fotosTiradas = 0
+    private val imageFilePaths = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,9 +97,13 @@ class Camera : AppCompatActivity() {
                 object : ImageCapture.OnImageSavedCallback {
                     override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                         Log.i("Camera", "A imagem foi salva no diretório: ${file.toURI()}")
+                        imageFilePaths.add(file.absolutePath)
                         fotosTiradas++
                         if (fotosTiradas >= quantidadePessoas) {
-                            // Se todas as fotos foram tiradas, finalize a activity ou prossiga conforme necessário
+                            // Se todas as fotos foram tiradas, passe as imagens para a próxima activity
+                            val intent = Intent(this@Camera, RegisterNFCActivity::class.java)
+                            intent.putStringArrayListExtra("IMAGE_PATHS", ArrayList(imageFilePaths))
+                            startActivity(intent)
                             finish()
                         }
                     }

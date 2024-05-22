@@ -8,20 +8,25 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
+import android.nfc.tech.NdefFormatable
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import java.io.File
 
 class RegisterNFCActivity : AppCompatActivity() {
 
     private lateinit var nfcAdapter: NfcAdapter
+    private lateinit var imageFilePaths: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register_nfcactivity)
+
+        imageFilePaths = intent.getStringArrayListExtra("IMAGE_PATHS") ?: emptyList()
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
@@ -64,26 +69,56 @@ class RegisterNFCActivity : AppCompatActivity() {
             NfcAdapter.ACTION_TECH_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null) {
-                writeNfcTag(tag, "teste", "teste2")
+                writeNfcTag(tag, imageFilePaths)
             }
         }
     }
 
-    private fun writeNfcTag(tag: Tag, text1: String, text2: String) {
-        val ndef = Ndef.get(tag) ?: return
-        val message = NdefMessage(arrayOf(
-            NdefRecord.createTextRecord(null, text1),
-            NdefRecord.createTextRecord(null, text2)
-        ))
+    private fun writeNfcTag(tag: Tag, imageFilePaths: List<String>) {
+        val ndef = Ndef.get(tag)
+        if (ndef != null) {
+            try {
+                ndef.connect()
+                if (!ndef.isWritable) {
+                    Toast.makeText(this, "Tag NFC não é gravável.", Toast.LENGTH_LONG).show()
+                    return
+                }
 
-        try {
-            ndef.connect()
-            ndef.writeNdefMessage(message)
-            Toast.makeText(this, "Cadastro feito com sucesso", Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Erro ao escrever na tag: ${e.message}", Toast.LENGTH_LONG).show()
-        } finally {
-            ndef.close()
+                val records = imageFilePaths.map { filePath ->
+                    NdefRecord.createTextRecord(null, filePath)
+                }.toTypedArray()
+
+                val message = NdefMessage(records)
+
+                ndef.writeNdefMessage(message)
+                Toast.makeText(this, "Cadastro feito com sucesso", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "Erro ao escrever na tag: ${e.message}", Toast.LENGTH_LONG).show()
+            } finally {
+                ndef.close()
+            }
+        } else {
+            val ndefFormatable = NdefFormatable.get(tag)
+            if (ndefFormatable != null) {
+                try {
+                    ndefFormatable.connect()
+
+                    val records = imageFilePaths.map { filePath ->
+                        NdefRecord.createTextRecord(null, filePath)
+                    }.toTypedArray()
+
+                    val message = NdefMessage(records)
+
+                    ndefFormatable.format(message)
+                    Toast.makeText(this, "Cadastro feito com sucesso", Toast.LENGTH_LONG).show()
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Erro ao formatar a tag: ${e.message}", Toast.LENGTH_LONG).show()
+                } finally {
+                    ndefFormatable.close()
+                }
+            } else {
+                Toast.makeText(this, "Tag NFC não suporta NDEF.", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }
