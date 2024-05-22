@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gray_200"
+    android:background="@color/gray_100"
     android:paddingHorizontal="24dp"
     android:paddingVertical="10dp"
     tools:context=".RegisterActivity">
@@ -226,6 +226,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textStyle="bold"
         android:text="@string/registerAccount"
         android:backgroundTint="@color/tapBar"

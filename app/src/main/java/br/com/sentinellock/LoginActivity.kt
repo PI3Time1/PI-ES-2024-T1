@@ -104,8 +104,8 @@ class LoginActivity : AppCompatActivity() {
                             if (isAdm) {
                                 // O usuário é administrador
                                 Log.d("checkCurrentUser", "Usuário é administrador.")
-//                                navigateToRegisterActivity()
-//                                finish()
+                                navigateToLerQrcodeActivity()
+                                finish()
                             } else {
                                 // O usuário não é administrador
                                 Log.d("checkCurrentUser", "Usuário não é administrador.")
@@ -216,6 +216,11 @@ class LoginActivity : AppCompatActivity() {
     // Navega para a RegisterActivity
     private fun navigateToRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun navigateToLerQrcodeActivity() {
+        val intent = Intent(this, LerQrcodeActivity::class.java)
         startActivity(intent)
     }
 
