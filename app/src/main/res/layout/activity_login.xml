@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/gray_200"
+    android:background="@color/gray_100"
     android:paddingHorizontal="24dp"
     android:paddingVertical="14dp"
     tools:context=".LoginActivity">

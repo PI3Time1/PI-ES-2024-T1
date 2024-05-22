@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/gray_200"
+        android:background="@color/gray_100"
         android:paddingHorizontal="24dp"
         android:paddingVertical="14dp"
         tools:context=".ProfileActivity"
@@ -105,6 +105,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/gray_900"
         app:menu="@menu/bottom_navigation" />
 
 </LinearLayout>

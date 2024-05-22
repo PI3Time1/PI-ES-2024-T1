@@ -8,7 +8,7 @@
     tools:context=".CardsActivity"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/gray_200"
+    android:background="@color/gray_100"
     >
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             app:titleCentered="true"
             app:title="MEU PERFIL"
             app:titleTextColor="@color/white"
-            android:background="@color/gray_900"
+            android:background="@color/green_500"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:gravity="center_vertical">
                 <Button
@@ -31,9 +31,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:backgroundTint="@color/green_500"
+                    android:backgroundTint="@color/gray_100"
                     android:text="@string/back"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray_900"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
