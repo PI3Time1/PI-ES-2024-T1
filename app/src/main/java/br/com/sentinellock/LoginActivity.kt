@@ -140,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
                                     if (isAdm) {
                                         // Se o login for bem-sucedido, e for um administrador então navega para a tela do gerente
                                         Log.d(TAG, "Usuário é administrador.")
-                                        navigateToRegisterActivity()
+                                        navigateToLerQrcodeActivity()
                                         finish()
                                     } else {
                                         // Se o usuário não for administrador, verifica se o e-mail está verificado

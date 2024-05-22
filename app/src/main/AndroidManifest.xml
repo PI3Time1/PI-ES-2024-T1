@@ -30,6 +30,9 @@
         android:theme="@style/Theme.Sentinellock"
         tools:targetApi="31">
         <activity
+            android:name=".locacao_encerrada"
+            android:exported="false" />
+        <activity
             android:name=".MenuGerente"
             android:exported="false" />
         <activity
