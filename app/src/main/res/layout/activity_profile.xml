@@ -30,7 +30,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/background"
+        android:background="@color/gray_200"
         android:paddingHorizontal="44dp"
         tools:context=".ProfileActivity"
         android:layout_gravity="center_vertical">
@@ -137,7 +137,7 @@
             android:text="@string/ManageCard"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:backgroundTint="@color/green_138"
+            android:backgroundTint="@color/green_500"
             android:drawableLeft="@drawable/creditcard"
             android:gravity="center" />
 

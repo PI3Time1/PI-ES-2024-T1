@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/gray_100"
     android:paddingHorizontal="24dp"
     android:paddingVertical="14dp"
     tools:context=".LoginActivity">
@@ -42,11 +42,11 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
         app:startIconDrawable="@drawable/ic_email_outlined"
-        app:startIconTint="@color/white"
+        app:startIconTint="@color/green_500"
         app:boxStrokeColor="@color/tapBar"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
-        android:textColorHint="@color/white"
+        android:textColorHint="@color/green_500"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         >
 
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white"
+            android:textColor="@color/green_500"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,20 +70,20 @@
         app:boxCornerRadiusTopEnd="8dp"
         app:boxCornerRadiusTopStart="8dp"
         app:startIconDrawable="@drawable/ic_lockpassword_outlined"
-        app:startIconTint="@color/white"
+        app:startIconTint="@color/green_500"
         app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/white"
+        app:passwordToggleTint="@color/green_500"
         app:boxStrokeColor="@color/tapBar"
         app:boxStrokeErrorColor="@color/danger"
         app:cursorErrorColor="@color/danger"
-        android:textColorHint="@color/white">
+        android:textColorHint="@color/green_500">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:textColor="@color/white"
+            android:textColor="@color/green_500"
             />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -110,7 +110,7 @@
         android:text="@string/signIn"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:backgroundTint="@color/tapBar" />
+        android:backgroundTint="@color/green_500" />
 
     <Button
         android:id="@+id/buttonContWithoutRegistr"
@@ -122,7 +122,7 @@
         android:layout_marginBottom="4dp"
         android:text="@string/contWithoutRegistr"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/green_500"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />
@@ -136,7 +136,7 @@
         android:textAllCaps="false"
         android:padding="0dp"
         android:layout_marginBottom="20dp"
-        android:textColor="@color/white"
+        android:textColor="@color/green_500"
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         />

@@ -8,7 +8,7 @@
     tools:context=".CardsActivity"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/background2"
+    android:background="@color/gray_100"
     >
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             app:titleCentered="true"
             app:title="MEU PERFIL"
             app:titleTextColor="@color/white"
-            android:background="@color/gray_900"
+            android:background="@color/green_500"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:gravity="center_vertical">
                 <Button
@@ -31,9 +31,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:backgroundTint="@color/green_018"
+                    android:backgroundTint="@color/gray_100"
                     android:text="@string/back"
-                    android:textColor="@color/white"
+                    android:textColor="@color/gray_900"
                     android:textSize="11sp"
                     android:textStyle="bold" />
 
@@ -69,10 +69,10 @@
             android:layout_marginHorizontal="50dp"
             android:gravity="center"
             android:drawableLeft="@drawable/ic_wallet"
-            android:drawableTint="@color/white"
+            android:drawableTint="@color/green_500"
             android:textAlignment="center"
             android:text="@string/myCards"
-            android:textColor="@color/white"
+            android:textColor="@color/green_500"
             android:textSize="25sp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -95,7 +95,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    app:cardBackgroundColor="@color/green_3aa"
+                    app:cardBackgroundColor="@color/green_500"
                     app:cardCornerRadius="2dp">
 
                     <TextView
@@ -128,7 +128,7 @@
                         android:layout_marginTop="1dp"
                         android:layout_marginEnd="25dp"
                         android:text="Titular:"
-                        android:textColor="@color/green_3aa"
+                        android:textColor="@color/white"
                         android:textSize="13dp"
                         android:layout_weight="1"
                         android:gravity="start" />
@@ -138,7 +138,7 @@
                         android:layout_height="20dp"
                         android:layout_marginTop="1dp"
                         android:text="N°Cartão:"
-                        android:textColor="@color/green_3aa"
+                        android:textColor="@color/white"
                         android:textSize="13dp"
                         android:layout_weight="1"
                         android:gravity="end" />
@@ -201,7 +201,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginTop="80dp"
-            android:backgroundTint="@color/green_008" />
+            android:backgroundTint="@color/green_500" />
 
     </LinearLayout>
 

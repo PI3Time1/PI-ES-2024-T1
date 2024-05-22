@@ -2,6 +2,7 @@
 <resources>
     <color name="background">#414141</color>
     <color name="danger">#FF0000</color>
+    <color name="gray_100">#E4E4E1</color>
     <color name="gray_200">#b5b8b2</color>
     <color name="gray_700">#899794</color>
     <color name="gray_900">#2F2F2F</color>
