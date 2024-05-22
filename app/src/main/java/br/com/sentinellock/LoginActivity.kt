@@ -104,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                             if (isAdm) {
                                 // O usuário é administrador
                                 Log.d("checkCurrentUser", "Usuário é administrador.")
-                                navigateToLerQrcodeActivity()
+                                navigateToMenuGerente()
                                 finish()
                             } else {
                                 // O usuário não é administrador
@@ -140,7 +140,7 @@ class LoginActivity : AppCompatActivity() {
                                     if (isAdm) {
                                         // Se o login for bem-sucedido, e for um administrador então navega para a tela do gerente
                                         Log.d(TAG, "Usuário é administrador.")
-                                        navigateToLerQrcodeActivity()
+                                        navigateToMenuGerente()
                                         finish()
                                     } else {
                                         // Se o usuário não for administrador, verifica se o e-mail está verificado
@@ -219,8 +219,8 @@ class LoginActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun navigateToLerQrcodeActivity() {
-        val intent = Intent(this, LerQrcodeActivity::class.java)
+    private fun navigateToMenuGerente() {
+        val intent = Intent(this, MenuGerente::class.java)
         startActivity(intent)
     }
 

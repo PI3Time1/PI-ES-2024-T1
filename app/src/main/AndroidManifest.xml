@@ -38,9 +38,8 @@
         <activity
             android:name=".AbrirOuEncerrar"
             android:exported="false" />
-        <activity
-            android:name=".LerQrcodeActivity"
-            android:exported="true" />
+        <activity android:name=".LerQrcodeActivity"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".PessoasActivity"
             android:exported="false" />
@@ -118,9 +117,6 @@
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
-        <activity
-            android:name=".AbrirOuEncerrar"
-            android:exported="false"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />

@@ -28,15 +28,15 @@ class AbrirOuEncerrar : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        buttonBack.setOnClickListener {
-            val intent = Intent(this,//ArmarioLiberado::class.java)
-            startActivity(intent)
-            finish()
-        }
-        buttonBack.setOnClickListener {
-            val intent = Intent(this,//LocacaoEncerrada::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        buttonBack.setOnClickListener {
+//            val intent = Intent(this,//ArmarioLiberado::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
+//        buttonBack.setOnClickListener {
+//            val intent = Intent(this,//LocacaoEncerrada::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
     }
 }

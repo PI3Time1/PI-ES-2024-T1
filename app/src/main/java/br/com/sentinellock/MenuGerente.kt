@@ -1,5 +1,6 @@
 package br.com.sentinellock
 
+import com.google.firebase.auth.FirebaseAuth
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -30,9 +31,15 @@ class MenuGerente : AppCompatActivity() {
             finish()
         }
         buttonLogout.setOnClickListener {
+            // Faz o logout do Firebase Auth
+            FirebaseAuth.getInstance().signOut()
+
+            // Redireciona o usuário de volta à tela de login
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
         }
     }
 }
+
+

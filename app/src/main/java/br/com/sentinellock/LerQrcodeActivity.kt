@@ -1,6 +1,7 @@
 package br.com.sentinellock
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -35,12 +36,10 @@ class LerQrcodeActivity : AppCompatActivity() {
         result?.let { res ->
             if (res.contents != null) {
                 // Exibe as informações lidas do QR code em um Toast
-                Toast.makeText(this, "Dados lidos: ${res.contents}", Toast.LENGTH_LONG).show()
+//                Toast.makeText(this, "Dados lidos: ${res.contents}", Toast.LENGTH_LONG).show()
 
                 // Exibir o conteúdo completo do qrDataParts em um TextView adicional
-                val qrDataFullTextView = findViewById<TextView>(R.id.qrDataFullTextView)
                 val qrDataParts = res.contents.split(",")
-                qrDataFullTextView.text = "Dados completos do QR code: ${qrDataParts[2]}"
 
                 // Verifica se o conteúdo do QR code pode ser dividido corretamente
                 if (qrDataParts.size >= 4) {
@@ -48,27 +47,10 @@ class LerQrcodeActivity : AppCompatActivity() {
                     val lockerId = qrDataParts[1].substringAfter(":").trim()
                     val price = qrDataParts[2].substringAfter(":").trim().toDoubleOrNull()
                     val duration = qrDataParts[3].substringAfter(":").trim().toLongOrNull()
-                    qrDataFullTextView.text = "Dados completos do QR code: USU: ${userId}, USU: ${lockerId}, USU: ${price}, USU: ${duration}"
 
                     if (userId != null && lockerId != null && price != null && duration != null) {
-                        // Atualiza o saldo do usuário
-                        updateUserBalance(userId, price) { success ->
-                            if (success) {
-                                // Atualiza o status do armário
-                                updateLockerStatus(lockerId) { success ->
-                                    if (success) {
-                                        // Exibe Toast de sucesso
-                                        Toast.makeText(this, "Operações realizadas com sucesso", Toast.LENGTH_SHORT).show()
-                                    } else {
-                                        // Exibe Toast de erro
-                                        Toast.makeText(this, "Erro ao atualizar o status do armário", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            } else {
-                                // Exibe Toast de erro
-                                Toast.makeText(this, "Erro ao atualizar o saldo do usuário", Toast.LENGTH_SHORT).show()
-                            }
-                        }
+                        // Passa as informações para a tela PessoasActivity
+                        updateUserBalanceAndNavigate(userId, lockerId, price, duration)
                     } else {
                         // Exibe Toast de erro se alguma informação estiver faltando ou for inválida
                         Toast.makeText(this, "QR code inválido,${userId},${lockerId},${price},${duration}",  Toast.LENGTH_SHORT).show()
@@ -80,6 +62,32 @@ class LerQrcodeActivity : AppCompatActivity() {
             } else {
                 // Falha na leitura do QR code
                 Toast.makeText(this, "Falha na leitura do QR code", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun updateUserBalanceAndNavigate(userId: String, lockerId: String, price: Double, duration: Long) {
+        updateUserBalance(userId, price) { success ->
+            if (success) {
+                updateLockerStatus(lockerId) { success ->
+                    if (success) {
+                        // Exibe Toast de sucesso
+                        Toast.makeText(this, "Operações realizadas com sucesso", Toast.LENGTH_SHORT).show()
+                        // Passa as informações para a tela PessoasActivity
+                        val intent = Intent(this, QuantidadePessoas::class.java)
+                        intent.putExtra("userId", userId)
+                        intent.putExtra("lockerId", lockerId)
+                        intent.putExtra("price", price)
+                        intent.putExtra("duration", duration)
+                        startActivity(intent)
+                    } else {
+                        // Exibe Toast de erro
+                        Toast.makeText(this, "Erro ao atualizar o status do armário", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                // Exibe Toast de erro
+                Toast.makeText(this, "Erro ao atualizar o saldo do usuário", Toast.LENGTH_SHORT).show()
             }
         }
     }

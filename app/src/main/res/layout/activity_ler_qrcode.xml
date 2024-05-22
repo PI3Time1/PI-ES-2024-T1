@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="76dp">
+
 
     <TextView
         android:id="@+id/qrDataTextView"
@@ -14,10 +15,5 @@
         android:textSize="18sp"
         android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/qrDataFullTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textAlignment="center" />
+
 </LinearLayout>
