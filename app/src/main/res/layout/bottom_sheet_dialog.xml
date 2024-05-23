@@ -14,32 +14,87 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:paddingVertical="15dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:background="@drawable/rounded_background">
 
-        <ImageView
-            android:id="@+id/imagem"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="12dp"
-            android:src="@drawable/logo_sentinel_lock" /> <!-- Substitua com o recurso de imagem desejado -->
-
-        <TextView
-            android:id="@+id/placeNameTextView"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Nome do Local" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/placeAddressTextView"
+            <TextView
+                android:id="@+id/placeNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingHorizontal="10dp"
+                android:text="Nome do Local:"
+                android:textColor="@color/white"
+                android:textSize="25sp"
+                android:textStyle="bold" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+
+            <TextView
+                android:id="@+id/placeAddressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="Endereço do Local:" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+
+            <TextView
+                android:id="@+id/placeReferenceTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="Referência:" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:textColor="@color/white"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Endereço do Local" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/placeNameEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingHorizontal="10dp"
+                android:text="Local"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:background="@android:color/transparent"
+                android:textSize="25sp" /> <!-- EditText para inserir o nome do local -->
+
+            <TextView
+                android:id="@+id/placeAddressEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingHorizontal="10dp"
+                android:text="endereço"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:background="@android:color/transparent"
+                android:textSize="20sp" /> <!-- EditText para inserir o endereço do local -->
+
+            <TextView
+                android:id="@+id/placeReferenceEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingHorizontal="10dp"
+                android:text="referência"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:background="@android:color/transparent"
+                android:textSize="20sp" /> <!-- EditText para inserir a referência do local -->
+        </LinearLayout>
     </LinearLayout>
 
     <FrameLayout

@@ -231,11 +231,13 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 
         val placeNameTextView = dialog.findViewById<TextView>(R.id.placeNameTextView)
         val placeAddressTextView = dialog.findViewById<TextView>(R.id.placeAddressTextView)
+        val placeReferenceTextView = dialog.findViewById<TextView>(R.id.placeReferenceTextView)
         val routeButton = dialog.findViewById<Button>(R.id.routeButton)
         val alugaButton = dialog.findViewById<Button>(R.id.alugaButton)
 
         placeNameTextView?.text = place.name
         placeAddressTextView?.text = place.address
+        placeReferenceTextView?.text = place.reference
 
 
             // Configura o botão para traçar rota até o local
@@ -398,6 +400,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 data class Places(
     var id: String = "", // Adiciona o campo id
     val name: String = "",
+    val reference: String = "",
     val latLng: GeoPoint = GeoPoint(0.0, 0.0),
     val address: String = "",
     val rating: Float = 0.0f,
