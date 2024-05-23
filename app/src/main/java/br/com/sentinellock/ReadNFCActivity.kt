@@ -5,8 +5,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.BitmapFactory
 import android.nfc.NfcAdapter
-import android.nfc.NdefMessage
-import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.os.Bundle
@@ -16,20 +14,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 
 class ReadNFCActivity : AppCompatActivity() {
 
     private lateinit var nfcAdapter: NfcAdapter
-    private lateinit var tvTagContent: TextView
-    private lateinit var imgTagImage: ImageView
+    private lateinit var tvUserInfo: TextView
+    private lateinit var tvLockerInfo: TextView
+    private lateinit var imageView1: ImageView
+    private lateinit var imageView2: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_nfcactivity)
 
-        tvTagContent = findViewById(R.id.tv_tag_content)
-        imgTagImage = findViewById(R.id.img_tag_image)
+        tvUserInfo = findViewById(R.id.userInfoTextView)
+        tvLockerInfo = findViewById(R.id.lockerInfoTextView)
+        imageView1 = findViewById(R.id.imageView1)
+        imageView2 = findViewById(R.id.imageView2)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
@@ -79,83 +82,71 @@ class ReadNFCActivity : AppCompatActivity() {
             if (ndefMessage != null) {
                 val records = ndefMessage.records
                 if (records.isNotEmpty()) {
-                    val record1 = records[0]
-                    val record2 = if (records.size > 1) records[1] else null
-                    val text1 = record1.payload.decodeToString()
-                    val text2 = record2?.payload?.decodeToString()
+                    Log.d("NFC_TAG", "User ID: ${records[0].payload.decodeToString()},${records[1].payload.decodeToString()},${records[2].payload.decodeToString()},${records[3].payload.decodeToString()},${records[4].payload.decodeToString()},${records[5].payload.decodeToString()}")
+                    val record1 = records[2]
+                    val record2 = if (records.size > 1) records[3] else null
+                    var userId = record1.payload.decodeToString()
+                    var lockerId = record2?.payload?.decodeToString()
 
-                    // Salvando os valores em variáveis
-                    val tagContent1 = text1
-                    val tagContent2 = text2 ?: ""
+                    // Logging das informações lidas da tag
+
+                    userId = userId.trim { it <= ' ' }.substringAfter("userId: ")
+                    lockerId = lockerId?.trim { it <= ' ' }?.substringAfter("lockerId: ")
+
+                    Log.d("NFC_TAG", "User ID: $userId")
+                    Log.d("NFC_TAG", "Locker ID: $lockerId")
 
                     // Exibindo os valores na tela
-                    tvTagContent.text = "Tag Content 1: $tagContent1\nTag Content 2: $tagContent2"
-
-                    // Carregando e exibindo uma imagem
-                    loadImageFromPath(tagContent1)
-
-                    // Limpando a tag
-//                    clearNfcTag(ndef)
+                    displayUserInfo(userId)
+                    displayLockerInfo(lockerId)
                 }
             }
             ndef.close()
         }
     }
 
-    private fun loadImageFromPath(imagePath: String) {
-        try {
-            // Removendo a parte indesejada antes de /storage
-            val pathPrefix = "/storage"
-            val startIndex = imagePath.indexOf(pathPrefix)
-            val trimmedPath = if (startIndex != -1) {
-                imagePath.substring(startIndex)
-            } else {
-                imagePath
-            }
 
-            // Verificar se o caminho absoluto é válido
-            val file = File(trimmedPath)
-            Log.d("LoadImage", "Imagem carregada com sucesso: $file")
-
-            if (file.exists() && file.canRead()) {
-                val bitmap = BitmapFactory.decodeFile(trimmedPath)
-                if (bitmap != null) {
-                    imgTagImage.setImageBitmap(bitmap)
-                    imgTagImage.visibility = View.VISIBLE // tornar o ImageView visível
-                    Log.d("LoadImage", "Imagem carregada com sucesso: $bitmap")
-                    Log.d("LoadImage", "Imagem carregada com sucesso: $imgTagImage")
-                    Log.d("LoadImage", "Imagem carregada com sucesso: $file")
+    private fun displayUserInfo(userId: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("pessoas").document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val userName = document.getString("nome")
+                    val userPhone = document.getString("telefone")
+                    val userCpf = document.getString("cpf")
+                    val userInfo = "Nome: $userName\nTelefone: $userPhone\nCPF: $userCpf"
+                    tvUserInfo.text = userInfo
                 } else {
-                    Toast.makeText(this, "Falha ao decodificar o bitmap da imagem.", Toast.LENGTH_LONG).show()
-                    Log.e("LoadImage", "Falha ao decodificar o bitmap da imagem: $trimmedPath")
+                    Toast.makeText(this, "Usuário não encontrado no Firebase", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "O arquivo de imagem não existe ou não pode ser lido.", Toast.LENGTH_LONG).show()
-                Log.e("LoadImage", "O arquivo de imagem não existe ou não pode ser lido: $trimmedPath")
             }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Erro ao carregar a imagem: ${e.message}", Toast.LENGTH_LONG).show()
-            Log.e("LoadImage", "Erro ao carregar a imagem: ${e.message}")
-        }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao buscar informações do usuário: $e", Toast.LENGTH_SHORT).show()
+            }
     }
 
-
-
-
-
-
-
-
-
-    private fun clearNfcTag(ndef: Ndef) {
-        try {
-            val emptyMessage = NdefMessage(arrayOf(NdefRecord.createTextRecord(null, "")))
-            ndef.writeNdefMessage(emptyMessage)
-            Toast.makeText(this, "Tag limpa com sucesso", Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Erro ao limpar a tag: ${e.message}", Toast.LENGTH_LONG).show()
-        } finally {
-            ndef.close()
+    private fun displayLockerInfo(lockerId: String?) {
+        if (lockerId != null) {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("unidade_de_locacao").document(lockerId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        val lockerName = document.getString("name")
+                        val price = document.getDouble("price") ?: 0.0
+                        val duration = document.getLong("duration") ?: 0
+                        val lockerInfo = "Armário: $lockerName\nPreço: $price\nDuração: $duration"
+                        tvLockerInfo.text = lockerInfo
+                    } else {
+                        Toast.makeText(this, "Armário não encontrado no Firebase", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Erro ao buscar informações do armário: $e", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "ID do armário não encontrado", Toast.LENGTH_SHORT).show()
         }
     }
 }
