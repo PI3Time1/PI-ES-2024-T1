@@ -1,19 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_200"
+    android:background="@color/gray_100"
     tools:context=".RegisterNFCActivity">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp">
+
+        <!-- FrameLayout para sobrepor as ImageViews -->
+        <FrameLayout
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/img_circle_background"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@drawable/circle_background" />
+
+            <ImageView
+                android:id="@+id/img_inner_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:src="@drawable/baseline_watch_24" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <!-- Centraliza a TextView horizontalmente -->
     <TextView
-        android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aproxime o relógio"
         android:textSize="24sp"
-        android:layout_centerInParent="true"
-        android:textAlignment="center"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450dp"/>
 
 
 </RelativeLayout>

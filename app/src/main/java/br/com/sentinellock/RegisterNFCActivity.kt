@@ -8,7 +8,6 @@ import android.nfc.NdefMessage
 import android.nfc.NdefRecord
 import android.nfc.Tag
 import android.nfc.tech.Ndef
-import android.nfc.tech.NdefFormatable
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -107,6 +106,7 @@ class RegisterNFCActivity : AppCompatActivity() {
                     putExtra("lockerId", lockerId)
                     putExtra("price", price)
                     putExtra("duration", duration)
+                    putStringArrayListExtra("IMAGE_PATHS", ArrayList(imageFilePaths))  // Passa os caminhos das imagens
                 }
                 startActivity(nextIntent)
                 // Finaliza esta atividade, se desejar
@@ -119,4 +119,3 @@ class RegisterNFCActivity : AppCompatActivity() {
         }
     }
 }
-
