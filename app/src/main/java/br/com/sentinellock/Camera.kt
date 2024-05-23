@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -27,6 +28,7 @@ class Camera : AppCompatActivity() {
     private lateinit var binding: ActivityCameraBinding
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var cameraSelector: CameraSelector
+    private lateinit var buttonBack : Button
     private var imageCapture: ImageCapture? = null
     private lateinit var imgCaptureExecutor: ExecutorService
     private var quantidadePessoas = 0
@@ -54,6 +56,11 @@ class Camera : AppCompatActivity() {
         imgCaptureExecutor = Executors.newSingleThreadExecutor()
 
         startCamera()
+
+        binding.buttonBack.setOnClickListener {
+            startActivity(Intent(this, QuantidadePessoas::class.java))
+            finish()
+        }
 
         binding.botaoTirarFoto.setOnClickListener {
             tirarFoto()
