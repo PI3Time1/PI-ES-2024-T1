@@ -12,12 +12,22 @@ class QuantidadePessoas : AppCompatActivity() {
 
     private lateinit var binding: ActivityQuantidadePessoasBinding
     private var quantidadePessoas = 0
+    private var userId: String = ""
+    private var lockerId: String = ""
+    private var price: Double = 0.0
+    private var duration: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityQuantidadePessoasBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Recebe os extras do intent
+        userId = intent.getStringExtra("userId") ?: ""
+        lockerId = intent.getStringExtra("lockerId") ?: ""
+        price = intent.getDoubleExtra("price", 0.0)
+        duration = intent.getLongExtra("duration", 0)
 
         binding.botaoUmaPessoa.setOnClickListener{
             quantidadePessoas = 1
@@ -28,11 +38,6 @@ class QuantidadePessoas : AppCompatActivity() {
             quantidadePessoas = 2
             cameraProviderResult.launch(Manifest.permission.CAMERA)
         }
-
-//        binding.buttonBack.setOnClickListener {
-//            startActivity(Intent(this, ProfileActivity::class.java))
-//            finish()
-//        }
     }
 
     private val cameraProviderResult =
@@ -47,6 +52,11 @@ class QuantidadePessoas : AppCompatActivity() {
     private fun abrirTelaCAMERA(){
         val intentCameraPreview = Intent(this, Camera::class.java).apply {
             putExtra("QUANTIDADE_PESSOAS", quantidadePessoas)
+            // Passa as informações para a próxima tela
+            putExtra("userId", userId)
+            putExtra("lockerId", lockerId)
+            putExtra("price", price)
+            putExtra("duration", duration)
         }
         startActivity(intentCameraPreview)
     }

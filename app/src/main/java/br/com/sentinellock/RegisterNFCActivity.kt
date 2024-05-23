@@ -10,23 +10,30 @@ import android.nfc.Tag
 import android.nfc.tech.Ndef
 import android.nfc.tech.NdefFormatable
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import java.io.File
 
 class RegisterNFCActivity : AppCompatActivity() {
 
     private lateinit var nfcAdapter: NfcAdapter
     private lateinit var imageFilePaths: List<String>
+    private lateinit var userId: String
+    private lateinit var lockerId: String
+    private var price: Double = 0.0
+    private var duration: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register_nfcactivity)
 
+        // Recebendo os dados da tela anterior
         imageFilePaths = intent.getStringArrayListExtra("IMAGE_PATHS") ?: emptyList()
+        userId = intent.getStringExtra("userId") ?: ""
+        lockerId = intent.getStringExtra("lockerId") ?: ""
+        price = intent.getDoubleExtra("price", 0.0)
+        duration = intent.getLongExtra("duration", 0)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
@@ -36,12 +43,6 @@ class RegisterNFCActivity : AppCompatActivity() {
         }
         if (!nfcAdapter.isEnabled) {
             Toast.makeText(this, "Ative o NFC nas configurações.", Toast.LENGTH_LONG).show()
-        }
-
-        val btnNext: Button = findViewById(R.id.btn_next)
-        btnNext.setOnClickListener {
-            val intent = Intent(this, ReadNFCActivity::class.java)
-            startActivity(intent)
         }
     }
 
@@ -69,12 +70,12 @@ class RegisterNFCActivity : AppCompatActivity() {
             NfcAdapter.ACTION_TECH_DISCOVERED == intent.action) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null) {
-                writeNfcTag(tag, imageFilePaths)
+                writeNfcTag(tag)
             }
         }
     }
 
-    private fun writeNfcTag(tag: Tag, imageFilePaths: List<String>) {
+    private fun writeNfcTag(tag: Tag) {
         val ndef = Ndef.get(tag)
         if (ndef != null) {
             try {
@@ -84,41 +85,38 @@ class RegisterNFCActivity : AppCompatActivity() {
                     return
                 }
 
-                val records = imageFilePaths.map { filePath ->
+                val records = mutableListOf<NdefRecord>()
+                // Adiciona os registros de texto para as informações existentes e para os caminhos das imagens
+                records.addAll(imageFilePaths.map { filePath ->
                     NdefRecord.createTextRecord(null, filePath)
-                }.toTypedArray()
+                })
+                // Adiciona os registros de texto para os dados extras
+                records.add(NdefRecord.createTextRecord(null, "userId: $userId"))
+                records.add(NdefRecord.createTextRecord(null, "lockerId: $lockerId"))
+                records.add(NdefRecord.createTextRecord(null, "price: $price"))
+                records.add(NdefRecord.createTextRecord(null, "duration: $duration"))
 
-                val message = NdefMessage(records)
+                val message = NdefMessage(records.toTypedArray())
 
                 ndef.writeNdefMessage(message)
                 Toast.makeText(this, "Cadastro feito com sucesso", Toast.LENGTH_LONG).show()
+
+                // Após a gravação na NFC, inicia a próxima atividade e passa os dados como extras
+                val nextIntent = Intent(this, LiberadoInfosActivity2::class.java).apply {
+                    putExtra("userId", userId)
+                    putExtra("lockerId", lockerId)
+                    putExtra("price", price)
+                    putExtra("duration", duration)
+                }
+                startActivity(nextIntent)
+                // Finaliza esta atividade, se desejar
+                finish()
             } catch (e: Exception) {
                 Toast.makeText(this, "Erro ao escrever na tag: ${e.message}", Toast.LENGTH_LONG).show()
             } finally {
                 ndef.close()
             }
-        } else {
-            val ndefFormatable = NdefFormatable.get(tag)
-            if (ndefFormatable != null) {
-                try {
-                    ndefFormatable.connect()
-
-                    val records = imageFilePaths.map { filePath ->
-                        NdefRecord.createTextRecord(null, filePath)
-                    }.toTypedArray()
-
-                    val message = NdefMessage(records)
-
-                    ndefFormatable.format(message)
-                    Toast.makeText(this, "Cadastro feito com sucesso", Toast.LENGTH_LONG).show()
-                } catch (e: Exception) {
-                    Toast.makeText(this, "Erro ao formatar a tag: ${e.message}", Toast.LENGTH_LONG).show()
-                } finally {
-                    ndefFormatable.close()
-                }
-            } else {
-                Toast.makeText(this, "Tag NFC não suporta NDEF.", Toast.LENGTH_LONG).show()
-            }
         }
     }
 }
+

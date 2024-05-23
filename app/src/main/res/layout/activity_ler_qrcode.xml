@@ -7,6 +7,7 @@
     android:padding="76dp">
 
 
+
     <TextView
         android:id="@+id/qrDataTextView"
         android:layout_width="wrap_content"

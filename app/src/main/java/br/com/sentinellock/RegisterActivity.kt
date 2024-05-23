@@ -20,15 +20,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+
 class RegisterActivity : AppCompatActivity() {
 
     // Declaração das variáveis necessárias
     private lateinit var functions: FirebaseFunctions
-
     private lateinit var buttonBackToSignIn: ImageButton
     private lateinit var buttonRegister: Button
     private lateinit var buttonSignIn: Button
-
     private lateinit var eTextName: TextInputEditText
     private lateinit var eTextEmail: TextInputEditText
     private lateinit var eTextPassword: TextInputEditText
@@ -126,7 +125,6 @@ class RegisterActivity : AppCompatActivity() {
                 val client = Client(
                     nome = eTextName.text.toString(),
                     email = eTextEmail.text.toString(),
-                    senha = eTextPassword.text.toString(),
                     cpf = eTextCPF.text.toString(),
                     telefone = eTextPhone.text.toString(),
                     dataNascimento = eTextAge.text.toString(),
@@ -225,7 +223,6 @@ class RegisterActivity : AppCompatActivity() {
             "dataNascimento" to client.dataNascimento,
             "telefone" to client.telefone,
             "email" to client.email,
-            "senha" to client.senha,
         )
 
         // Chama a função de registro no Firebase Functions e aguarda a resposta
@@ -311,7 +308,6 @@ class RegisterActivity : AppCompatActivity() {
 data class Client(
     val nome: String,
     val email: String,
-    val senha: String,
     val cpf: String,
     val telefone: String,
     val dataNascimento: String,

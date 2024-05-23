@@ -32,13 +32,22 @@ class Camera : AppCompatActivity() {
     private var quantidadePessoas = 0
     private var fotosTiradas = 0
     private val imageFilePaths = mutableListOf<String>()
+    private lateinit var userId: String
+    private lateinit var lockerId: String
+    private var price: Double = 0.0
+    private var duration: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Recebendo os dados da tela anterior
         quantidadePessoas = intent.getIntExtra("QUANTIDADE_PESSOAS", 1)
+        userId = intent.getStringExtra("userId") ?: ""
+        lockerId = intent.getStringExtra("lockerId") ?: ""
+        price = intent.getDoubleExtra("price", 0.0)
+        duration = intent.getLongExtra("duration", 0)
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -103,6 +112,11 @@ class Camera : AppCompatActivity() {
                             // Se todas as fotos foram tiradas, passe as imagens para a próxima activity
                             val intent = Intent(this@Camera, RegisterNFCActivity::class.java)
                             intent.putStringArrayListExtra("IMAGE_PATHS", ArrayList(imageFilePaths))
+                            // Passando os dados para a próxima tela
+                            intent.putExtra("userId", userId)
+                            intent.putExtra("lockerId", lockerId)
+                            intent.putExtra("price", price)
+                            intent.putExtra("duration", duration)
                             startActivity(intent)
                             finish()
                         }
