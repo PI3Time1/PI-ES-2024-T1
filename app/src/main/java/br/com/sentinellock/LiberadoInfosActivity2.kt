@@ -78,7 +78,7 @@ class LiberadoInfosActivity2 : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val lockerName = document.getString("name")
-                    val lockerInfo = "Armário: $lockerName"
+                    val lockerInfo = "Armário: $lockerName \n Preço: $price\n Duração: $duration"
                     lockerInfoTextView.text = lockerInfo
                 } else {
                     Toast.makeText(this, "Armário não encontrado no Firebase", Toast.LENGTH_SHORT).show()
