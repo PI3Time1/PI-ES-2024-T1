@@ -229,15 +229,15 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
         val dialog = BottomSheetDialog(this)
         dialog.setContentView(R.layout.bottom_sheet_dialog)
 
-        val placeNameTextView = dialog.findViewById<TextView>(R.id.placeNameTextView)
-        val placeAddressTextView = dialog.findViewById<TextView>(R.id.placeAddressTextView)
-        val placeReferenceTextView = dialog.findViewById<TextView>(R.id.placeReferenceTextView)
+        val placeNameEditText = dialog.findViewById<TextView>(R.id.placeNameEditText)
+        val placeAddressEditText = dialog.findViewById<TextView>(R.id.placeAddressEditText)
+        val placeReferenceEditText = dialog.findViewById<TextView>(R.id.placeReferenceEditText)
         val routeButton = dialog.findViewById<Button>(R.id.routeButton)
         val alugaButton = dialog.findViewById<Button>(R.id.alugaButton)
 
-        placeNameTextView?.text = place.name
-        placeAddressTextView?.text = place.address
-        placeReferenceTextView?.text = place.reference
+        placeNameEditText?.text = place.name
+        placeAddressEditText?.text = place.address
+        placeReferenceEditText?.text = place.referencia
 
 
             // Configura o botão para traçar rota até o local
@@ -400,7 +400,7 @@ class MapsActivity2 : AppCompatActivity(), OnMapReadyCallback {
 data class Places(
     var id: String = "", // Adiciona o campo id
     val name: String = "",
-    val reference: String = "",
+    val referencia: String = "",
     val latLng: GeoPoint = GeoPoint(0.0, 0.0),
     val address: String = "",
     val rating: Float = 0.0f,
