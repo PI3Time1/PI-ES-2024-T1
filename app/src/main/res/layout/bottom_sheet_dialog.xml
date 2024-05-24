@@ -20,80 +20,92 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/placeNameTextView"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingHorizontal="10dp"
-                android:text="Nome do Local:"
-                android:textColor="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/placeAddressTextView"
+                <TextView
+                    android:id="@+id/placeNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left"
+                    android:text="Nome do Local:"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/placeNameEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Local"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingHorizontal="10dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:text="Endereço do Local:" /> <!-- Texto de exemplo, ajuste conforme necessário -->
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/placeReferenceTextView"
+                <TextView
+                    android:id="@+id/placeAddressTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left"
+                    android:text="Endereço do Local:"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/placeAddressEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="endereço"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingHorizontal="10dp"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:text="Referência:" /> <!-- Texto de exemplo, ajuste conforme necessário -->
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/placeReferenceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left"
+                    android:text="Referência:"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/placeNameEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingHorizontal="10dp"
-                android:text="Local"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:background="@android:color/transparent"
-                android:textSize="25sp" /> <!-- EditText para inserir o nome do local -->
 
-            <TextView
-                android:id="@+id/placeAddressEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingHorizontal="10dp"
-                android:text="endereço"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:background="@android:color/transparent"
-                android:textSize="20sp" /> <!-- EditText para inserir o endereço do local -->
-
-            <TextView
-                android:id="@+id/placeReferenceEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:paddingHorizontal="10dp"
-                android:text="referência"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:background="@android:color/transparent"
-                android:textSize="20sp" /> <!-- EditText para inserir a referência do local -->
+                <EditText
+                    android:id="@+id/placeReferenceEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="referência"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:layout_marginLeft="10dp"
+                    android:background="@android:color/transparent"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
