@@ -39,7 +39,7 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <EditText
+                <TextView
                     android:id="@+id/placeNameEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -64,9 +64,10 @@
                     android:gravity="left"
                     android:text="Endereço do Local:"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                <EditText
+                <TextView
                     android:id="@+id/placeAddressEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,10 +93,11 @@
                     android:gravity="left"
                     android:text="Referência:"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
 
-                <EditText
+                <TextView
                     android:id="@+id/placeReferenceEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
