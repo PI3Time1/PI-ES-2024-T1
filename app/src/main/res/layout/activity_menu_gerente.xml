@@ -29,22 +29,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingVertical="20dp"
+        android:paddingVertical="30dp"
+        android:paddingHorizontal="50dp"
         >
 
     <ImageView
-        android:layout_width="350dp"
-        android:layout_height="300dp"
+        android:layout_width="250dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:src="@drawable/logo_sentinel_lock"
-        android:layout_marginBottom="70dp"
-
+        android:layout_marginBottom="30dp"
     />
 
     <Button
         android:id="@+id/LiberarLocacao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:text="Liberar Locação"
         android:textSize="13sp"
@@ -56,24 +56,25 @@
     <Button
         android:id="@+id/EncerrarLocacao"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:text="Encerrar Locação"
         android:textSize="13sp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:backgroundTint="@color/green_500" />
-    <Button
-        android:id="@+id/buttonLogout"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/red"
-        android:textSize="13sp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:layout_marginTop="20dp"
-        android:text="@string/signOut"/>
+
+        <Button
+            android:id="@+id/buttonLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/red"
+            android:gravity="center"
+            android:text="@string/signOut"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
     </LinearLayout>
 
 

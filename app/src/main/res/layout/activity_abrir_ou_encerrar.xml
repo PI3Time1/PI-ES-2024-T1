@@ -55,7 +55,7 @@
             android:textSize="13sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="@color/green_500"
             android:gravity="center" />
 
