@@ -156,17 +156,13 @@ class LoginActivity : AppCompatActivity() {
                                     }
                                 } else {
                                     // Documento não encontrado
-                                    showAlert("Documento do usuário não encontrado.")
+                                    showAlert("Credenciais inválidas! Verifique seu email e senha e tente novamente.")
                                 }
-                            }
-                            .addOnFailureListener { exception ->
-                                // Lida com falhas ao acessar o Firestore
-                                showAlert("Erro ao acessar o Firestore: ${exception.message}")
                             }
                     }
                 } else {
                     // Se o login falhar, exibe uma mensagem de erro
-                    showAlert("Erro ao fazer login: ${task.exception?.message}")
+                    showAlert("Credenciais inválidas! Verifique seu email e senha e tente novamente.")
                 }
             }
     }
