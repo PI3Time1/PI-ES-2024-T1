@@ -49,6 +49,7 @@
             android:text="Alugar armário"
             android:backgroundTint="@color/green_500"
             android:textColor="@color/white"
+            android:textSize="13sp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="60dp"

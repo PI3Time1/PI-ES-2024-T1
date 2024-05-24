@@ -19,7 +19,7 @@
             android:backgroundTint="@color/gray_100"
             android:text="@string/back"
             android:textColor="@color/gray_900"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -50,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Abrir momentaneamente"
+            android:textSize="13sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginBottom="40dp"
@@ -58,6 +59,7 @@
 
         <Button
             android:id="@+id/EncerrarLocacao"
+            android:textSize="13sp"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="Encerrar Locação"

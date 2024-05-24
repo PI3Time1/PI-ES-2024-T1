@@ -73,7 +73,7 @@
             android:backgroundTint="@color/green_500"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
 
         <!-- Botão de cadastro -->
@@ -86,7 +86,7 @@
             android:textStyle="bold"
             android:backgroundTint="@color/green_500"
             android:layout_marginBottom="30dp"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -10,7 +10,7 @@
         android:backgroundTint="@color/gray_100"
         android:text="@string/back"
         android:textColor="@color/gray_900"
-        android:textSize="11sp"
+        android:textSize="13sp"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"

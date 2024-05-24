@@ -20,7 +20,7 @@
             android:backgroundTint="@color/gray_100"
             android:text="@string/back"
             android:textColor="@color/gray_900"
-            android:textSize="11sp"
+            android:textSize="12sp"
             android:textStyle="bold" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -61,6 +61,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/green_500"
+        android:textSize="13sp"
         android:gravity="center"
         android:text="Voltar para o menu"
         android:textColor="@color/white"

@@ -135,6 +135,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/ManageCard"
+            android:textSize="13sp"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:backgroundTint="@color/green_500"
@@ -148,6 +149,7 @@
             android:backgroundTint="@color/red"
             android:gravity="center"
             android:textColor="@color/white"
+            android:textSize="13sp"
             android:layout_marginTop="20dp"
             android:text="@string/signOut"/>
     </LinearLayout>

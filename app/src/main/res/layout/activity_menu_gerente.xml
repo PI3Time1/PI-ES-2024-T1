@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Liberar Locação"
+        android:textSize="13sp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="20dp"
@@ -58,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Encerrar Locação"
+        android:textSize="13sp"
         android:textColor="@color/white"
         android:textStyle="bold"
         android:backgroundTint="@color/green_500" />
@@ -67,6 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/red"
+        android:textSize="13sp"
         android:gravity="center"
         android:textColor="@color/white"
         android:layout_marginTop="20dp"

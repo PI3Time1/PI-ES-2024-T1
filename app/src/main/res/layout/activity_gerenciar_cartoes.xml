@@ -34,7 +34,7 @@
                     android:backgroundTint="@color/gray_100"
                     android:text="@string/back"
                     android:textColor="@color/gray_900"
-                    android:textSize="11sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -196,6 +196,7 @@
             android:layout_width="match_parent"
             android:layout_marginHorizontal="30dp"
             android:layout_height="wrap_content"
+            android:textSize="13sp"
             android:padding="15dp"
             android:text="@string/addCard"
             android:textColor="@color/white"

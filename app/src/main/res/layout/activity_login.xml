@@ -109,6 +109,7 @@
         android:layout_height="wrap_content"
         android:text="@string/signIn"
         android:textColor="@color/white"
+        android:textSize="13sp"
         android:textStyle="bold"
         android:backgroundTint="@color/green_500" />
 
