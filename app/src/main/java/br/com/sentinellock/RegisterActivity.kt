@@ -128,6 +128,7 @@ class RegisterActivity : AppCompatActivity() {
                     cpf = eTextCPF.text.toString(),
                     telefone = eTextPhone.text.toString(),
                     dataNascimento = eTextAge.text.toString(),
+                    senha = eTextPassword.text.toString()
                 )
 
                 // Chama a função de registro em uma coroutine
@@ -223,6 +224,7 @@ class RegisterActivity : AppCompatActivity() {
             "dataNascimento" to client.dataNascimento,
             "telefone" to client.telefone,
             "email" to client.email,
+            "senha" to client.senha
         )
 
         // Chama a função de registro no Firebase Functions e aguarda a resposta
@@ -308,6 +310,7 @@ class RegisterActivity : AppCompatActivity() {
 data class Client(
     val nome: String,
     val email: String,
+    val senha: String,
     val cpf: String,
     val telefone: String,
     val dataNascimento: String,
