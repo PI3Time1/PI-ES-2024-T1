@@ -51,7 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".LerQrcodeActivity"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PessoasActivity"
             android:screenOrientation="portrait"

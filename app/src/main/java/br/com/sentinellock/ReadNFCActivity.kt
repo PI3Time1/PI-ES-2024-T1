@@ -128,7 +128,7 @@ class ReadNFCActivity : AppCompatActivity() {
             if (ndefMessage != null) {
                 val records = ndefMessage.records
                 if (records.isNotEmpty()) {
-                    if (records.size >= 8) {
+                    if (records.size >= 7) {
                         userId = records[2].payload.decodeToString()
                         lockerId = records[3].payload.decodeToString()
                         duration = records[5].payload.decodeToString()
@@ -154,6 +154,7 @@ class ReadNFCActivity : AppCompatActivity() {
                     horaCelular = horaCelular.trim { it <= ' ' }.substringAfter("current_time: ")
 
                     InfoLocker = lockerId
+
 
                     displayUserInfo(userId)
                     displayLockerInfo(lockerId, price, duration, horaCelular)
@@ -247,23 +248,13 @@ class ReadNFCActivity : AppCompatActivity() {
 
         if(opc == 1){
 
-            db.collection("unidade_de_locacao").document(lockerId.toString())
-                .update(
-                    mapOf(
-                        "status" to true,
-                        "aberto" to true
-                    )
-                )
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Armário liberado com sucesso.", Toast.LENGTH_SHORT).show()
-                    // Atualize a exibição ou faça qualquer outra ação necessária após fechar o armário
-                    val intent = Intent(this, locacao_encerrada::class.java)
+
+                // Atualize a exibição ou faça qualquer outra ação necessária após fechar o armário
+                    val intent = Intent(this, EncerrarReadNfcActivity::class.java)
                     startActivity(intent)
                     finish() // Opcional: para fechar a atividade atual
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Erro ao liberar o armário: $e", Toast.LENGTH_SHORT).show()
-                }
+
+
 
         }else if(opc == 2){
             db.collection("unidade_de_locacao").document(lockerId.toString())
