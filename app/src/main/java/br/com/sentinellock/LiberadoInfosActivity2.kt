@@ -12,7 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 
 class LiberadoInfosActivity2 : AppCompatActivity() {
-
+// inicialização das variaveis
     private lateinit var userId: String
     private lateinit var lockerId: String
     private var price: Double = 0.0
