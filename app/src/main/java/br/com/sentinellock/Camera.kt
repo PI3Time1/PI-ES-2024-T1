@@ -45,7 +45,7 @@ class Camera : AppCompatActivity() {
         setContentView(binding.root)
 
         // Recebendo os dados da tela anterior
-        quantidadePessoas = intent.getIntExtra("QUANTIDADE_PESSOAS", 1)
+        quantidadePessoas = intent.getIntExtra("QUANTIDADE_PESSOAS", 0)
         userId = intent.getStringExtra("userId") ?: ""
         lockerId = intent.getStringExtra("lockerId") ?: ""
         price = intent.getDoubleExtra("price", 0.0)
@@ -120,6 +120,7 @@ class Camera : AppCompatActivity() {
                             val intent = Intent(this@Camera, RegisterNFCActivity::class.java)
                             intent.putStringArrayListExtra("IMAGE_PATHS", ArrayList(imageFilePaths))
                             // Passando os dados para a próxima tela
+                            intent.putExtra("QUANTIDADE_PESSOAS", quantidadePessoas)
                             intent.putExtra("userId", userId)
                             intent.putExtra("lockerId", lockerId)
                             intent.putExtra("price", price)

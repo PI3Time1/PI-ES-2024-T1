@@ -19,6 +19,8 @@ import java.io.IOException
 class EncerrarReadNfcActivity : AppCompatActivity() {
 
     private lateinit var nfcAdapter: NfcAdapter
+    private var leituraFeita = 0
+    private var numeroDeLeituras = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,16 +86,24 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                         duration = records[5].payload.decodeToString().trim { it <= ' ' }.substringAfter("duration: ")
                         price = records[4].payload.decodeToString().trim { it <= ' ' }.substringAfter("price: ")
                         horaCelular = records[6].payload.decodeToString().trim { it <= ' ' }.substringAfter("current_time: ")
+                        // Define o número de leituras baseado na presença da segunda imagem
+                        numeroDeLeituras = 2
                     } else {
                         lockerId = records[2].payload.decodeToString().trim { it <= ' ' }.substringAfter("lockerId: ")
                         duration = records[4].payload.decodeToString().trim { it <= ' ' }.substringAfter("duration: ")
                         price = records[3].payload.decodeToString().trim { it <= ' ' }.substringAfter("price: ")
                         horaCelular = records[5].payload.decodeToString().trim { it <= ' ' }.substringAfter("current_time: ")
+                        numeroDeLeituras = 1
                     }
 
                     Log.d("NFC_TAG", "Locker ID: $lockerId, Duration: $duration, Price: $price, HoraCelular: $horaCelular")
 
-                    displayLockerInfo(lockerId, horaCelular)
+                    leituraFeita++
+                    if (leituraFeita >= numeroDeLeituras) {
+                        displayLockerInfo(lockerId, horaCelular)
+                    } else {
+                        Toast.makeText(this, "Aproxime a próxima tag NFC.", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
 

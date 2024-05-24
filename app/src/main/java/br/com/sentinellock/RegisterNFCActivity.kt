@@ -24,13 +24,15 @@ class RegisterNFCActivity : AppCompatActivity() {
     private lateinit var lockerId: String
     private var price: Double = 0.0
     private var duration: Long = 0
+    private var quantidadePessoas = 0
+    private var registrosFeitos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_register_nfcactivity)
 
         // Recebendo os dados da tela anterior
+        quantidadePessoas = intent.getIntExtra("QUANTIDADE_PESSOAS", 0)
         imageFilePaths = intent.getStringArrayListExtra("IMAGE_PATHS") ?: emptyList()
         userId = intent.getStringExtra("userId") ?: ""
         lockerId = intent.getStringExtra("lockerId") ?: ""
@@ -106,19 +108,23 @@ class RegisterNFCActivity : AppCompatActivity() {
                 val message = NdefMessage(records.toTypedArray())
 
                 ndef.writeNdefMessage(message)
-                Toast.makeText(this, "Cadastro feito com sucesso", Toast.LENGTH_LONG).show()
+                registrosFeitos++
 
-                // Após a gravação na NFC, inicia a próxima atividade e passa os dados como extras
-                val nextIntent = Intent(this, LiberadoInfosActivity2::class.java).apply {
-                    putExtra("userId", userId)
-                    putExtra("lockerId", lockerId)
-                    putExtra("price", price)
-                    putExtra("duration", duration)
-                    putStringArrayListExtra("IMAGE_PATHS", ArrayList(imageFilePaths))  // Passa os caminhos das imagens
+                if (registrosFeitos >= quantidadePessoas) {
+                    Toast.makeText(this, "Cadastro feito com sucesso para todas as pessoas.", Toast.LENGTH_LONG).show()
+                    // Após a gravação na NFC, inicia a próxima atividade e passa os dados como extras
+                    val nextIntent = Intent(this, LiberadoInfosActivity2::class.java).apply {
+                        putExtra("userId", userId)
+                        putExtra("lockerId", lockerId)
+                        putExtra("price", price)
+                        putExtra("duration", duration)
+                        putStringArrayListExtra("IMAGE_PATHS", ArrayList(imageFilePaths))  // Passa os caminhos das imagens
+                    }
+                    startActivity(nextIntent)
+                    finish() // Finaliza esta atividade
+                } else {
+                    Toast.makeText(this, "Cadastro feito. Aproxime outra tag NFC.", Toast.LENGTH_LONG).show()
                 }
-                startActivity(nextIntent)
-                // Finaliza esta atividade, se desejar
-                finish()
             } catch (e: Exception) {
                 Toast.makeText(this, "Erro ao escrever na tag: ${e.message}", Toast.LENGTH_LONG).show()
             } finally {

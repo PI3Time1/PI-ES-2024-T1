@@ -58,7 +58,7 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Encerrar Locação"
+        android:text="Abrir Armário"
         android:textSize="13sp"
         android:textColor="@color/white"
         android:textStyle="bold"
