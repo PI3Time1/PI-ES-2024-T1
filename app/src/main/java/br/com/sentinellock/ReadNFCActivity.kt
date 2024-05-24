@@ -1,5 +1,6 @@
 package br.com.sentinellock
 
+import android.app.Dialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -11,6 +12,7 @@ import android.nfc.tech.Ndef
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +27,7 @@ class ReadNFCActivity : AppCompatActivity() {
     private lateinit var tvLockerInfo: TextView
     private lateinit var imageView1: ImageView
     private lateinit var imageView2: ImageView
+    private lateinit var loadingDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,16 @@ class ReadNFCActivity : AppCompatActivity() {
         tvLockerInfo = findViewById(R.id.lockerInfoTextView)
         imageView1 = findViewById(R.id.imageView1)
         imageView2 = findViewById(R.id.imageView2)
+
+        loadingDialog = Dialog(this)
+        loadingDialog.setContentView(R.layout.dialog_loading)
+        loadingDialog.setCancelable(false)
+        loadingDialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+
+        loadingDialog.show()
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         if (nfcAdapter == null) {
@@ -75,6 +88,8 @@ class ReadNFCActivity : AppCompatActivity() {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null) {
                 readNfcTag(tag)
+
+                loadingDialog.dismiss()
             }
         }
     }

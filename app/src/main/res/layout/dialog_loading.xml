@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_100"
-    tools:context=".RegisterNFCActivity">
+    tools:context=".ReadNFCActivity">
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,8 +16,8 @@
 
         <!-- FrameLayout para sobrepor as ImageViews -->
         <FrameLayout
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center">
 
             <ImageView
@@ -33,20 +35,24 @@
         </FrameLayout>
     </LinearLayout>
 
-    <!-- Centraliza a TextView horizontalmente -->
     <TextView
+        android:id="@+id/tv_tag_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aproxime o relógio"
+        android:text="Aproxime a tag para leitura"
         android:textSize="24sp"
+        android:textColor="@color/gray_900"
+        android:layout_marginTop="500dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"/>
+        android:textAlignment="center"/>
 
-    <Button
-        android:id="@+id/btn_next"
+    <ImageView
+        android:id="@+id/img_tag_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Próximo"
+        android:layout_below="@id/tv_tag_content"
+        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="500dp"/>
+        android:visibility="gone" /> <!-- hidden initially -->
+
 </RelativeLayout>
