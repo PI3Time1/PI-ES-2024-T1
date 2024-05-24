@@ -38,12 +38,12 @@
         android:layout_weight="1">
 
         <LinearLayout
-            android:id="@+id/centeredSquare"
+            android:id="@+id/buttonsContainer"
             android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:background="@color/gray_900"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:background="@drawable/border_radius"
+            android:padding="20dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +66,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:text="Uma Pessoa"/>
+                android:text="Uma Pessoa"
+                android:backgroundTint="@color/green_500"
+                android:textColor="@color/white"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/botaoDuasPessoas"
@@ -74,7 +76,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:text="Duas Pessoas"/>
+                android:text="Duas Pessoas"
+                android:backgroundTint="@color/green_500"
+                android:textColor="@color/white"/>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
