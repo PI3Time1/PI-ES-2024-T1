@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -19,6 +20,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import br.com.sentinellock.databinding.ActivityCameraBinding
 import com.google.common.util.concurrent.ListenableFuture
+import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -58,8 +60,7 @@ class Camera : AppCompatActivity() {
         startCamera()
 
         binding.buttonBack.setOnClickListener {
-            startActivity(Intent(this, QuantidadePessoas::class.java))
-            finish()
+            showConfirmationDialog()
         }
 
         binding.botaoTirarFoto.setOnClickListener {
@@ -138,6 +139,44 @@ class Camera : AppCompatActivity() {
             )
         }
     }
+
+    private fun showConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Confirmação")
+        builder.setMessage("Tem certeza que deseja voltar? Todos os dados não salvos serão perdidos.")
+        builder.setPositiveButton("Sim") { _, _ ->
+            // Atualizar status no Firebase
+            updateStatusOnFirebase()
+            // Iniciar a atividade MenuGerente
+            startActivity(Intent(this, MenuGerente::class.java))
+            finish()
+        }
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+
+    private fun updateStatusOnFirebase() {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("unidade_de_locacao").document(lockerId)
+            .update(
+                mapOf(
+                    "aberto" to true,
+                    "status" to true
+                )
+            )
+            .addOnSuccessListener {
+                Toast.makeText(this, "Status atualizado no Firebase.", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Erro ao atualizar status no Firebase: $e", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun flash() {
