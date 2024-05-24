@@ -5,41 +5,34 @@
     android:background="@color/gray_100"
     tools:context=".RegisterNFCActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp">
+    <!-- FrameLayout para sobrepor as ImageViews, centralizado horizontalmente e verticalmente -->
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true">
 
-        <!-- FrameLayout para sobrepor as ImageViews -->
-        <FrameLayout
+        <ImageView
+            android:id="@+id/img_circle_background"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_gravity="center">
+            android:src="@drawable/circle_background" />
 
-            <ImageView
-                android:id="@+id/img_circle_background"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
-                android:src="@drawable/circle_background" />
+        <ImageView
+            android:id="@+id/img_inner_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/baseline_watch_24" />
+    </FrameLayout>
 
-            <ImageView
-                android:id="@+id/img_inner_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:src="@drawable/baseline_watch_24" />
-        </FrameLayout>
-    </LinearLayout>
-
-    <!-- Centraliza a TextView horizontalmente -->
+    <!-- Centraliza a TextView horizontalmente e a posiciona abaixo do FrameLayout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Aproxime o relógio"
+        android:textColor="@color/gray_900"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="450dp"/>
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

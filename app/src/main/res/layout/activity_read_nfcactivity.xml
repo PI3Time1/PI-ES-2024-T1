@@ -97,7 +97,7 @@
                 <ImageView
                     android:id="@+id/imageView1"
                     android:layout_width="wrap_content"
-                    android:layout_height="160dp"
+                    android:layout_height="200dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="1dp"
                     android:rotation="90" />
@@ -105,7 +105,7 @@
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="wrap_content"
-                    android:layout_height="160dp"
+                    android:layout_height="200dp"
                     android:layout_weight="1"
                     android:layout_marginStart="1dp"
                     android:rotation="90" />
