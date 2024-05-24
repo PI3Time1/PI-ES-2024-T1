@@ -79,6 +79,20 @@ class LiberadoInfosActivity2 : AppCompatActivity() {
             .addOnSuccessListener { document ->
                 if (document != null) {
                     val lockerName = document.getString("name")
+
+                    val tempo = duration.toString().toInt()
+
+
+                    if (tempo > 16) {
+                        val lockerInfo = "Armário: $lockerName\nPreço: $price    Duração: $tempo Min"
+                        lockerInfoTextView.text = lockerInfo
+                    } else {
+                        val lockerInfo = "Armário: $lockerName\nPreço: $price    Duração: $tempo H"
+                        lockerInfoTextView.text = lockerInfo
+                    }
+
+
+
                     val lockerInfo = "Armário: $lockerName \n Preço: $price\n Duração: $duration"
                     lockerInfoTextView.text = lockerInfo
                 } else {

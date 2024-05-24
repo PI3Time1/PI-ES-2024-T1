@@ -14,7 +14,7 @@
         app:titleCentered="true"
         app:title="QRCODE"
         app:titleTextColor="@color/white"
-        android:background="@color/gray_900"
+        android:background="@color/green_500"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         tools:ignore="MissingConstraints" />
 

@@ -99,7 +99,7 @@ class TelaQrcodeActivity : AppCompatActivity() {
     private fun generateQRCode(data: String): Bitmap {
         val barcodeEncoder = BarcodeEncoder()
         return try {
-            barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 750, 750)
+            barcodeEncoder.encodeBitmap(data, BarcodeFormat.QR_CODE, 600, 600)
         } catch (e: WriterException) {
             e.printStackTrace()
             Bitmap.createBitmap(600, 600, Bitmap.Config.ARGB_8888)

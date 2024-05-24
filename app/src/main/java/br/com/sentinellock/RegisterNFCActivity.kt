@@ -12,6 +12,9 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class RegisterNFCActivity : AppCompatActivity() {
 
@@ -85,6 +88,10 @@ class RegisterNFCActivity : AppCompatActivity() {
                 }
 
                 val records = mutableListOf<NdefRecord>()
+                val currentDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
+                    Date()
+                )
+
                 // Adiciona os registros de texto para as informações existentes e para os caminhos das imagens
                 records.addAll(imageFilePaths.map { filePath ->
                     NdefRecord.createTextRecord(null, filePath)
@@ -94,6 +101,7 @@ class RegisterNFCActivity : AppCompatActivity() {
                 records.add(NdefRecord.createTextRecord(null, "lockerId: $lockerId"))
                 records.add(NdefRecord.createTextRecord(null, "price: $price"))
                 records.add(NdefRecord.createTextRecord(null, "duration: $duration"))
+                records.add(NdefRecord.createTextRecord(null, "current_time: $currentDate"))
 
                 val message = NdefMessage(records.toTypedArray())
 

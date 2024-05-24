@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
+import java.util.Locale
 
 class ReadNFCActivity : AppCompatActivity() {
 
@@ -28,6 +29,8 @@ class ReadNFCActivity : AppCompatActivity() {
     private lateinit var imageView1: ImageView
     private lateinit var imageView2: ImageView
     private lateinit var loadingDialog: Dialog
+    private var TextDialog: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,43 +98,83 @@ class ReadNFCActivity : AppCompatActivity() {
     }
 
     private fun readNfcTag(tag: Tag) {
+        var userId:Any
+        var lockerId:Any
+        var duration:Any
+        var price:Any
+        var imagePath1:Any
+        var imagePath2: Any?
+        var horaCelular: Any
+
         val ndef = Ndef.get(tag)
         if (ndef != null) {
             ndef.connect()
             val ndefMessage = ndef.ndefMessage
+
+
             if (ndefMessage != null) {
                 val records = ndefMessage.records
+                Log.d("NFC_TAG", "User ID: ERORORORO $records")
                 if (records.isNotEmpty()) {
                     Log.d("NFC_TAG", "User ID: ${records[0].payload.decodeToString()},${records[1].payload.decodeToString()},${records[2].payload.decodeToString()},${records[3].payload.decodeToString()},${records[4].payload.decodeToString()},${records[5].payload.decodeToString()}")
-                    val record1 = records[2]
-                    val record2 = if (records.size > 1) records[3] else null
-                    var userId = record1.payload.decodeToString()
-                    var lockerId = record2?.payload?.decodeToString()
-                    var duration = records[5].payload.decodeToString()
-                    var price = records[4].payload.decodeToString()
-                    val imagePath1 = records[0].payload.decodeToString().trim()
-                    val imagePath2 = records[1].payload.decodeToString().trim()
+
+                    if (records.size >= 8) {
+                        userId = records[2].payload.decodeToString()
+                        lockerId = records[3].payload.decodeToString()
+                        duration = records[5].payload.decodeToString()
+                        price = records[4].payload.decodeToString()
+                        imagePath1 = records[0].payload.decodeToString().trim()
+                        imagePath2 = records[1].payload.decodeToString().trim()
+                        horaCelular = records[6].payload.decodeToString().trim()
+                    } else {
+                        userId = records[1].payload.decodeToString()
+                        lockerId = records[2].payload.decodeToString()
+                        duration = records[4].payload.decodeToString()
+                        price = records[3].payload.decodeToString()
+                        imagePath1 = records[0].payload.decodeToString().trim()
+                        imagePath2 = null
+                        horaCelular = records[5].payload.decodeToString().trim()
+                    }
+
+
+                    Log.d("NFC_TAG", "User ID: passo1 $records")
 
                     // Logging das informações lidas da tag
 
                     price = price.trim { it <= ' ' }.substringAfter("price: ")
                     duration = duration.trim { it <= ' ' }.substringAfter("duration: ")
                     userId = userId.trim { it <= ' ' }.substringAfter("userId: ")
-                    lockerId = lockerId?.trim { it <= ' ' }?.substringAfter("lockerId: ")
+                    lockerId = lockerId.trim { it <= ' ' }.substringAfter("lockerId: ")
+                    horaCelular = horaCelular.trim { it <= ' ' }.substringAfter("current_time: ")
+
+                    Log.d("NFC_TAG", "User ID: passo2 $records")
+
 
                     Log.d("NFC_TAG", "User ID: $userId")
                     Log.d("NFC_TAG", "Locker ID: $lockerId")
 
+                    Log.d("NFC_TAG", "User ID: passo3 $records")
+
+
                     // Exibindo os valores na tela
                     displayUserInfo(userId)
-                    displayLockerInfo(lockerId, price, duration)
+                    displayLockerInfo(lockerId, price, duration,  horaCelular)
+
+                    Log.d("NFC_TAG", "User ID: passo4 $records")
+
 
                     if(imagePath1 != null || imagePath2 != null){
+                        Log.d("NFC_TAG", "User ID: passo5 $records")
+
                         if(imagePath2 != null){
+                            Log.d("NFC_TAG", "User ID: passo6 $records")
+
                             loadImageFromPath(this,imagePath1, imageView1)
-                            loadImageFromPath(this,imagePath2, imageView2)
+                            loadImageFromPath(this, imagePath2.toString(), imageView2)
                         }
                         else{
+                            Log.d("NFC_TAG", "User ID: passo7 $records")
+
                             loadImageFromPath(this,imagePath1, imageView1)
                         }
                     }else{
@@ -164,7 +207,8 @@ class ReadNFCActivity : AppCompatActivity() {
             }
     }
 
-    private fun displayLockerInfo(lockerId: String?,price:Any, duration:Any ) {
+    private fun displayLockerInfo(lockerId: String?,price:Any, duration:Any , horaCelular:Any) {
+
         if (lockerId != null) {
             val db = FirebaseFirestore.getInstance()
             db.collection("unidade_de_locacao").document(lockerId)
@@ -173,8 +217,18 @@ class ReadNFCActivity : AppCompatActivity() {
                     if (document != null) {
                         val lockerName = document.getString("name")
 
-                        val lockerInfo = "Armário: $lockerName\nPreço: $price    Duração: $duration"
-                        tvLockerInfo.text = lockerInfo
+                        val tempo = duration.toString().toInt()
+
+
+                      if (tempo > 16) {
+                            val lockerInfo = "Armário: $lockerName\nPreço: $price    Duração: $tempo Min  "
+                            tvLockerInfo.text = lockerInfo
+                        } else {
+                            val lockerInfo = "Armário: $lockerName\nPreço: $price    Duração: $tempo H"
+                            tvLockerInfo.text = lockerInfo
+                        }
+
+
                     } else {
                         Toast.makeText(this, "Armário não encontrado no Firebase", Toast.LENGTH_SHORT).show()
                     }
@@ -190,6 +244,7 @@ class ReadNFCActivity : AppCompatActivity() {
 
 private fun loadImageFromPath(context: Context, imagePath: String, imageView: ImageView) {
     try {
+        Log.d("NFC_TAG", "User ID: passo8 ")
         // Removendo a parte indesejada antes de /storage
         val pathPrefix = "/storage"
         val startIndex = imagePath.indexOf(pathPrefix)
@@ -197,6 +252,7 @@ private fun loadImageFromPath(context: Context, imagePath: String, imageView: Im
             imagePath.substring(startIndex)
         } else {
             imagePath
+
         }
 
         // Verificar se o caminho absoluto é válido
