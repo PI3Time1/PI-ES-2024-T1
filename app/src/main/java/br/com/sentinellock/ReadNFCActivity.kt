@@ -32,10 +32,12 @@ class ReadNFCActivity : AppCompatActivity() {
     private lateinit var loadingDialog: Dialog
     private lateinit var buttonFecharArmario: Button
     private lateinit var InfoLocker: Any
+    private lateinit var button2 : Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_read_nfcactivity)
+        button2 = findViewById(R.id.button2)
 
         tvUserInfo = findViewById(R.id.userInfoTextView)
         tvLockerInfo = findViewById(R.id.lockerInfoTextView)
@@ -50,6 +52,12 @@ class ReadNFCActivity : AppCompatActivity() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
+
+        button2.setOnClickListener {
+            val intent = Intent(this, MenuGerente::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         loadingDialog.show()
 
