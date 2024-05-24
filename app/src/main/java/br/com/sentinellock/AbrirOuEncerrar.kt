@@ -24,19 +24,19 @@ class AbrirOuEncerrar : AppCompatActivity() {
         setContentView(R.layout.activity_abrir_ou_encerrar)
 
         buttonBack.setOnClickListener {
-            val intent = Intent(this,ReadNFCActivity::class.java)
+            val intent = Intent(this,MenuGerente::class.java)
             startActivity(intent)
             finish()
         }
-//        buttonBack.setOnClickListener {
+//        AbrirMomentaneamente.setOnClickListener {
 //            val intent = Intent(this,//ArmarioLiberado::class.java)
 //            startActivity(intent)
 //            finish()
 //        }
-//        buttonBack.setOnClickListener {
-//            val intent = Intent(this,//LocacaoEncerrada::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
+        EncerrarLocacao.setOnClickListener {
+            val intent = Intent(this, locacao_encerrada::class.java)
+            startActivity(intent)
+                finish()
+        }
     }
 }
