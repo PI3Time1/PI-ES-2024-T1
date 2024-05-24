@@ -39,6 +39,8 @@ class ReadNFCActivity : AppCompatActivity() {
         setContentView(R.layout.activity_read_nfcactivity)
         button2 = findViewById(R.id.button2)
 
+
+
         tvUserInfo = findViewById(R.id.userInfoTextView)
         tvLockerInfo = findViewById(R.id.lockerInfoTextView)
         imageView1 = findViewById(R.id.imageView1)
@@ -55,6 +57,8 @@ class ReadNFCActivity : AppCompatActivity() {
 
         button2.setOnClickListener {
             val intent = Intent(this, MenuGerente::class.java)
+            liberaArmario(InfoLocker, 2)
+
             startActivity(intent)
             finish()
         }
@@ -72,7 +76,7 @@ class ReadNFCActivity : AppCompatActivity() {
         }
 
         buttonFecharArmario.setOnClickListener {
-            fecharArmario(InfoLocker)
+            liberaArmario(InfoLocker, 1)
         }
     }
 
@@ -142,6 +146,7 @@ class ReadNFCActivity : AppCompatActivity() {
                         horaCelular = records[5].payload.decodeToString().trim()
                     }
 
+
                     price = price.trim { it <= ' ' }.substringAfter("price: ")
                     duration = duration.trim { it <= ' ' }.substringAfter("duration: ")
                     userId = userId.trim { it <= ' ' }.substringAfter("userId: ")
@@ -153,12 +158,18 @@ class ReadNFCActivity : AppCompatActivity() {
                     displayUserInfo(userId)
                     displayLockerInfo(lockerId, price, duration, horaCelular)
 
+//                    liberaArmario(InfoLocker, 3)
+
                     if (imagePath1.isNotEmpty() || imagePath2 != null) {
                         if (imagePath2 != null) {
                             loadImageFromPath(this, imagePath1, imageView1)
                             loadImageFromPath(this, imagePath2.toString(), imageView2)
+                            liberaArmario(InfoLocker, 3)
+
                         } else {
                             loadImageFromPath(this, imagePath1, imageView1)
+                            liberaArmario(InfoLocker, 3)
+
                         }
                     } else {
                         Toast.makeText(this, "Nenhuma imagem foi lida", Toast.LENGTH_SHORT).show()
@@ -230,27 +241,61 @@ class ReadNFCActivity : AppCompatActivity() {
         }
     }
 
-    private fun fecharArmario(lockerId: Any) {
+    private fun liberaArmario(lockerId: Any, opc: Int) {
         val db = FirebaseFirestore.getInstance()
         val lockerId = lockerId
 
-        db.collection("unidade_de_locacao").document(lockerId.toString())
-            .update(
-                mapOf(
-                    "status" to false,
-                    "aberto" to false
+        if(opc == 1){
+
+            db.collection("unidade_de_locacao").document(lockerId.toString())
+                .update(
+                    mapOf(
+                        "status" to true,
+                        "aberto" to true
+                    )
                 )
-            )
-            .addOnSuccessListener {
-                Toast.makeText(this, "Armário fechado com sucesso.", Toast.LENGTH_SHORT).show()
-                // Atualize a exibição ou faça qualquer outra ação necessária após fechar o armário
-                val intent = Intent(this, locacao_encerrada::class.java)
-                startActivity(intent)
-                finish() // Opcional: para fechar a atividade atual
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Erro ao fechar o armário: $e", Toast.LENGTH_SHORT).show()
-            }
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Armário liberado com sucesso.", Toast.LENGTH_SHORT).show()
+                    // Atualize a exibição ou faça qualquer outra ação necessária após fechar o armário
+                    val intent = Intent(this, locacao_encerrada::class.java)
+                    startActivity(intent)
+                    finish() // Opcional: para fechar a atividade atual
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Erro ao liberar o armário: $e", Toast.LENGTH_SHORT).show()
+                }
+
+        }else if(opc == 2){
+            db.collection("unidade_de_locacao").document(lockerId.toString())
+                .update(
+                    mapOf(
+                        "aberto" to false
+                    )
+                )
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Armário fechado com sucesso.", Toast.LENGTH_SHORT).show()
+                    // Atualize a exibição ou faça qualquer outra ação necessária após fechar o armário
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Erro ao fechar o armário: $e", Toast.LENGTH_SHORT).show()
+                }
+        }else{
+            db.collection("unidade_de_locacao").document(lockerId.toString())
+                .update(
+                    mapOf(
+                        "aberto" to true
+                    )
+                )
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Armário aberto com sucesso.", Toast.LENGTH_SHORT).show()
+                    // Atualize a exibição ou faça qualquer outra ação necessária após fechar o armário
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Erro ao abrir o armário: $e", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+
     }
 
     private fun loadImageFromPath(context: Context, imagePath: String, imageView: ImageView) {

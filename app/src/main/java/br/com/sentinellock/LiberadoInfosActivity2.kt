@@ -1,9 +1,11 @@
 package br.com.sentinellock
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -20,12 +22,21 @@ class LiberadoInfosActivity2 : AppCompatActivity() {
     private lateinit var imageFilePaths: List<String>
     private lateinit var imageView1: ImageView
     private lateinit var imageView2: ImageView
+    private lateinit var button2: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_liberado_infos2)
 
         // Recebendo os dados da intent
+
+        button2 = findViewById(R.id.button2)
+// botão que redireciona o usuário para a tela LERQRCODE
+        button2.setOnClickListener {
+            val intent = Intent(this, MenuGerente::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         userId = intent.getStringExtra("userId") ?: ""
         lockerId = intent.getStringExtra("lockerId") ?: ""

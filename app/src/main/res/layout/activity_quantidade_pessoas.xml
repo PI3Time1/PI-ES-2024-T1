@@ -16,7 +16,7 @@
         app:buttonGravity="center_vertical"
         app:titleCentered="true"
         app:titleTextColor="@color/white"
-        android:background="@color/gray_900"
+        android:background="@color/green_500"
         style="@style/Widget.MaterialComponents.Toolbar.Primary"
         android:gravity="center_vertical">
 

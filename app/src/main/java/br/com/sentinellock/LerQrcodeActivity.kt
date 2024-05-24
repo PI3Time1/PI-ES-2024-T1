@@ -1,10 +1,10 @@
 package br.com.sentinellock
 
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -35,10 +35,6 @@ class LerQrcodeActivity : AppCompatActivity() {
         val result: IntentResult? = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         result?.let { res ->
             if (res.contents != null) {
-                // Exibe as informações lidas do QR code em um Toast
-//                Toast.makeText(this, "Dados lidos: ${res.contents}", Toast.LENGTH_LONG).show()
-
-                // Exibir o conteúdo completo do qrDataParts em um TextView adicional
                 val qrDataParts = res.contents.split(",")
 
                 // Verifica se o conteúdo do QR code pode ser dividido corretamente
@@ -49,21 +45,48 @@ class LerQrcodeActivity : AppCompatActivity() {
                     val duration = qrDataParts[3].substringAfter(":").trim().toLongOrNull()
 
                     if (userId != null && lockerId != null && price != null && duration != null) {
-                        // Passa as informações para a tela PessoasActivity
-                        updateUserBalanceAndNavigate(userId, lockerId, price, duration)
+                        // Verifica a disponibilidade do armário antes de continuar
+                        checkLockerAvailability(userId, lockerId, price, duration)
                     } else {
-                        // Exibe Toast de erro se alguma informação estiver faltando ou for inválida
-                        Toast.makeText(this, "QR code inválido,${userId},${lockerId},${price},${duration}",  Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "QR code inválido,${userId},${lockerId},${price},${duration}", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Exibe Toast de erro se o QR code não contiver informações suficientes
                     Toast.makeText(this, "QR code incompleto", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                // Falha na leitura do QR code
                 Toast.makeText(this, "Falha na leitura do QR code", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun checkLockerAvailability(userId: String, lockerId: String, price: Double, duration: Long) {
+        val lockerRef = db.collection("unidade_de_locacao").document(lockerId)
+        lockerRef.get().addOnSuccessListener { document ->
+            if (document.exists()) {
+                val isAvailable = document.getBoolean("status") ?: false
+                if (isAvailable) {
+                    updateUserBalanceAndNavigate(userId, lockerId, price, duration)
+                } else {
+                    showLockerUnavailableDialog()
+                }
+            } else {
+                Toast.makeText(this, "Armário não encontrado", Toast.LENGTH_SHORT).show()
+            }
+        }.addOnFailureListener {
+            Toast.makeText(this, "Erro ao verificar o status do armário", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showLockerUnavailableDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Armário Indisponível")
+        builder.setMessage("Armário indisponível, avise ao cliente para escolher outro armário.")
+        builder.setPositiveButton("OK") { dialogInterface: DialogInterface, i: Int ->
+            val intent = Intent(this, MenuGerente::class.java)
+            startActivity(intent)
+            finish()
+        }
+        builder.show()
     }
 
     private fun updateUserBalanceAndNavigate(userId: String, lockerId: String, price: Double, duration: Long) {
@@ -71,9 +94,7 @@ class LerQrcodeActivity : AppCompatActivity() {
             if (success) {
                 updateLockerStatus(lockerId) { success ->
                     if (success) {
-                        // Exibe Toast de sucesso
                         Toast.makeText(this, "Operações realizadas com sucesso", Toast.LENGTH_SHORT).show()
-                        // Passa as informações para a tela PessoasActivity
                         val intent = Intent(this, QuantidadePessoas::class.java)
                         intent.putExtra("userId", userId)
                         intent.putExtra("lockerId", lockerId)
@@ -81,12 +102,10 @@ class LerQrcodeActivity : AppCompatActivity() {
                         intent.putExtra("duration", duration)
                         startActivity(intent)
                     } else {
-                        // Exibe Toast de erro
                         Toast.makeText(this, "Erro ao atualizar o status do armário", Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                // Exibe Toast de erro
                 Toast.makeText(this, "Erro ao atualizar o saldo do usuário", Toast.LENGTH_SHORT).show()
             }
         }
@@ -101,24 +120,16 @@ class LerQrcodeActivity : AppCompatActivity() {
             val updatedBalance = currentBalance - price
             transaction.update(userRef, "cartaoCredito.saldo", updatedBalance)
         }.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                onComplete(true)
-            } else {
-                onComplete(false)
-            }
+            onComplete(task.isSuccessful)
         }
     }
 
     private fun updateLockerStatus(lockerId: String, onComplete: (Boolean) -> Unit) {
         val lockerRef = db.collection("unidade_de_locacao").document(lockerId)
 
-        lockerRef.update("status", true)
+        lockerRef.update("status", false, "aberto", false)
             .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    onComplete(true)
-                } else {
-                    onComplete(false)
-                }
+                onComplete(task.isSuccessful)
             }
     }
 }
