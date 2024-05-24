@@ -28,15 +28,15 @@ class AbrirOuEncerrar : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-//        AbrirMomentaneamente.setOnClickListener {
-//            val intent = Intent(this,//ArmarioLiberado::class.java)
-//            startActivity(intent)
-//            finish()
-//        }
-        EncerrarLocacao.setOnClickListener {
-            val intent = Intent(this, locacao_encerrada::class.java)
+        AbrirMomentaneamente.setOnClickListener {
+            val intent = Intent(this,ReadNFCActivity ::class.java)
             startActivity(intent)
-                finish()
+            finish()
         }
+//        EncerrarLocacao.setOnClickListener {
+//            val intent = Intent(this, locacao_encerrada::class.java)
+//            startActivity(intent)
+//                finish()
+//        }
     }
 }
