@@ -26,6 +26,7 @@ class LiberadoInfosActivity2 : AppCompatActivity() {
         setContentView(R.layout.activity_liberado_infos2)
 
         // Recebendo os dados da intent
+
         userId = intent.getStringExtra("userId") ?: ""
         lockerId = intent.getStringExtra("lockerId") ?: ""
         price = intent.getDoubleExtra("price", 0.0)
