@@ -40,7 +40,7 @@
         <activity
             android:name=".locacao_encerrada"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MenuGerente"
             android:screenOrientation="portrait"

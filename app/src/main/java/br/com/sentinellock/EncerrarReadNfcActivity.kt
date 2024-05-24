@@ -26,7 +26,6 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
     private lateinit var nfcAdapter: NfcAdapter
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_encerrar_read_nfc)
@@ -67,7 +66,8 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         if (NfcAdapter.ACTION_TAG_DISCOVERED == intent.action ||
             NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action ||
-            NfcAdapter.ACTION_TECH_DISCOVERED == intent.action) {
+            NfcAdapter.ACTION_TECH_DISCOVERED == intent.action
+        ) {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null) {
                 readNfcTag(tag)
@@ -78,11 +78,10 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
     }
 
     private fun readNfcTag(tag: Tag) {
-        var userId:Any
-        var lockerId:Any
-        var duration:Any
-        var price:Any
-
+        var userId: Any
+        var lockerId: Any
+        var duration: Any
+        var price: Any
         var horaCelular: Any
 
         val ndef = Ndef.get(tag)
@@ -134,8 +133,7 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
     }
 
 
-
-    private fun displayLockerInfo(lockerId: String?, horaCelular:Any) {
+    private fun displayLockerInfo(lockerId: String?, horaCelular: Any) {
 
         if (lockerId != null) {
             val db = FirebaseFirestore.getInstance()
@@ -144,19 +142,42 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val lockerName = document.getString("name")
-                        
+
+                        // Define os campos status e aberto como falsos
+                        db.collection("unidade_de_locacao").document(lockerId)
+                            .update("status", false, "aberto", false)
+                            .addOnSuccessListener {
+                                Log.d("TAG", "Campos status e aberto atualizados com sucesso")
+
+                                // Navega para a tela LocacaoEncerradaActivity
+                                val intent = Intent(this, locacao_encerrada::class.java)
+                                startActivity(intent)
+                                finish() // Opcional: encerra a atividade atual se necessário
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w("TAG", "Erro ao atualizar campos status e aberto", e)
+                            }
 
                     } else {
-                        Toast.makeText(this, "Armário não encontrado no Firebase", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            "Armário não encontrado no Firebase",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(this, "Erro ao buscar informações do armário: $e", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this,
+                        "Erro ao buscar informações do armário: $e",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
         } else {
             Toast.makeText(this, "ID do armário não encontrado", Toast.LENGTH_SHORT).show()
         }
     }
 }
+
 
 

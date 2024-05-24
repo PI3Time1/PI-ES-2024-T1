@@ -91,8 +91,6 @@ class LiberadoInfosActivity2 : AppCompatActivity() {
                         lockerInfoTextView.text = lockerInfo
                     }
 
-
-
                     val lockerInfo = "Armário: $lockerName \n Preço: $price\n Duração: $duration"
                     lockerInfoTextView.text = lockerInfo
                 } else {

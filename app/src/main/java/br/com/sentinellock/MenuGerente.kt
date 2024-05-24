@@ -27,7 +27,7 @@ class MenuGerente : AppCompatActivity() {
         }
         // botão que redireciona o usuário para a tela READNFC
         EncerrarLocacao.setOnClickListener {
-            val intent = Intent(this, ReadNFCActivity::class.java)
+            val intent = Intent(this, AbrirOuEncerrar::class.java)
             startActivity(intent)
             finish()
         }

@@ -16,14 +16,15 @@ class AbrirOuEncerrar : AppCompatActivity() {
 
     // Método executado ao criar a atividade
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_abrir_ou_encerrar)
 // Associa as variáveis às visualizações no layout XML
         buttonBack = findViewById(R.id.buttonBack)
         AbrirMomentaneamente = findViewById(R.id.AbrirMomentaneamente)
         EncerrarLocacao = findViewById(R.id.EncerrarLocacao)
 
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_abrir_ou_encerrar)
+
 // Ao clicar no botão ele realiza a ação de voltar pra tela do gerente
         buttonBack.setOnClickListener {
             val intent = Intent(this,MenuGerente::class.java)
@@ -38,10 +39,10 @@ class AbrirOuEncerrar : AppCompatActivity() {
         }
 // Ao clicar no botão ele realiza a ação de ir para a tela de EncerrarLocação
 
-//        EncerrarLocacao.setOnClickListener {
-//            val intent = Intent(this, locacao_encerrada::class.java)
-//            startActivity(intent)
-//                finish()
-//        }
+        EncerrarLocacao.setOnClickListener {
+            val intent = Intent(this, EncerrarReadNfcActivity::class.java)
+            startActivity(intent)
+                finish()
+        }
     }
 }
