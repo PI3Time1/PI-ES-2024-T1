@@ -96,7 +96,6 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-
                 <TextView
                     android:id="@+id/placeReferenceEditText"
                     android:layout_width="wrap_content"
