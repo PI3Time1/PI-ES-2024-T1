@@ -102,41 +102,53 @@ class AlugarArmarioActivity : AppCompatActivity() {
         val button1: Button = findViewById(R.id.button1)
         button1.text = "30 min                   R$$precoMeiaHora"
         button1.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoMeiaHora
             selectedTime = 30
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         val button2: Button = findViewById(R.id.button2)
         button2.text = "1 hora                   R$$precoUmaHora"
         button2.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoUmaHora
             selectedTime = 1
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         val button3: Button = findViewById(R.id.button3)
         button3.text = "2 horas               R$$precoDuasHoras"
         button3.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoDuasHoras
             selectedTime = 2
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         val button4: Button = findViewById(R.id.button4)
         button4.text = "4 horas               R$$precoQuatroHoras"
         button4.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoQuatroHoras
             selectedTime = 4
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         // Verificar se está entre 07:00 e 08:00 horas
