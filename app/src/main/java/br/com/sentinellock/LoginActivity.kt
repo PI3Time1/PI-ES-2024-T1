@@ -3,6 +3,8 @@ package br.com.sentinellock
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -50,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
     // Inicializa os componentes de interface do usuário
     private fun initializeViews() {
         // Associa as variáveis às visualizações no layout XML
-        loadingScreen = findViewById(R.id.loadingScreen) // Inicialização do indicador de carregamento
+        loadingScreen = findViewById(R.id.loadingScreen)
         buttonLogin = findViewById(R.id.buttonLogin)
         buttonContWithoutRegistr = findViewById(R.id.buttonContWithoutRegistr)
         buttonRegister = findViewById(R.id.buttonRegister)
@@ -105,9 +107,6 @@ class LoginActivity : AppCompatActivity() {
                 firestore.collection("pessoas").document(userId)
                     .get()
                     .addOnSuccessListener { document ->
-                        // Oculta o indicador de carregamento
-                        hideLoadingScreen()
-
                         if (document.exists()) {
                             // Extrai dados do documento
                             val isAdm = document.getBoolean("isAdm") ?: false
@@ -115,23 +114,21 @@ class LoginActivity : AppCompatActivity() {
                                 // O usuário é administrador
                                 Log.d("checkCurrentUser", "Usuário é administrador.")
                                 navigateToMenuGerente()
-                                finish()
                             } else {
                                 // O usuário não é administrador
                                 Log.d("checkCurrentUser", "Usuário não é administrador.")
                                 navigateToAlugarArmarioActivity()
-                                finish()
                             }
                         } else {
                             // O documento não existe
                             showAlert("Usuário não encontrado.")
+                            hideLoadingScreen()
                         }
                     }
                     .addOnFailureListener { exception ->
-                        // Oculta o indicador de carregamento
-                        hideLoadingScreen()
                         // Lida com a falha
                         showAlert("Erro ao acessar o Firestore: ${exception.message}")
+                        hideLoadingScreen()
                     }
             }
         } else {
@@ -144,7 +141,6 @@ class LoginActivity : AppCompatActivity() {
     private fun signIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
-                hideLoadingScreen() // Oculta o indicador de carregamento quando a tarefa é concluída
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null) {
@@ -159,28 +155,29 @@ class LoginActivity : AppCompatActivity() {
                                         // Se o login for bem-sucedido, e for um administrador então navega para a tela do gerente
                                         Log.d(TAG, "Usuário é administrador.")
                                         navigateToMenuGerente()
-                                        finish()
                                     } else {
                                         // Se o usuário não for administrador, verifica se o e-mail está verificado
                                         if (user.isEmailVerified) {
                                             // Se o e-mail estiver verificado, navega para a AlugarArmarioActivity
                                             navigateToAlugarArmarioActivity()
-                                            finish()
                                         } else {
                                             // Se o e-mail não estiver verificado, exibe uma mensagem
                                             showAlert("Por favor, verifique seu e-mail antes de fazer login.")
                                             auth.signOut()
+                                            hideLoadingScreen()
                                         }
                                     }
                                 } else {
                                     // Documento não encontrado
                                     showAlert("Credenciais inválidas! Verifique seu email e senha e tente novamente.")
+                                    hideLoadingScreen()
                                 }
                             }
                     }
                 } else {
                     // Se o login falhar, exibe uma mensagem de erro
                     showAlert("Credenciais inválidas! Verifique seu email e senha e tente novamente.")
+                    hideLoadingScreen()
                 }
             }
     }
@@ -219,23 +216,39 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToAlugarArmarioActivity() {
         val intent = Intent(this, TelaArmarioActivity::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
     }
 
     // Navega para a RecoveryPasswordActivity
     private fun navigateToRecoveryPasswordActivity() {
         val intent = Intent(this, RecoveryPasswordActivity::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
     }
 
     // Navega para a RegisterActivity
     private fun navigateToRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
     }
 
     private fun navigateToMenuGerente() {
         val intent = Intent(this, MenuGerente::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
     }
 
     private fun showLoadingScreen() {
