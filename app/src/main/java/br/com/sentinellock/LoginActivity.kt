@@ -119,16 +119,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d("checkCurrentUser", "Usuário não é administrador.")
                                 navigateToAlugarArmarioActivity()
                             }
-                        } else {
-                            // O documento não existe
-                            showAlert("Usuário não encontrado.")
-                            hideLoadingScreen()
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        // Lida com a falha
-                        showAlert("Erro ao acessar o Firestore: ${exception.message}")
-                        hideLoadingScreen()
                     }
             }
         } else {
