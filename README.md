@@ -1,4 +1,4 @@
-Para Baixar o apk vá para a TAG E1
+Para Baixar o apk vá para a TAG E2
 
 # Projeto Integrador 3 - Locação de Armários
 
