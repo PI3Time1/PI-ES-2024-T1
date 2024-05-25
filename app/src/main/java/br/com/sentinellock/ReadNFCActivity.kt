@@ -21,7 +21,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
 import java.io.File
-import java.util.Locale
 
 class ReadNFCActivity : AppCompatActivity() {
 
@@ -32,7 +31,7 @@ class ReadNFCActivity : AppCompatActivity() {
     private lateinit var imageView2: ImageView
     private lateinit var loadingDialog: Dialog
     private lateinit var buttonFecharArmario: Button
-    private lateinit var InfoLocker: Any
+    private var infoLocker: String? = null
     private lateinit var button2: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +55,7 @@ class ReadNFCActivity : AppCompatActivity() {
 
         button2.setOnClickListener {
             val intent = Intent(this, MenuGerente::class.java)
-            liberaArmario(InfoLocker, 2)
+            infoLocker?.let { liberaArmario(it, 2) }
             startActivity(intent)
             finish()
         }
@@ -74,7 +73,7 @@ class ReadNFCActivity : AppCompatActivity() {
         }
 
         buttonFecharArmario.setOnClickListener {
-            liberaArmario(InfoLocker, 1)
+            infoLocker?.let { liberaArmario(it, 1) }
         }
     }
 
@@ -104,28 +103,30 @@ class ReadNFCActivity : AppCompatActivity() {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null) {
                 readNfcTag(tag)
-                loadingDialog.dismiss()
+
             }
+
         }
     }
 
     private fun readNfcTag(tag: Tag) {
-        var userId: Any
-        var lockerId: Any
-        var duration: Any
-        var price: Any
-        var imagePath1: Any
-        var imagePath2: Any?
-        var horaCelular: Any
-
         val ndef = Ndef.get(tag)
         if (ndef != null) {
+
             ndef.connect()
             val ndefMessage = ndef.ndefMessage
 
-            if (ndefMessage != null) {
+            if (ndefMessage != null && ndefMessage.records.isNotEmpty()) {
                 val records = ndefMessage.records
-                if (records.isNotEmpty()) {
+                var userId: String? = null
+                var lockerId: String? = null
+                var duration: String? = null
+                var price: String? = null
+                var imagePath1: String? = null
+                var imagePath2: String? = null
+                var horaCelular: String? = null
+
+                try {
                     if (records.size >= 7) {
                         userId = records[2].payload.decodeToString()
                         lockerId = records[3].payload.decodeToString()
@@ -134,7 +135,9 @@ class ReadNFCActivity : AppCompatActivity() {
                         imagePath1 = records[0].payload.decodeToString().trim()
                         imagePath2 = records[1].payload.decodeToString().trim()
                         horaCelular = records[6].payload.decodeToString().trim()
-                    } else {
+                        loadingDialog.dismiss()
+
+                    } else if (records.size >= 6) {
                         userId = records[1].payload.decodeToString()
                         lockerId = records[2].payload.decodeToString()
                         duration = records[4].payload.decodeToString()
@@ -142,54 +145,61 @@ class ReadNFCActivity : AppCompatActivity() {
                         imagePath1 = records[0].payload.decodeToString().trim()
                         imagePath2 = null
                         horaCelular = records[5].payload.decodeToString().trim()
-                    }
+                        loadingDialog.dismiss()
 
-                    // Verificação de campos vazios
-                    if (userId.isEmpty() || lockerId.isEmpty() || duration.isEmpty() || price.isEmpty()) {
-                        showEmptyNfcDialog() // Exibir o diálogo de NFC vazia
+                    } else {
+                        showEmptyTagDialog()
                         return
                     }
-
-                    price = price.trim { it <= ' ' }.substringAfter("price: ")
-                    duration = duration.trim { it <= ' ' }.substringAfter("duration: ")
-                    userId = userId.trim { it <= ' ' }.substringAfter("userId: ")
-                    lockerId = lockerId.trim { it <= ' ' }.substringAfter("lockerId: ")
-                    horaCelular = horaCelular.trim { it <= ' ' }.substringAfter("current_time: ")
-
-                    InfoLocker = lockerId
-
-                    displayUserInfo(userId)
-                    displayLockerInfo(lockerId, price, duration, horaCelular)
-
-                    if (imagePath1.isNotEmpty() || imagePath2 != null) {
-                        if (imagePath2 != null) {
-                            loadImageFromPath(this, imagePath1, imageView1)
-                            loadImageFromPath(this, imagePath2.toString(), imageView2)
-                            liberaArmario(InfoLocker, 3)
-                        } else {
-                            loadImageFromPath(this, imagePath1, imageView1)
-                            liberaArmario(InfoLocker, 3)
-                        }
-                    } else {
-                        Toast.makeText(this, "Nenhuma imagem foi lida", Toast.LENGTH_SHORT).show()
-                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Erro ao ler os dados da tag: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Log.e("ReadNFC", "Erro ao ler os dados da tag", e)
+                    showEmptyTagDialog()
+                    return
                 }
+
+                price = price?.trim { it <= ' ' }?.substringAfter("price: ")
+                duration = duration?.trim { it <= ' ' }?.substringAfter("duration: ")
+                userId = userId?.trim { it <= ' ' }?.substringAfter("userId: ")
+                lockerId = lockerId?.trim { it <= ' ' }?.substringAfter("lockerId: ")
+                horaCelular = horaCelular?.trim { it <= ' ' }?.substringAfter("current_time: ")
+
+                infoLocker = lockerId
+
+                displayUserInfo(userId ?: "")
+                displayLockerInfo(lockerId, price ?: "", duration ?: "", horaCelular ?: "")
+
+                if (!imagePath1.isNullOrEmpty() || imagePath2 != null) {
+                    if (imagePath2 != null) {
+                        loadImageFromPath(this, imagePath1, imageView1)
+                        loadImageFromPath(this, imagePath2, imageView2)
+                        infoLocker?.let { liberaArmario(it, 3) }
+                    } else {
+                        loadImageFromPath(this, imagePath1, imageView1)
+                        infoLocker?.let { liberaArmario(it, 3) }
+                    }
+                } else {
+                    Toast.makeText(this, "Nenhuma imagem foi lida", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                showEmptyTagDialog()
             }
             ndef.close()
+        } else {
+            showEmptyTagDialog()
         }
     }
 
-    private fun showEmptyNfcDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("NFC Vazia")
-            .setMessage("A NFC está vazia.")
-            .setPositiveButton("OK") { _, _ ->
+    private fun showEmptyTagDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Tag vazia, não há nada para ler.")
+            .setPositiveButton("Fechar") { dialog, _ ->
                 val intent = Intent(this, MenuGerente::class.java)
                 startActivity(intent)
                 finish()
             }
-            .setIcon(android.R.drawable.ic_dialog_alert)
-            .show()
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun displayUserInfo(userId: String) {
@@ -217,7 +227,7 @@ class ReadNFCActivity : AppCompatActivity() {
             }
     }
 
-    private fun displayLockerInfo(lockerId: String?, price: Any, duration: Any, horaCelular: Any) {
+    private fun displayLockerInfo(lockerId: String?, price: String, duration: String, horaCelular: String) {
         if (lockerId != null) {
             val db = FirebaseFirestore.getInstance()
             db.collection("unidade_de_locacao").document(lockerId)
@@ -225,7 +235,7 @@ class ReadNFCActivity : AppCompatActivity() {
                 .addOnSuccessListener { document ->
                     if (document != null) {
                         val lockerName = document.getString("name")
-                        val tempo = duration.toString().toInt()
+                        val tempo = duration.toInt()
 
                         val lockerInfo = if (tempo > 16) {
                             "Armário: $lockerName\nPreço: $price    Duração: $tempo Min"
@@ -253,16 +263,15 @@ class ReadNFCActivity : AppCompatActivity() {
         }
     }
 
-    private fun liberaArmario(lockerId: Any, opc: Int) {
+    private fun liberaArmario(lockerId: String, opc: Int) {
         val db = FirebaseFirestore.getInstance()
-        val lockerId = lockerId
 
         if (opc == 1) {
             val intent = Intent(this, EncerrarReadNfcActivity::class.java)
             startActivity(intent)
             finish() // Opcional: para fechar a atividade atual
         } else if (opc == 2) {
-            db.collection("unidade_de_locacao").document(lockerId.toString())
+            db.collection("unidade_de_locacao").document(lockerId)
                 .update(mapOf("aberto" to false))
                 .addOnSuccessListener {
                     Toast.makeText(this, "Armário fechado com sucesso.", Toast.LENGTH_SHORT).show()
@@ -271,7 +280,7 @@ class ReadNFCActivity : AppCompatActivity() {
                     Toast.makeText(this, "Erro ao fechar o armário: $e", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            db.collection("unidade_de_locacao").document(lockerId.toString())
+            db.collection("unidade_de_locacao").document(lockerId)
                 .update(mapOf("aberto" to true))
                 .addOnSuccessListener {
                     Toast.makeText(this, "Armário aberto com sucesso.", Toast.LENGTH_SHORT).show()
@@ -324,3 +333,4 @@ class ReadNFCActivity : AppCompatActivity() {
         }
     }
 }
+
