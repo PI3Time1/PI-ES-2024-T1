@@ -149,6 +149,7 @@
         android:hint="@string/dateLabelRegister"
         app:boxStrokeColor="@color/tapBar"
         android:textColorHint="@color/green_500"
+        app:cursorColor="@color/green_500"
         android:layout_gravity="center">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/eTextAge"
