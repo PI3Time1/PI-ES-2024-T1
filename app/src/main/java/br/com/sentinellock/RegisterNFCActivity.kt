@@ -79,6 +79,9 @@ class RegisterNFCActivity : AppCompatActivity() {
         }
     }
 
+
+
+
     private fun writeNfcTag(tag: Tag) {
         val ndef = Ndef.get(tag)
         if (ndef != null) {
