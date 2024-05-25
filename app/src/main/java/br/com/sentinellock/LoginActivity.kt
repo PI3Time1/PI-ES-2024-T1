@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -15,6 +16,7 @@ class LoginActivity : AppCompatActivity() {
     // Declaração das variáveis necessárias
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
+    private lateinit var loadingScreen: View
 
     private lateinit var buttonLogin: Button
     private lateinit var buttonContWithoutRegistr: Button
@@ -48,6 +50,7 @@ class LoginActivity : AppCompatActivity() {
     // Inicializa os componentes de interface do usuário
     private fun initializeViews() {
         // Associa as variáveis às visualizações no layout XML
+        loadingScreen = findViewById(R.id.loadingScreen) // Inicialização do indicador de carregamento
         buttonLogin = findViewById(R.id.buttonLogin)
         buttonContWithoutRegistr = findViewById(R.id.buttonContWithoutRegistr)
         buttonRegister = findViewById(R.id.buttonRegister)
@@ -65,6 +68,7 @@ class LoginActivity : AppCompatActivity() {
             val password = eTextPassword.text.toString()
 
             if (isValidInputs()) {
+                showLoadingScreen() // Mostra o indicador de carregamento
                 signIn(email, password)
             } else {
                 showAlert("Preencha todos os campos!")
@@ -89,6 +93,9 @@ class LoginActivity : AppCompatActivity() {
 
     // Verifica se o usuário já está logado
     private fun checkCurrentUser() {
+        // Mostra o indicador de carregamento
+        showLoadingScreen()
+
         val currentUser = auth.currentUser
         if (currentUser != null) {
             currentUser.let { user ->
@@ -98,6 +105,9 @@ class LoginActivity : AppCompatActivity() {
                 firestore.collection("pessoas").document(userId)
                     .get()
                     .addOnSuccessListener { document ->
+                        // Oculta o indicador de carregamento
+                        hideLoadingScreen()
+
                         if (document.exists()) {
                             // Extrai dados do documento
                             val isAdm = document.getBoolean("isAdm") ?: false
@@ -118,8 +128,15 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
                     .addOnFailureListener { exception ->
+                        // Oculta o indicador de carregamento
+                        hideLoadingScreen()
+                        // Lida com a falha
+                        showAlert("Erro ao acessar o Firestore: ${exception.message}")
                     }
             }
+        } else {
+            // Oculta o indicador de carregamento se não houver usuário logado
+            hideLoadingScreen()
         }
     }
 
@@ -127,6 +144,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signIn(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
+                hideLoadingScreen() // Oculta o indicador de carregamento quando a tarefa é concluída
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     if (user != null) {
@@ -218,6 +236,14 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToMenuGerente() {
         val intent = Intent(this, MenuGerente::class.java)
         startActivity(intent)
+    }
+
+    private fun showLoadingScreen() {
+        loadingScreen.visibility = View.VISIBLE
+    }
+
+    private fun hideLoadingScreen() {
+        loadingScreen.visibility = View.GONE
     }
 
     // Constante para TAG de LoginActivity
