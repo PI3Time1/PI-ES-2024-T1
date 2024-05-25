@@ -45,4 +45,7 @@ class AbrirOuEncerrar : AppCompatActivity() {
                 finish()
         }
     }
+
+
+
 }

@@ -29,6 +29,8 @@ class LerQrcodeActivity : AppCompatActivity() {
         integrator.initiateScan()
     }
 
+
+
     // Método que lida com o resultado do scanner de QR code
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -58,6 +60,8 @@ class LerQrcodeActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun checkLockerAvailability(userId: String, lockerId: String, price: Double, duration: Long) {
         val lockerRef = db.collection("unidade_de_locacao").document(lockerId)
@@ -123,6 +127,8 @@ class LerQrcodeActivity : AppCompatActivity() {
             onComplete(task.isSuccessful)
         }
     }
+
+
 
     private fun updateLockerStatus(lockerId: String, onComplete: (Boolean) -> Unit) {
         val lockerRef = db.collection("unidade_de_locacao").document(lockerId)
