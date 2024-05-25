@@ -1,5 +1,6 @@
 package br.com.sentinellock
 
+import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -88,12 +89,15 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                         horaCelular = records[6].payload.decodeToString().trim { it <= ' ' }.substringAfter("current_time: ")
                         // Define o número de leituras baseado na presença da segunda imagem
                         numeroDeLeituras = 2
-                    } else {
+                    } else if (records.size >= 6){
                         lockerId = records[2].payload.decodeToString().trim { it <= ' ' }.substringAfter("lockerId: ")
                         duration = records[4].payload.decodeToString().trim { it <= ' ' }.substringAfter("duration: ")
                         price = records[3].payload.decodeToString().trim { it <= ' ' }.substringAfter("price: ")
                         horaCelular = records[5].payload.decodeToString().trim { it <= ' ' }.substringAfter("current_time: ")
                         numeroDeLeituras = 1
+                    }else{
+                        showEmptyTagDialog()
+                        return
                     }
 
                     Log.d("NFC_TAG", "Locker ID: $lockerId, Duration: $duration, Price: $price, HoraCelular: $horaCelular")
@@ -105,12 +109,15 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                         Toast.makeText(this, "Aproxime a próxima tag NFC.", Toast.LENGTH_LONG).show()
                     }
                 }
+            }else{
+                showEmptyTagDialog()
             }
 
             // Clean up before starting a new connection
             ndef.close()
             clearNfcTag(tag)
         } catch (e: IOException) {
+            showEmptyTagDialog()
             Log.e("NFC_TAG", "Erro ao conectar à tag NFC", e)
         } finally {
             try {
@@ -120,6 +127,19 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun showEmptyTagDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Tag vazia, não há nada para ler.")
+            .setPositiveButton("Fechar") { dialog, _ ->
+                val intent = Intent(this, MenuGerente::class.java)
+                startActivity(intent)
+                finish()
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
 
     private fun clearNfcTag(tag: Tag) {
         try {

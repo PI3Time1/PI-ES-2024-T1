@@ -103,14 +103,16 @@ class ReadNFCActivity : AppCompatActivity() {
             val tag = intent.getParcelableExtra<Tag>(NfcAdapter.EXTRA_TAG)
             if (tag != null) {
                 readNfcTag(tag)
-                loadingDialog.dismiss()
+
             }
+
         }
     }
 
     private fun readNfcTag(tag: Tag) {
         val ndef = Ndef.get(tag)
         if (ndef != null) {
+
             ndef.connect()
             val ndefMessage = ndef.ndefMessage
 
@@ -133,6 +135,8 @@ class ReadNFCActivity : AppCompatActivity() {
                         imagePath1 = records[0].payload.decodeToString().trim()
                         imagePath2 = records[1].payload.decodeToString().trim()
                         horaCelular = records[6].payload.decodeToString().trim()
+                        loadingDialog.dismiss()
+
                     } else if (records.size >= 6) {
                         userId = records[1].payload.decodeToString()
                         lockerId = records[2].payload.decodeToString()
@@ -141,6 +145,8 @@ class ReadNFCActivity : AppCompatActivity() {
                         imagePath1 = records[0].payload.decodeToString().trim()
                         imagePath2 = null
                         horaCelular = records[5].payload.decodeToString().trim()
+                        loadingDialog.dismiss()
+
                     } else {
                         showEmptyTagDialog()
                         return
