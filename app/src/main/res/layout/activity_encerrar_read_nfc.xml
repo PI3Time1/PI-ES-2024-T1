@@ -39,7 +39,7 @@
         android:id="@+id/tv_tag_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aproxime a tag para leitura"
+        android:text="Aproxime a tag para leitura para encerrar locação"
         android:textSize="24sp"
         android:textColor="@color/gray_900"
         android:layout_marginTop="500dp"

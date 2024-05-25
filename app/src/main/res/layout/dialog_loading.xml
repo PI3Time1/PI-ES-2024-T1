@@ -29,8 +29,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aproxime o relógio"
+        android:text="Aproxime a tag NFC para realizar o cadastro"
         android:textColor="@color/gray_900"
+        android:textAlignment="center"
         android:textSize="24sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
