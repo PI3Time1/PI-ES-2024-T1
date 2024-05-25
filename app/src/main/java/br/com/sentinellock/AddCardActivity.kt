@@ -1,6 +1,8 @@
 package br.com.sentinellock
 
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -71,6 +73,44 @@ class AddCardActivity : AppCompatActivity() {
         editTextDataValidade = findViewById(R.id.editTextDataValidade)
         editTextCVV = findViewById(R.id.editTextCVV)
         editTextNomeCartao = findViewById(R.id.editTextNomeCartao)
+
+        // Adiciona TextWatcher para inserir a barra automaticamente na data de validade
+        editTextDataValidade.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+            private var oldText = ""
+
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                oldText = charSequence.toString()
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(editable: Editable?) {
+                if (isUpdating) {
+                    return
+                }
+
+                val newText = editable.toString()
+                val length = newText.length
+
+                isUpdating = true
+
+                // Detects if the user is deleting
+                if (oldText.length > newText.length) {
+                    // When deleting, just remove the slash if it exists
+                    if (newText.endsWith("/")) {
+                        editable?.delete(length - 1, length)
+                    }
+                } else {
+                    // When adding, insert a slash at the correct position
+                    if (length == 2 && !newText.contains("/")) {
+                        editable?.append("/")
+                    }
+                }
+
+                isUpdating = false
+            }
+        })
     }
 
     // OUVINTES
@@ -212,6 +252,9 @@ class AddCardActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
         builder.setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
+                if(message.contains("Cartão de crédito cadastrado com sucesso")){
+                    backToManageCards()
+                }
                 dialog.dismiss()
             }
         val alertDialog = builder.create()

@@ -50,8 +50,7 @@ class TelaArmarioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // Log para indicar o início do método onCreate
         Log.d("TelaArmarioActivity", "onCreate() iniciado")
-        // Habilita a visualização de bordas nas laterais
-        enableEdgeToEdge()
+
         // Define o layout da atividade
         setContentView(R.layout.activity_tela_armario2)
 

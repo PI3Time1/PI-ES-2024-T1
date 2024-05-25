@@ -13,7 +13,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/background"
+        android:background="@color/gray_100"
         android:paddingHorizontal="24dp"
         android:paddingVertical="14dp"
         tools:context=".ProfileActivity"
@@ -25,9 +25,8 @@
             android:layout_height="wrap_content"
             android:text="@string/MYProfile"
             android:textSize="30sp"
-            android:textColor="@android:color/white"
+            android:textColor="@color/green_500"
             android:gravity="center"
-            android:layout_marginTop="-46dp"
             android:layout_marginBottom="20dp" />
 
         <!-- Imagem de perfil -->
@@ -60,9 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/IfAccountLogin"
-            android:textSize="25sp"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="-10dp" />
+            android:textSize="20sp"
+            android:textColor="@color/green_500" />
 
         <!-- Botão de login -->
         <Button
@@ -72,19 +70,11 @@
             android:text="@string/signIn"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:backgroundTint="@color/green_138"
-            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/green_500"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
-        <!-- Texto "Or" -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Or"
-            android:textSize="25sp"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="-20dp" />
 
         <!-- Botão de cadastro -->
         <Button
@@ -94,9 +84,9 @@
             android:text="@string/register"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:backgroundTint="@color/green_138"
+            android:backgroundTint="@color/green_500"
             android:layout_marginBottom="30dp"
-            android:textSize="15sp"/>
+            android:textSize="13sp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -105,6 +95,7 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/gray_900"
         app:menu="@menu/bottom_navigation" />
 
 </LinearLayout>

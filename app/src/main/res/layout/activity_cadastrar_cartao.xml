@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background2"
+    android:background="@color/gray_100"
     android:gravity="center"
     tools:context=".AddCardActivity">
 
@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">
-
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
@@ -24,24 +23,19 @@
             app:titleCentered="true"
             app:title="MEU PERFIL"
             app:titleTextColor="@color/white"
-            android:background="@color/gray_900"
+            android:background="@color/green_500"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:gravity="center_vertical">
-
-
-
-
-
 
             <Button
                 android:id="@+id/buttonBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:backgroundTint="@color/green_018"
+                android:backgroundTint="@color/gray_100"
                 android:text="@string/back"
-                android:textColor="@color/white"
-                android:textSize="11sp"
+                android:textColor="@color/gray_900"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -52,19 +46,13 @@
 
                 android:textSize="30sp"
                 android:textColor="@color/white"
-
-
-
                 />
 
-
         </com.google.android.material.appbar.MaterialToolbar>
-
 
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- GERENCIAR CARTÕES -->
-
 
     <!-- NOVO CARTÃO -->
     <LinearLayout
@@ -72,7 +60,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-
        >
 
         <TextView
@@ -81,22 +68,23 @@
             android:text="@string/newCard"
             android:gravity="center"
             android:textSize="25sp"
-            android:textColor="@color/white"
+            android:textColor="@color/green_500"
             android:layout_marginBottom="10dp"
             android:drawableLeft="@drawable/ic_newcard"
-            android:drawableTint="@color/white"
+            android:drawableTint="@color/green_500"
             android:drawablePadding="10dp" />
 
         <!-- BOX INTEIRA -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="360dp"
             android:layout_height="330dp"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="5dp"
             app:cardBackgroundColor="@color/gray_white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:orientation="vertical">
 
                 <!-- BOX VERDE -->
@@ -104,8 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:gravity="center"
-                    app:cardBackgroundColor="@color/green_3aa"
-                    app:cardCornerRadius="8dp">
+                    app:cardBackgroundColor="@color/green_500"
+                    app:cardCornerRadius="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -148,13 +136,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_margin="4dp"
+
                         android:hint="@string/cardNumber"
-                        android:textColorHint="@color/green_008"
-                        app:boxCornerRadiusBottomEnd="8dp"
-                        app:boxCornerRadiusBottomStart="8dp"
-                        app:boxCornerRadiusTopEnd="8dp"
-                        app:boxCornerRadiusTopStart="8dp"
-                        app:boxStrokeColor="@color/black">
+                        android:textColorHint="@color/white"
+                        app:cardCornerRadius="5dp"
+                        app:boxStrokeColor="@color/gray_100">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextNumeroCartao"
@@ -162,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:maxLength="16"
                             android:inputType="number"
-                            app:boxStrokeColor="@color/green_008" />
+                            app:boxStrokeColor="@color/white" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -181,13 +167,10 @@
                         android:layout_width="230dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        app:boxCornerRadiusBottomEnd="8dp"
-                        app:boxCornerRadiusBottomStart="8dp"
-                        app:boxCornerRadiusTopEnd="8dp"
-                        app:boxCornerRadiusTopStart="8dp"
+                        app:cardCornerRadius="5dp"
                         android:hint="@string/cardDate"
-                        app:boxStrokeColor="@color/black"
-                        android:textColorHint="@color/green_008"
+                        app:boxStrokeColor="@color/white"
+                        android:textColorHint="@color/white"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextDataValidade"
@@ -205,17 +188,14 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/etCVV"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="110dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        app:boxCornerRadiusBottomEnd="8dp"
-                        app:boxCornerRadiusBottomStart="8dp"
-                        app:boxCornerRadiusTopEnd="8dp"
-                        app:boxCornerRadiusTopStart="8dp"
+                        app:cardCornerRadius="5dp"
 
                         android:hint="@string/cardCVV"
-                        app:boxStrokeColor="@color/black"
-                        android:textColorHint="@color/green_008"
+                        app:boxStrokeColor="@color/white"
+                        android:textColorHint="@color/white"
                         android:layout_gravity="left">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextCVV"
@@ -242,14 +222,14 @@
 
                         app:endIconMode="clear_text"
                         android:hint="@string/cardName"
-                        app:boxStrokeColor="@color/black"
-                        android:textColorHint="@color/green_008"
+                        app:boxStrokeColor="@color/white"
+                        android:textColorHint="@color/white"
                         android:layout_gravity="center">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/editTextNomeCartao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:boxStrokeColor="@color/black"
+                            app:boxStrokeColor="@color/white"
                             android:inputType="text" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -259,17 +239,29 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/messageSecureCard"
+            android:textColor="@color/gray_900"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            />
+
+
         <!-- BOTÃO ADICIONAR CARTÃO -->
         <Button
             android:id="@+id/buttonAddCard"
             android:layout_width="wrap_content"
             android:padding="15dp"
             android:layout_height="wrap_content"
+            android:textSize="13sp"
             android:text="@string/addCard"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:layout_marginTop="70dp"
-            android:backgroundTint="@color/green_008" />
+            android:backgroundTint="@color/green_500" />
 
     </LinearLayout>
 

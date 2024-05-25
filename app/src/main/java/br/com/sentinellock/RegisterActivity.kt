@@ -1,6 +1,8 @@
 package br.com.sentinellock
 
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -18,15 +20,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+
 class RegisterActivity : AppCompatActivity() {
 
     // Declaração das variáveis necessárias
     private lateinit var functions: FirebaseFunctions
-
     private lateinit var buttonBackToSignIn: ImageButton
     private lateinit var buttonRegister: Button
     private lateinit var buttonSignIn: Button
-
     private lateinit var eTextName: TextInputEditText
     private lateinit var eTextEmail: TextInputEditText
     private lateinit var eTextPassword: TextInputEditText
@@ -65,6 +66,44 @@ class RegisterActivity : AppCompatActivity() {
         eTextAge = findViewById(R.id.eTextAge)
         eTextCPF = findViewById(R.id.eTextCPF)
         eTextPhone = findViewById(R.id.eTextPhone)
+
+        // Adiciona TextWatcher para inserir as barras automaticamente no campo de data nascimento
+        eTextAge.addTextChangedListener(object : TextWatcher {
+            private var isUpdating = false
+            private var oldText = ""
+
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+                oldText = charSequence.toString()
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(editable: Editable?) {
+                if (isUpdating) {
+                    return
+                }
+
+                val newText = editable.toString()
+                val length = newText.length
+
+                isUpdating = true
+
+                // Detects if the user is deleting
+                if (oldText.length > newText.length) {
+                    // When deleting, just remove the slashes if they exist
+                    if (newText.endsWith("/") || newText.endsWith("//")) {
+                        editable?.delete(length - 1, length)
+                    }
+                } else {
+                    // When adding, insert slashes at the correct positions
+                    if (length == 2 || length == 5) {
+                        editable?.append("/")
+                    }
+                }
+
+                isUpdating = false
+            }
+        })
     }
 
     // Configura os ouvintes de clique
@@ -86,18 +125,18 @@ class RegisterActivity : AppCompatActivity() {
                 val client = Client(
                     nome = eTextName.text.toString(),
                     email = eTextEmail.text.toString(),
-                    senha = eTextPassword.text.toString(),
                     cpf = eTextCPF.text.toString(),
                     telefone = eTextPhone.text.toString(),
-                    dataNascimento = eTextAge.text.toString()
+                    dataNascimento = eTextAge.text.toString(),
+                    senha = eTextPassword.text.toString()
                 )
 
                 // Chama a função de registro em uma coroutine
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        val result = registerClient(client)
+                        val result: String = registerClient(client)
                         // Exibe uma mensagem de sucesso após o registro
-                        showAlert("Registro bem-sucedido: $result Verifique seu email!")
+                        showAlert(result)
                     } catch (e: Exception) {
                         // Trata qualquer exceção ocorrida durante o registro
                         Log.e(TAG, "Erro durante o registro: ${e.message}")
@@ -185,7 +224,7 @@ class RegisterActivity : AppCompatActivity() {
             "dataNascimento" to client.dataNascimento,
             "telefone" to client.telefone,
             "email" to client.email,
-            "senha" to client.senha,
+            "senha" to client.senha
         )
 
         // Chama a função de registro no Firebase Functions e aguarda a resposta
@@ -214,7 +253,7 @@ class RegisterActivity : AppCompatActivity() {
         builder.setMessage(message)
             .setPositiveButton("OK") { dialog, _ ->
                 // Se o registro for bem-sucedido, navega de volta para a atividade de login
-                if(message == "Registro bem-sucedido:Verifique seu Email"){
+                if(message.contains("Cadastro realizado com sucesso! Verifique seu email")){
                     navigateToLoginActivity()
                 }
                 dialog.dismiss()
@@ -274,5 +313,5 @@ data class Client(
     val senha: String,
     val cpf: String,
     val telefone: String,
-    val dataNascimento: String
+    val dataNascimento: String,
 )

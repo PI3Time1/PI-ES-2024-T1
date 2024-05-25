@@ -18,7 +18,7 @@
             app:titleCentered="true"
             app:title="MEU PERFIL"
             app:titleTextColor="@color/white"
-            android:background="@color/gray_900"
+            android:background="@color/green_500"
             style="@style/Widget.MaterialComponents.Toolbar.Primary" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -30,7 +30,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/background"
+        android:background="@color/gray_100"
         android:paddingHorizontal="44dp"
         tools:context=".ProfileActivity"
         android:layout_gravity="center_vertical">
@@ -61,14 +61,14 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
             />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:textColor="@color/white"
-            android:background="@drawable/border_green_138"
+            android:textColor="@color/gray_900"
+            android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
 
@@ -91,14 +91,14 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
 
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:textColor="@color/white"
-            android:background="@drawable/border_green_138"
+            android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
         <TextView
@@ -121,13 +121,13 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:textSize="15sp"
-            android:textColor="@color/white"
+            android:textColor="@color/gray_900"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:textColor="@color/white"
-            android:background="@drawable/border_green_138"
+            android:background="@color/green_500"
             android:layout_marginBottom="10dp"/>
 
         <Button
@@ -135,9 +135,10 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:text="@string/ManageCard"
+            android:textSize="13sp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:backgroundTint="@color/green_138"
+            android:backgroundTint="@color/green_500"
             android:drawableLeft="@drawable/creditcard"
             android:gravity="center" />
 
@@ -148,6 +149,7 @@
             android:backgroundTint="@color/red"
             android:gravity="center"
             android:textColor="@color/white"
+            android:textSize="13sp"
             android:layout_marginTop="20dp"
             android:text="@string/signOut"/>
     </LinearLayout>

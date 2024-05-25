@@ -3,15 +3,22 @@ package br.com.sentinellock
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
     // Declaração das variáveis necessárias
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
+    private lateinit var loadingScreen: View
 
     private lateinit var buttonLogin: Button
     private lateinit var buttonContWithoutRegistr: Button
@@ -29,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         // Inicialização dos componentes de interface do usuário e autenticação Firebase
         initializeViews()
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance() // Inicialização do Firestore
 
         // Configuração dos listeners de clique dos botões
         setupClickListeners()
@@ -44,6 +52,7 @@ class LoginActivity : AppCompatActivity() {
     // Inicializa os componentes de interface do usuário
     private fun initializeViews() {
         // Associa as variáveis às visualizações no layout XML
+        loadingScreen = findViewById(R.id.loadingScreen)
         buttonLogin = findViewById(R.id.buttonLogin)
         buttonContWithoutRegistr = findViewById(R.id.buttonContWithoutRegistr)
         buttonRegister = findViewById(R.id.buttonRegister)
@@ -61,6 +70,7 @@ class LoginActivity : AppCompatActivity() {
             val password = eTextPassword.text.toString()
 
             if (isValidInputs()) {
+                showLoadingScreen() // Mostra o indicador de carregamento
                 signIn(email, password)
             } else {
                 showAlert("Preencha todos os campos!")
@@ -85,11 +95,36 @@ class LoginActivity : AppCompatActivity() {
 
     // Verifica se o usuário já está logado
     private fun checkCurrentUser() {
+        // Mostra o indicador de carregamento
+        showLoadingScreen()
+
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            // Se o usuário já estiver logado, navega diretamente para a MapsActivity
-            navigateToAlugarArmarioActivity()
-            finish()
+            currentUser.let { user ->
+                val userId = user.uid
+
+                // Acessa o documento do usuário no Firestore
+                firestore.collection("pessoas").document(userId)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document.exists()) {
+                            // Extrai dados do documento
+                            val isAdm = document.getBoolean("isAdm") ?: false
+                            if (isAdm) {
+                                // O usuário é administrador
+                                Log.d("checkCurrentUser", "Usuário é administrador.")
+                                navigateToMenuGerente()
+                            } else {
+                                // O usuário não é administrador
+                                Log.d("checkCurrentUser", "Usuário não é administrador.")
+                                navigateToAlugarArmarioActivity()
+                            }
+                        }
+                    }
+            }
+        } else {
+            // Oculta o indicador de carregamento se não houver usuário logado
+            hideLoadingScreen()
         }
     }
 
@@ -99,18 +134,41 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    if (user != null && !user.isEmailVerified) {
-                        // Se o e-mail não estiver verificado, exibe uma mensagem
-                        showAlert("Por favor, verifique seu e-mail antes de fazer login.")
-                        auth.signOut()
-                    } else {
-                        // Se o login for bem-sucedido, navega para a MapsActivity
-                        navigateToAlugarArmarioActivity()
-                        finish()
+                    if (user != null) {
+                        // Acessa o documento do usuário no Firestore para verificar se é administrador
+                        val userId = user.uid
+                        firestore.collection("pessoas").document(userId)
+                            .get()
+                            .addOnSuccessListener { document ->
+                                if (document.exists()) {
+                                    val isAdm = document.getBoolean("isAdm") ?: false
+                                    if (isAdm) {
+                                        // Se o login for bem-sucedido, e for um administrador então navega para a tela do gerente
+                                        Log.d(TAG, "Usuário é administrador.")
+                                        navigateToMenuGerente()
+                                    } else {
+                                        // Se o usuário não for administrador, verifica se o e-mail está verificado
+                                        if (user.isEmailVerified) {
+                                            // Se o e-mail estiver verificado, navega para a AlugarArmarioActivity
+                                            navigateToAlugarArmarioActivity()
+                                        } else {
+                                            // Se o e-mail não estiver verificado, exibe uma mensagem
+                                            showAlert("Por favor, verifique seu e-mail antes de fazer login.")
+                                            auth.signOut()
+                                            hideLoadingScreen()
+                                        }
+                                    }
+                                } else {
+                                    // Documento não encontrado
+                                    showAlert("Credenciais inválidas! Verifique seu email e senha e tente novamente.")
+                                    hideLoadingScreen()
+                                }
+                            }
                     }
                 } else {
                     // Se o login falhar, exibe uma mensagem de erro
-                    showLoginError()
+                    showAlert("Credenciais inválidas! Verifique seu email e senha e tente novamente.")
+                    hideLoadingScreen()
                 }
             }
     }
@@ -149,18 +207,47 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToAlugarArmarioActivity() {
         val intent = Intent(this, TelaArmarioActivity::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
     }
 
     // Navega para a RecoveryPasswordActivity
     private fun navigateToRecoveryPasswordActivity() {
         val intent = Intent(this, RecoveryPasswordActivity::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
     }
 
     // Navega para a RegisterActivity
     private fun navigateToRegisterActivity() {
         val intent = Intent(this, RegisterActivity::class.java)
         startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
+    }
+
+    private fun navigateToMenuGerente() {
+        val intent = Intent(this, MenuGerente::class.java)
+        startActivity(intent)
+        // Adiciona um atraso para garantir que a navegação foi completada
+        Handler(Looper.getMainLooper()).postDelayed({
+            hideLoadingScreen()
+        }, 1000)
+    }
+
+    private fun showLoadingScreen() {
+        loadingScreen.visibility = View.VISIBLE
+    }
+
+    private fun hideLoadingScreen() {
+        loadingScreen.visibility = View.GONE
     }
 
     // Constante para TAG de LoginActivity

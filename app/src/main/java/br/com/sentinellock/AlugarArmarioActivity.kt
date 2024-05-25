@@ -47,6 +47,9 @@ class AlugarArmarioActivity : AppCompatActivity() {
     // ID do item selecionado no Navigation Bottom
     private var selectedItemId: Int = R.id.action_look
 
+    // Variável para armazenar o ID recebido da tela anterior
+    private var placeId: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alugar_armario2)
@@ -92,45 +95,60 @@ class AlugarArmarioActivity : AppCompatActivity() {
         val textView: TextView = findViewById(R.id.textView)
         textView.text = nome
 
+        // Obter o ID do lugar passado da tela anterior
+        placeId = intent.getStringExtra("id") ?: ""
+
         // Configurar os botões de seleção de tempo
         val button1: Button = findViewById(R.id.button1)
         button1.text = "30 min                   R$$precoMeiaHora"
         button1.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoMeiaHora
             selectedTime = 30
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         val button2: Button = findViewById(R.id.button2)
         button2.text = "1 hora                   R$$precoUmaHora"
         button2.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoUmaHora
             selectedTime = 1
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         val button3: Button = findViewById(R.id.button3)
         button3.text = "2 horas               R$$precoDuasHoras"
         button3.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoDuasHoras
             selectedTime = 2
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         val button4: Button = findViewById(R.id.button4)
         button4.text = "4 horas               R$$precoQuatroHoras"
         button4.setOnClickListener {
-            deselectButton(selectedButtonId)
-            selectButton(it.id)
             selectedPrice = precoQuatroHoras
             selectedTime = 4
-            findViewById<Button>(R.id.button5)?.visibility = View.VISIBLE
+            findViewById<Button>(R.id.button5)?.isEnabled = true
+
+            // Deselecione outros botões (se necessário)
+            deselectButton(selectedButtonId)
+            selectButton(it.id)
+            selectedButtonId = it.id
         }
 
         // Verificar se está entre 07:00 e 08:00 horas
@@ -154,10 +172,14 @@ class AlugarArmarioActivity : AppCompatActivity() {
         // Configurar o botão para confirmar a locação
         val button5: Button = findViewById(R.id.button5)
         button5.setOnClickListener {
-            // Verificar se o usuário possui cartões cadastrados
-            val userId = firebaseAuth.currentUser?.uid
-            userId?.let { uid ->
-                firestore.collection("pessoas").document(uid).get()
+            // Verificar se o usuário está autenticado
+            val user = firebaseAuth.currentUser
+            if (user != null) {
+                // Obter o ID do usuário logado
+                val userId = user.uid
+
+                // Verificar se o usuário possui cartões cadastrados
+                firestore.collection("pessoas").document(userId).get()
                     .addOnSuccessListener { document ->
                         val cartoes = document?.get("cartaoCredito") as? Map<*, *>
                         if (cartoes.isNullOrEmpty()) {
@@ -166,19 +188,31 @@ class AlugarArmarioActivity : AppCompatActivity() {
                         } else {
                             // Se houver cartões, prosseguir para a próxima tela
                             val intent = Intent(this, TelaQrcodeActivity::class.java)
+                            intent.putExtra(
+                                "id",
+                                placeId
+                            ) // Passa o ID do lugar para a próxima tela
+                            intent.putExtra(
+                                "userId",
+                                userId
+                            ) // Passa o ID do usuário para a próxima tela
                             intent.putExtra("preco", selectedPrice)
                             intent.putExtra("tempo", selectedTime)
                             startActivity(intent)
                         }
                     }
                     .addOnFailureListener { e ->
-                        showMessage("Você precisa cadastrar um cartão para continuar.")
+                        showMessage("Erro ao verificar cartão. Tente novamente mais tarde.")
                     }
+            } else {
+                // Se o usuário não estiver autenticado, solicitar login ou registro
+                showMessage("Você precisa estar logado para continuar.")
             }
         }
     }
 
-    // Método para exibir uma mensagem na tela
+
+        // Método para exibir uma mensagem na tela
     private fun showMessage(message: String) {
         // Criar um AlertDialog
         val alertDialogBuilder = AlertDialog.Builder(this)
