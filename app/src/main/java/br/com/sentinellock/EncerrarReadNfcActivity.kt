@@ -14,14 +14,24 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import java.io.IOException
+import java.math.BigDecimal
+import java.math.RoundingMode
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EncerrarReadNfcActivity : AppCompatActivity() {
 
     private lateinit var nfcAdapter: NfcAdapter
     private var leituraFeita = 0
     private var numeroDeLeituras = 1
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,21 +88,14 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                 val records = ndefMessage.records
                 if (records.isNotEmpty()) {
                     var lockerId: String
-                    var duration: String
-                    var price: String
                     var horaCelular: String
 
                     if (records.size >= 7) {
                         lockerId = records[3].payload.decodeToString().trim { it <= ' ' }.substringAfter("lockerId: ")
-                        duration = records[5].payload.decodeToString().trim { it <= ' ' }.substringAfter("duration: ")
-                        price = records[4].payload.decodeToString().trim { it <= ' ' }.substringAfter("price: ")
                         horaCelular = records[6].payload.decodeToString().trim { it <= ' ' }.substringAfter("current_time: ")
-                        // Define o número de leituras baseado na presença da segunda imagem
                         numeroDeLeituras = 2
                     } else if (records.size >= 6){
                         lockerId = records[2].payload.decodeToString().trim { it <= ' ' }.substringAfter("lockerId: ")
-                        duration = records[4].payload.decodeToString().trim { it <= ' ' }.substringAfter("duration: ")
-                        price = records[3].payload.decodeToString().trim { it <= ' ' }.substringAfter("price: ")
                         horaCelular = records[5].payload.decodeToString().trim { it <= ' ' }.substringAfter("current_time: ")
                         numeroDeLeituras = 1
                     }else{
@@ -100,7 +103,7 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                         return
                     }
 
-                    Log.d("NFC_TAG", "Locker ID: $lockerId, Duration: $duration, Price: $price, HoraCelular: $horaCelular")
+                    Log.d("NFC_TAG", "Locker ID: $lockerId, Hora Celular: $horaCelular")
 
                     leituraFeita++
                     if (leituraFeita >= numeroDeLeituras) {
@@ -113,7 +116,6 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
                 showEmptyTagDialog()
             }
 
-            // Clean up before starting a new connection
             ndef.close()
             clearNfcTag(tag)
         } catch (e: IOException) {
@@ -140,12 +142,10 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
     private fun clearNfcTag(tag: Tag) {
         try {
             val ndef = Ndef.get(tag)
             ndef.connect()
-            // Creating an empty NDEF record
             val emptyRecord = NdefRecord(NdefRecord.TNF_EMPTY, null, null, null)
             val emptyNdefMessage = NdefMessage(arrayOf(emptyRecord))
             ndef.writeNdefMessage(emptyNdefMessage)
@@ -157,39 +157,96 @@ class EncerrarReadNfcActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayLockerInfo(lockerId: String?, horaCelular: Any) {
+    private fun displayLockerInfo(lockerId: String?, horaCelular: String) {
         if (lockerId != null) {
-            val db = FirebaseFirestore.getInstance()
-            db.collection("unidade_de_locacao").document(lockerId)
-                .get()
-                .addOnSuccessListener { document ->
-                    if (document != null) {
-                        val lockerName = document.getString("name")
-
-                        // Define os campos status e aberto como falsos
-                        db.collection("unidade_de_locacao").document(lockerId)
-                            .update("status", true, "aberto", true)
-                            .addOnSuccessListener {
-                                Log.d("TAG", "Campos status e aberto atualizados com sucesso")
-
-                                // Navega para a tela LocacaoEncerradaActivity
-                                val intent = Intent(this, locacao_encerrada::class.java)
-                                startActivity(intent)
-                                finish() // Opcional: encerra a atividade atual se necessário
-                            }
-                            .addOnFailureListener { e ->
-                                Log.w("TAG", "Erro ao atualizar campos status e aberto", e)
-                            }
-
-                    } else {
-                        Toast.makeText(this, "Armário não encontrado no Firebase", Toast.LENGTH_SHORT).show()
-                    }
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    val valorDiaria: Double? = getDailyRate(lockerId)
+                    val horaFim = Calendar.getInstance().time
+                    val valorTempoUso = calculateUsageValue(horaCelular, horaFim, valorDiaria)
+                    val valorEstorno = valorDiaria?.let { it - (valorTempoUso ?: 0.0) }
+                    updateLeaseStatus(lockerId)
+                    updateLeasePromotion(lockerId, valorEstorno)
+                    goToLeaseEndActivity()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    showErrorMessage("Erro ao processar os dados.")
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Erro ao buscar informações do armário: $e", Toast.LENGTH_SHORT).show()
-                }
+            }
         } else {
-            Toast.makeText(this, "ID do armário não encontrado", Toast.LENGTH_SHORT).show()
+            showErrorMessage("ID do armário não encontrado")
         }
     }
+
+    private suspend fun getDailyRate(lockerId: String): Double? {
+        return try {
+            val document = db.collection("unidade_de_locacao").document(lockerId).get().await()
+            document.getDouble("promocao")
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun calculateUsageValue(startTime: String, endTime: Date, dailyRate: Double?): Double? {
+        val formatoHora = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+        // Obtém a data atual
+        val dataAtual = formatoHora.format(Calendar.getInstance().time)
+
+        // Parseia as datas
+        val horaInicio = formatoHora.parse(startTime)
+        val horaFim = endTime
+
+        // Calcula a diferença de tempo em minutos
+        val diferencaTempoMillis = horaFim.time - horaInicio.time
+        val diferencaTempoMinutos = diferencaTempoMillis / (1000 * 60) // Convertendo de milissegundos para minutos
+
+        // Descobre valor por hora para descobrir valor por minuto de uso
+        val valorPorHora = dailyRate?.div(11.0) // 11 é o tempo total da diária (7h-18h)
+        val valorPorMinuto = valorPorHora?.div(60.0)
+
+        // Descobre quanto ficou a locação de acordo com o tempo de uso
+        return valorPorMinuto?.let {
+            val valor = diferencaTempoMinutos * it
+            BigDecimal(valor).setScale(2, RoundingMode.HALF_UP).toDouble()
+        }
+    }
+
+    private fun updateLeaseStatus(lockerId: String) {
+        db.collection("unidade_de_locacao").document(lockerId)
+            .update("status", true, "aberto", true)
+            .addOnSuccessListener {
+                Log.d("TAG", "Campos status e aberto atualizados com sucesso")
+            }
+            .addOnFailureListener { e ->
+                Log.w("TAG", "Erro ao atualizar campos status e aberto", e)
+            }
+    }
+
+    private fun updateLeasePromotion(lockerId: String, value: Double?) {
+        val locacaoRef = db.collection("unidade_de_locacao").document(lockerId)
+
+        value?.let { valorEstorno ->
+            locacaoRef.update("cacao", FieldValue.increment(valorEstorno))
+                .addOnSuccessListener {
+                    Log.d("TAG", "Campo cacao atualizado com sucesso")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("TAG", "Erro ao atualizar campo cacao", e)
+                }
+        }
+    }
+
+    private fun goToLeaseEndActivity() {
+        val intent = Intent(this@EncerrarReadNfcActivity, locacao_encerrada::class.java)
+        startActivity(intent)
+        finish() // Opcional: encerra a atividade atual se necessário
+    }
+
+    private fun showErrorMessage(message: String) {
+        AlertDialog.Builder(this)
+            .setMessage(message)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
 }
+
